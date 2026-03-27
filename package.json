@@ -7,20 +7,31 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "import:gear": "node scripts/import-gearsets.mjs",
-    "convert:etro": "node scripts/convert-etro-to-xivgear.mjs",
-    "build:xivgear-set": "node scripts/build-xivgear-set-json.mjs"
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "import:gear": "node scripts/tools/import-gearsets.mjs",
+    "convert:etro": "node scripts/tools/convert-etro-to-xivgear.mjs",
+    "build:xivgear-set": "node scripts/tools/build-xivgear-set-json.mjs"
   },
   "dependencies": {
     "vue": "^3.5.13",
     "vue-i18n": "^11.3.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^24.0.0",
     "@vitejs/plugin-vue": "^6.0.0",
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.8.0",
     "playwright": "^1.58.2",
+    "prettier": "^3.8.1",
     "typescript": "^5.8.0",
+    "typescript-eslint": "^8.57.2",
     "vite": "^7.0.0",
+    "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^2.1.10"
   }
 }
