@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.vscode/
+*.tsbuildinfo
+.tools/
+scripts/imports.*.json
+!scripts/imports.example.json
+scripts/out*.json
+scripts/spec-*.json
+scripts/xivgear-set-spec.*.json

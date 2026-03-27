@@ -1,0 +1,26 @@
+{
+  "name": "xiv-bis-library",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "import:gear": "node scripts/import-gearsets.mjs",
+    "convert:etro": "node scripts/convert-etro-to-xivgear.mjs",
+    "build:xivgear-set": "node scripts/build-xivgear-set-json.mjs"
+  },
+  "dependencies": {
+    "vue": "^3.5.13",
+    "vue-i18n": "^11.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "playwright": "^1.58.2",
+    "typescript": "^5.8.0",
+    "vite": "^7.0.0",
+    "vue-tsc": "^2.1.10"
+  }
+}
