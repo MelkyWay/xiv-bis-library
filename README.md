@@ -31,6 +31,16 @@ npm run build
 npm run preview
 ```
 
+## Code Quality
+```bash
+npm run lint
+npm run lint:fix
+npm run format:check
+npm run format
+```
+
+CI (`.github/workflows/ci.yml`) runs `lint` + `build` on pushes and pull requests to `main`.
+
 ## Docker
 Development server:
 ```bash
@@ -85,6 +95,7 @@ Notes:
 - `role` is auto-derived for known jobs if omitted.
 - Sim DPS can be supplied manually (`simDpsByName`, `simDpsByIndex`, set overrides) or auto-read from rendered tables when available.
 - Import dedupe identity is based on job/category/encounter/source URL and can replace existing rows.
+- Script layout/details are documented in `scripts/README.md`.
 
 ## GitHub Pages
 1. Ensure `vite.config.ts` `base` matches repository path (currently `/xiv-bis-library/`).
