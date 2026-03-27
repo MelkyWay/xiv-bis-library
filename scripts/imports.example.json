@@ -1,0 +1,45 @@
+{
+  "defaults": {
+    "sourceName": "XivGear",
+    "updatedAt": "2026-03-26",
+    "replaceExisting": true
+  },
+  "imports": [
+    {
+      "url": "https://xivgear.app/?page=bis|drk|current",
+      "job": "DRK",
+      "role": "Tank",
+      "category": "Savage",
+      "tier": "7.4",
+      "setNameMap": {
+        "2.50": "2.50 GCD",
+        "2.46": "2.46 GCD"
+      },
+      "simDpsByName": {
+        "2.50": "27506.70",
+        "2.46": "27434.51"
+      }
+    },
+    {
+      "url": "https://xivgear.app/?page=bis|drk|ultimate|fru",
+      "job": "DRK",
+      "category": "Ultimate",
+      "info": "Futures Rewritten",
+      "tier": "7.3"
+    },
+    {
+      "url": "https://xivgear.app/?page=sl|56334915-6e2c-4a98-b18e-9175b83d8cb8",
+      "job": "AST",
+      "category": "Prog",
+      "tier": "7.4",
+      "appendToAllTooltips": "Optional note appended to every set tooltip in this sheet.",
+      "setOverrides": [
+        {
+          "matchName": "Fast Baseline",
+          "notes": "2.32 Baseline",
+          "simDps": "5412.70"
+        }
+      ]
+    }
+  ]
+}
