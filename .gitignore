@@ -19,3 +19,8 @@ scripts/imports.*.json
 scripts/imports/archive/**/*.json
 scripts/archive/generated/*.json
 scripts/archive/specs/*.json
+
+# Sonar / coverage artifacts
+.sonarqube/
+coverage/
+coverage*/
