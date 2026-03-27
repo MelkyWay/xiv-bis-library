@@ -1,0 +1,350 @@
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
+import { CATEGORY_OPTIONS } from "../config/orders";
+import type { BisFiltersState, Role } from "../types/bis";
+import { localizeJobName } from "../utils/jobLocalization";
+import { localizeUltimateName } from "../utils/ultimateLocalization";
+const { t, locale } = useI18n();
+
+const props = defineProps<{
+  filters: BisFiltersState;
+  groupedJobs: Array<{ role: Role; label: string; jobs: string[] }>;
+  ultimates: string[];
+  criterions: string[];
+  unreals: string[];
+  roleByJob: Record<string, Role>;
+  favoritesOnly: boolean;
+}>();
+
+const emit = defineEmits<{
+  (event: "update:filters", value: BisFiltersState): void;
+  (event: "toggle:favorites-only"): void;
+}>();
+
+const roles: Array<"All" | Role> = [
+  "All",
+  "Tank",
+  "Healer",
+  "Melee",
+  "Physical Ranged",
+  "Magical Ranged",
+  "Limited"
+];
+
+const categories = CATEGORY_OPTIONS;
+
+function patch(next: Partial<BisFiltersState>): void {
+  emit("update:filters", { ...props.filters, ...next });
+}
+
+function resetFilters(): void {
+  emit("update:filters", {
+    job: "All",
+    category: "All",
+    role: "All",
+    ultimate: "All",
+    criterion: "All",
+    unreal: "All",
+    query: ""
+  });
+}
+
+function jobOptionStyle(job: string): Record<string, string> {
+  const role = props.roleByJob[job];
+
+  if (role === "Tank") return { color: "var(--role-tank)" };
+  if (role === "Healer") return { color: "var(--role-healer)" };
+  if (role === "Melee") return { color: "var(--role-melee)" };
+  if (role === "Magical Ranged") return { color: "var(--role-magical)" };
+  if (role === "Physical Ranged") return { color: "var(--role-physical)" };
+  return { color: "var(--color-text)" };
+}
+
+function roleOptionStyle(role: "All" | Role): Record<string, string> {
+  if (role === "Tank") return { color: "var(--role-tank)" };
+  if (role === "Healer") return { color: "var(--role-healer)" };
+  if (role === "Melee") return { color: "var(--role-melee)" };
+  if (role === "Magical Ranged") return { color: "var(--role-magical)" };
+  if (role === "Physical Ranged") return { color: "var(--role-physical)" };
+  return { color: "var(--color-text)" };
+}
+
+function roleLabel(role: "All" | Role): string {
+  if (role === "All") {
+    return t("common.all");
+  }
+  return t(`filters.roles.${role}`);
+}
+
+function categoryLabel(category: (typeof CATEGORY_OPTIONS)[number]): string {
+  if (category === "All") {
+    return t("common.all");
+  }
+  return t(`filters.categories.${category}`);
+}
+
+function secondaryOptionLabel(value: string): string {
+  if (props.filters.category === "Ultimate") {
+    return localizeUltimateName(value, String(locale.value));
+  }
+  return value;
+}
+
+function jobLabel(job: string): string {
+  return localizeJobName(job, String(locale.value));
+}
+
+function groupLabelStyle(_role: Role): Record<string, string> {
+  return { color: "var(--color-text)" };
+}
+
+function selectedJobStyle(): Record<string, string> {
+  if (props.filters.job === "All") {
+    return { color: "var(--color-text)" };
+  }
+
+  return jobOptionStyle(props.filters.job);
+}
+
+function selectedRoleStyle(): Record<string, string> {
+  return roleOptionStyle(props.filters.role);
+}
+
+const secondaryRoot = ref<HTMLElement | null>(null);
+const secondaryTrigger = ref<HTMLElement | null>(null);
+const secondaryOpen = ref(false);
+const secondaryMenuId = "secondary-filter-menu";
+const isSecondaryActive = computed(
+  () => props.filters.category === "Ultimate" || props.filters.category === "Criterion" || props.filters.category === "Unreal"
+);
+const viewportWidth = ref(typeof window !== "undefined" ? window.innerWidth : 1280);
+
+const visibleGroupedJobs = computed(() => {
+  if (props.filters.role === "All") {
+    return props.groupedJobs;
+  }
+
+  return props.groupedJobs.filter((group) => group.role === props.filters.role);
+});
+
+const secondaryOptions = computed(() => {
+  if (props.filters.category === "Ultimate") return props.ultimates;
+  if (props.filters.category === "Criterion") return props.criterions;
+  if (props.filters.category === "Unreal") return props.unreals;
+  return [];
+});
+
+const secondaryValue = computed(() => {
+  if (props.filters.category === "Ultimate") return props.filters.ultimate;
+  if (props.filters.category === "Criterion") return props.filters.criterion;
+  if (props.filters.category === "Unreal") return props.filters.unreal;
+  return "All";
+});
+const secondaryDisplayValue = computed(() => {
+  if (secondaryValue.value === "All") {
+    return t("common.all");
+  }
+  return secondaryOptionLabel(secondaryValue.value);
+});
+
+const secondaryTypeLabel = computed(() => {
+  if (props.filters.category === "Criterion") return t("filters.secondaryTypeCriterion");
+  if (props.filters.category === "Unreal") return t("filters.secondaryTypeUnreal");
+  return t("filters.secondaryTypeUltimate");
+});
+
+function onSecondaryChange(value: string): void {
+  if (props.filters.category === "Ultimate") {
+    patch({ ultimate: value });
+    return;
+  }
+
+  if (props.filters.category === "Criterion") {
+    patch({ criterion: value });
+    return;
+  }
+
+  if (props.filters.category === "Unreal") {
+    patch({ unreal: value });
+  }
+}
+
+function toggleSecondary(): void {
+  if (!isSecondaryActive.value) {
+    return;
+  }
+  secondaryOpen.value = !secondaryOpen.value;
+}
+
+function chooseSecondary(value: string): void {
+  onSecondaryChange(value);
+  secondaryOpen.value = false;
+}
+
+function measureLabelWidth(text: string): number {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  const triggerStyle = secondaryTrigger.value ? window.getComputedStyle(secondaryTrigger.value) : null;
+  const font = triggerStyle ? `${triggerStyle.fontWeight} ${triggerStyle.fontSize} ${triggerStyle.fontFamily}` : "400 16px Segoe UI";
+
+  if (!context) {
+    return text.length * 9;
+  }
+
+  context.font = font;
+  return context.measureText(text).width;
+}
+
+const secondaryMenuStyle = computed<Record<string, string>>(() => {
+  const labels = [t("common.all"), ...secondaryOptions.value.map((option) => secondaryOptionLabel(option))];
+  const longestLabel = labels.reduce((longest, current) => (current.length > longest.length ? current : longest), "All");
+
+  const triggerWidth = secondaryTrigger.value?.offsetWidth ?? 0;
+  // Add extra space for menu padding + a small right breathing margin.
+  const contentWidth = Math.ceil(measureLabelWidth(longestLabel) + 52);
+  const desiredWidth = Math.max(triggerWidth, contentWidth);
+  const clampedWidth = Math.min(desiredWidth, Math.floor(viewportWidth.value * 0.9));
+
+  return { width: `${clampedWidth}px` };
+});
+
+function handleDocumentClick(event: MouseEvent): void {
+  const target = event.target as Node | null;
+  if (!target || !secondaryRoot.value) {
+    return;
+  }
+  if (!secondaryRoot.value.contains(target)) {
+    secondaryOpen.value = false;
+  }
+}
+
+function handleWindowResize(): void {
+  viewportWidth.value = window.innerWidth;
+}
+
+watch(
+  () => props.filters.category,
+  () => {
+    secondaryOpen.value = false;
+  }
+);
+
+onMounted(() => {
+  document.addEventListener("click", handleDocumentClick);
+  window.addEventListener("resize", handleWindowResize);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleDocumentClick);
+  window.removeEventListener("resize", handleWindowResize);
+});
+</script>
+
+<template>
+  <section class="panel filters">
+    <label>
+      {{ t("filters.job") }}
+      <select :value="filters.job" :style="selectedJobStyle()" @change="patch({ job: ($event.target as HTMLSelectElement).value })">
+        <option value="All" :style="{ color: 'var(--color-text)' }">{{ t("common.all") }}</option>
+        <optgroup v-for="group in visibleGroupedJobs" :key="group.role" :label="group.label" :style="groupLabelStyle(group.role)">
+          <option v-for="job in group.jobs" :key="job" :value="job" :style="jobOptionStyle(job)">{{ jobLabel(job) }}</option>
+        </optgroup>
+      </select>
+    </label>
+
+    <div class="stack">
+      <label>
+        {{ t("filters.category") }}
+        <select
+          :value="filters.category"
+          @change="patch({ category: ($event.target as HTMLSelectElement).value as BisFiltersState['category'] })"
+        >
+          <option v-for="category in categories" :key="category" :value="category">{{ categoryLabel(category) }}</option>
+        </select>
+      </label>
+
+      <div class="ultimate-select-wrap" :class="{ 'is-hidden': !isSecondaryActive }">
+        <div class="dotted-separator" aria-hidden="true"></div>
+        <div ref="secondaryRoot" class="secondary-select" :class="{ disabled: !isSecondaryActive }">
+          <button
+            ref="secondaryTrigger"
+            type="button"
+            class="secondary-select-trigger"
+            :disabled="!isSecondaryActive"
+            :aria-label="t('filters.secondaryAriaCurrent', { type: secondaryTypeLabel, value: secondaryDisplayValue })"
+            :aria-expanded="secondaryOpen"
+            aria-haspopup="listbox"
+            :aria-controls="secondaryMenuId"
+            @click.stop="toggleSecondary"
+          >
+            <span>{{ secondaryDisplayValue }}</span>
+            <span class="caret">⌄</span>
+          </button>
+          <div
+            v-if="secondaryOpen && isSecondaryActive"
+            :id="secondaryMenuId"
+            class="secondary-select-menu"
+            role="listbox"
+            :aria-label="t('filters.secondaryAriaOptions', { type: secondaryTypeLabel })"
+            :style="secondaryMenuStyle"
+          >
+            <button
+              type="button"
+              class="secondary-select-option"
+              role="option"
+              :aria-selected="secondaryValue === 'All'"
+              @click="chooseSecondary('All')"
+            >
+              {{ t("common.all") }}
+            </button>
+            <button
+              v-for="option in secondaryOptions"
+              :key="option"
+              type="button"
+              class="secondary-select-option"
+              role="option"
+              :aria-selected="secondaryValue === option"
+              @click="chooseSecondary(option)"
+            >
+              {{ secondaryOptionLabel(option) }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <label>
+      {{ t("filters.role") }}
+      <select
+        :value="filters.role"
+        :style="selectedRoleStyle()"
+        @change="patch({ role: ($event.target as HTMLSelectElement).value as BisFiltersState['role'] })"
+      >
+        <option v-for="role in roles" :key="role" :value="role" :style="roleOptionStyle(role)">{{ roleLabel(role) }}</option>
+      </select>
+    </label>
+
+    <label class="search">
+      {{ t("filters.search") }}
+      <input
+        :value="filters.query"
+        type="search"
+        :placeholder="t('filters.searchPlaceholder')"
+        @input="patch({ query: ($event.target as HTMLInputElement).value })"
+      />
+    </label>
+
+    <div class="actions">
+      <button
+        class="favorites-toggle"
+        :class="{ active: favoritesOnly }"
+        type="button"
+        @click="emit('toggle:favorites-only')"
+      >
+        Favorites
+      </button>
+      <button class="reset-filters" type="button" @click="resetFilters">{{ t("filters.reset") }}</button>
+    </div>
+  </section>
+</template>
