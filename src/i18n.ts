@@ -68,7 +68,7 @@ const messages = {
       encounter: "Encounter",
       tier: "Tier",
       notes: "Notes",
-      simDps: "Sim DPS",
+      damage: "Damage",
       source: "Source",
       noMatchingEntries: "No matching entries.",
       sortLabel: "{label} sort ({current}). Activate for {next}.",
@@ -82,6 +82,8 @@ const messages = {
         desc: "descending"
       },
       copyLink: "Copy link",
+      damageTypeSim: "Level 100 sim",
+      damageTypePotency: "dmg/100 potency",
       simUpdated: "Last updated: {date}",
       pagination: {
         showing: "Showing {from}-{to} of {total}",
@@ -159,7 +161,7 @@ const messages = {
       encounter: "Rencontre",
       tier: "Tier",
       notes: "Notes",
-      simDps: "DPS Sim",
+      damage: "DPS Sim",
       source: "Source",
       noMatchingEntries: "Aucune entrée correspondante.",
       sortLabel: "Tri {label} ({current}). Activer pour {next}.",
@@ -250,7 +252,7 @@ const messages = {
       encounter: "Begegnung",
       tier: "Tier",
       notes: "Notizen",
-      simDps: "Sim DPS",
+      damage: "Sim DPS",
       source: "Quelle",
       noMatchingEntries: "Keine passenden Eintrage.",
       sortLabel: "{label}-Sortierung ({current}). Aktivieren fur {next}.",
@@ -341,7 +343,7 @@ const messages = {
       encounter: "コンテンツ",
       tier: "Tier",
       notes: "メモ",
-      simDps: "Sim DPS",
+      damage: "Sim DPS",
       source: "ソース",
       noMatchingEntries: "一致するエントリがありません。",
       sortLabel: "{label}の並び替え（{current}）。{next}で並び替え。",
@@ -432,7 +434,7 @@ const messages = {
       encounter: "전투",
       tier: "티어",
       notes: "노트",
-      simDps: "Sim DPS",
+      damage: "Sim DPS",
       source: "출처",
       noMatchingEntries: "일치하는 항목이 없습니다.",
       sortLabel: "{label} 정렬 ({current}). {next}(으)로 전환.",
@@ -523,7 +525,7 @@ const messages = {
       encounter: "副本",
       tier: "层级",
       notes: "备注",
-      simDps: "模拟 DPS",
+      damage: "模拟 DPS",
       source: "来源",
       noMatchingEntries: "没有匹配的条目。",
       sortLabel: "{label}排序（{current}）。点击后{next}。",
@@ -560,3 +562,4 @@ export const i18n = createI18n({
   fallbackLocale: DEFAULT_LOCALE,
   messages
 });
+

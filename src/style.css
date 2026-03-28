@@ -27,6 +27,8 @@
   --role-melee: #ef4444;
   --role-magical: #a855f7;
   --role-physical: #d97706;
+  --damage-sim: #22c55e;
+  --damage-potency: #d97706;
   --z-search-panel: 30;
   --z-dropdown: 60;
   --z-tooltip: 140;
@@ -61,6 +63,8 @@
   --role-melee: #f87171;
   --role-magical: #c084fc;
   --role-physical: #fbbf24;
+  --damage-sim: #4ade80;
+  --damage-potency: #fbbf24;
 }
 
 * {
@@ -396,7 +400,42 @@ th {
   text-decoration-thickness: 1px;
 }
 
+.damage-cell {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.1rem;
+  white-space: nowrap;
+}
+
+.damage-kind-badge {
+  font-size: 0.62em;
+  line-height: 1;
+  font-weight: 700;
+  text-decoration-thickness: 1px;
+  position: relative;
+  top: -0.42em;
+  vertical-align: baseline;
+}
+
+.damage-kind-badge.sim {
+  color: var(--damage-sim);
+}
+
+.damage-kind-badge.potency {
+  color: var(--damage-potency);
+}
+
 .sim-dps-tooltip.has-tooltip::after {
+  width: fit-content !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  line-break: auto;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+.damage-kind-badge.has-tooltip::after {
   width: fit-content !important;
   min-width: 0 !important;
   max-width: none !important;

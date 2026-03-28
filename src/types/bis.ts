@@ -7,6 +7,12 @@ export type Role =
   | "Limited";
 
 export type Category = "Savage" | "Ultimate" | "Criterion" | "Unreal" | "Occult Crescent" | "Prog" | "Other";
+export type DamageType = "sim" | "potency";
+
+export interface DamageValue {
+  value: string;
+  type: DamageType;
+}
 
 export interface BisEntry {
   job: string;
@@ -21,7 +27,7 @@ export interface BisEntry {
   sourceUrl: string;
   notes?: string;
   notesTooltip?: string;
-  simDps?: string;
+  damage?: DamageValue;
   updatedAt: string;
 }
 

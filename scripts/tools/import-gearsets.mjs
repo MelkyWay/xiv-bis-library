@@ -402,6 +402,8 @@ function normalizeImportConfig(rawConfig, globalDefaults) {
     skipSimDps: merged.skipSimDps === true,
     simDpsByName: toKeyedMap(merged.simDpsByName),
     simDpsByIndex: toKeyedMap(merged.simDpsByIndex),
+    damageTypeByName: toKeyedMap(merged.damageTypeByName),
+    damageTypeByIndex: toKeyedMap(merged.damageTypeByIndex),
     setNameMap: toKeyedMap(merged.setNameMap),
     setTooltipMap: toKeyedMap(merged.setTooltipMap),
     setOverrides: toSetOverrides(merged.setOverrides),
@@ -498,6 +500,18 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
       }
     }
 
+    let damageType = "sim";
+    if (typeof importConfig.damageTypeByIndex[String(i)] === "string") {
+      damageType = importConfig.damageTypeByIndex[String(i)];
+    } else if (typeof importConfig.damageTypeByName[rawName] === "string") {
+      damageType = importConfig.damageTypeByName[rawName];
+    } else if (override && typeof override.damageType === "string") {
+      damageType = override.damageType;
+    }
+    if (damageType !== "sim" && damageType !== "potency") {
+      damageType = "sim";
+    }
+
     const sourceBaseUrl = pickSourceBaseUrl(importConfig, importConfig._resolvedPageUrl);
     const sourceUrl = setOnlySetIndex(sourceBaseUrl, i);
 
@@ -510,7 +524,7 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
       sourceUrl,
       notes: finalNotes,
       updatedAt: importConfig.updatedAt,
-      simDps,
+      ...(simDps !== "-" ? { damage: { value: simDps, type: damageType } } : {}),
       ...infoByCategory
     };
     if (notesTooltip) {

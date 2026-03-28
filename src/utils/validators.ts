@@ -100,8 +100,16 @@ function isBisEntry(value: unknown): value is BisEntry {
     return false;
   }
 
-  if (value.simDps !== undefined && typeof value.simDps !== "string") {
-    return false;
+  if (value.damage !== undefined) {
+    if (!isRecord(value.damage)) {
+      return false;
+    }
+    if (typeof value.damage.value !== "string") {
+      return false;
+    }
+    if (value.damage.type !== "sim" && value.damage.type !== "potency") {
+      return false;
+    }
   }
 
   return true;

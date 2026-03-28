@@ -17,7 +17,7 @@ const emit = defineEmits<{
 }>();
 
 type SortDirection = "desc" | "asc";
-type SortKey = "simDps";
+type SortKey = "damage";
 type SortValue = string | number | null;
 
 type SortConfig = {
@@ -68,7 +68,7 @@ function infoValue(row: BisEntry): string {
   return row.tier;
 }
 
-function parseSimDps(value: string | undefined): number | null {
+function parseDamage(value: string | undefined): number | null {
   if (!value || value === "-") {
     return null;
   }
@@ -77,19 +77,9 @@ function parseSimDps(value: string | undefined): number | null {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
-function simDpsTooltip(row: BisEntry): string {
-  const match = row.updatedAt.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!match) {
-    return t("table.simUpdated", { date: row.updatedAt });
-  }
-
-  const [, year, month, day] = match;
-  return t("table.simUpdated", { date: `${day}-${month}-${year}` });
-}
-
 const SORT_CONFIGS: Record<SortKey, SortConfig> = {
-  simDps: {
-    getValue: (row) => parseSimDps(row.simDps),
+  damage: {
+    getValue: (row) => parseDamage(row.damage?.value),
     defaultDirection: "desc",
     nullsLast: true
   }
@@ -136,8 +126,28 @@ function sortAriaSort(key: SortKey): "ascending" | "descending" | "none" {
   return sortState.value.direction === "asc" ? "ascending" : "descending";
 }
 
-function hasSimDps(row: BisEntry): boolean {
-  return !!row.simDps && row.simDps !== "-";
+function hasDamageValue(row: BisEntry): boolean {
+  return !!row.damage?.value && row.damage.value !== "-";
+}
+
+function damageType(row: BisEntry): "sim" | "potency" | null {
+  if (!hasDamageValue(row)) {
+    return null;
+  }
+
+  if (row.damage?.type === "potency") {
+    return "potency";
+  }
+
+  return "sim";
+}
+
+function damageSubscriptLabel(row: BisEntry): string {
+  return damageType(row) === "potency" ? "P" : "S";
+}
+
+function damageSubscriptTooltip(row: BisEntry): string {
+  return damageType(row) === "potency" ? t("table.damageTypePotency") : t("table.damageTypeSim");
 }
 
 function roleLabel(role: Role): string {
@@ -231,15 +241,15 @@ async function copyLink(url: string): Promise<void> {
           <th>{{ t("table.category") }}</th>
           <th>{{ infoHeaderLabel }}</th>
           <th class="col-notes">{{ t("table.notes") }}</th>
-          <th :aria-sort="sortAriaSort('simDps')">
+          <th :aria-sort="sortAriaSort('damage')">
             <button
               class="sortable-header"
               type="button"
-              @click="toggleSort('simDps')"
-              :aria-label="sortAriaLabel('simDps', t('table.simDps'))"
+              @click="toggleSort('damage')"
+              :aria-label="sortAriaLabel('damage', t('table.damage'))"
             >
-              <span>{{ t("table.simDps") }}</span>
-              <span class="sort-indicator" aria-hidden="true">{{ sortIndicator('simDps') }}</span>
+              <span>{{ t("table.damage") }}</span>
+              <span class="sort-indicator" aria-hidden="true">{{ sortIndicator('damage') }}</span>
             </button>
           </th>
           <th>{{ t("table.source") }}</th>
@@ -263,13 +273,17 @@ async function copyLink(url: string): Promise<void> {
             </span>
           </td>
           <td>
-            <span
-              class="notes-tooltip-anchor sim-dps-tooltip"
-              :class="{ 'has-tooltip': hasSimDps(row) }"
-              :data-tooltip="simDpsTooltip(row)"
-              :tabindex="hasSimDps(row) ? 0 : undefined"
-            >
-              {{ row.simDps ?? "-" }}
+            <span class="damage-cell">
+              <span>{{ row.damage?.value ?? "-" }}</span>
+              <sup
+                v-if="damageType(row)"
+                class="damage-kind-badge notes-tooltip-anchor has-tooltip"
+                :class="damageType(row)"
+                :data-tooltip="damageSubscriptTooltip(row)"
+                tabindex="0"
+              >
+                {{ damageSubscriptLabel(row) }}
+              </sup>
             </span>
           </td>
           <td>

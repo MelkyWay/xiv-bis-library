@@ -46,8 +46,8 @@ function compareByOrder(aKey: string | undefined, bKey: string | undefined, orde
 }
 
 function compareSimDpsDesc(a: BisEntry, b: BisEntry): number {
-  const aSim = parseSimDps(a.simDps);
-  const bSim = parseSimDps(b.simDps);
+  const aSim = parseSimDps(a.damage?.value);
+  const bSim = parseSimDps(b.damage?.value);
 
   if (aSim !== null && bSim !== null && aSim !== bSim) {
     return bSim - aSim;
