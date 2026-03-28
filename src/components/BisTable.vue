@@ -139,6 +139,10 @@ function damageType(row: BisEntry): "sim" | "potency" | null {
     return "potency";
   }
 
+  if (row.damage?.type === "none") {
+    return null;
+  }
+
   return "sim";
 }
 

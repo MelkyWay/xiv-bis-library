@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-27",
+  "lastUpdated": "2026-03-28",
   "ultimateNames": [
     "The Unending Coil of Bahamut",
     "The Weapon's Refrain",
@@ -4086,7 +4086,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "NIN",
@@ -4097,7 +4101,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "SAM",
@@ -4108,7 +4116,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "RPR",
@@ -4119,7 +4131,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "VPR",
@@ -4130,7 +4146,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "BRD",
@@ -4141,7 +4161,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "MCH",
@@ -4152,7 +4176,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "BLM",
@@ -4163,7 +4191,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "SMN",
@@ -4174,7 +4206,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "RDM",
@@ -4185,7 +4221,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "PCT",
@@ -4196,7 +4236,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "BLU",
@@ -4207,7 +4251,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "BST",
@@ -4218,7 +4266,11 @@
       "sourceName": "Placeholder",
       "sourceUrl": "https://www.thebalanceffxiv.com/",
       "notes": "Placeholder entry",
-      "updatedAt": "2026-03-26"
+      "updatedAt": "2026-03-26",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
     },
     {
       "job": "AST",
@@ -7518,6 +7570,245 @@
         "value": "2.50",
         "type": "sim"
       }
+    },
+    {
+      "job": "DRG",
+      "role": "Melee",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=bis%7Cdrg%7Cultimate%7Cfru&selectedIndex=0&onlySetIndex=0",
+      "notes": "7.3 FRU BiS",
+      "updatedAt": "2026-03-28",
+      "damage": {
+        "value": "7022.55",
+        "type": "potency"
+      },
+      "ultimate": "Futures Rewritten",
+      "notesTooltip": "https://xivgear.app/?page=sl%7C3a2a58bc-0a97-4e88-bd86-377e570b1295"
+    },
+    {
+      "job": "SAM",
+      "role": "Melee",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=bis%7Csam%7Cultimate%7Cuwu&selectedIndex=1&onlySetIndex=1",
+      "notes": "Bozja Crit",
+      "updatedAt": "2026-03-28",
+      "ultimate": "The Weapon's Refrain",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
+    },
+    {
+      "job": "SAM",
+      "role": "Melee",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=bis%7Csam%7Cultimate%7Cuwu&selectedIndex=1&onlySetIndex=2",
+      "notes": "Manderville Crit",
+      "updatedAt": "2026-03-28",
+      "ultimate": "The Weapon's Refrain",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
+    },
+    {
+      "job": "SAM",
+      "role": "Melee",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=bis%7Csam%7Cultimate%7Cuwu&selectedIndex=1&onlySetIndex=3",
+      "notes": "Budget Crit",
+      "updatedAt": "2026-03-28",
+      "ultimate": "The Weapon's Refrain",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
+    },
+    {
+      "job": "SAM",
+      "role": "Melee",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=bis%7Csam%7Cultimate%7Cuwu&selectedIndex=1&onlySetIndex=5",
+      "notes": "Bozja Fast",
+      "updatedAt": "2026-03-28",
+      "ultimate": "The Weapon's Refrain",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
+    },
+    {
+      "job": "SAM",
+      "role": "Melee",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=bis%7Csam%7Cultimate%7Cuwu&selectedIndex=1&onlySetIndex=6",
+      "notes": "Manderville Fast",
+      "updatedAt": "2026-03-28",
+      "ultimate": "The Weapon's Refrain",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
+    },
+    {
+      "job": "SAM",
+      "role": "Melee",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=bis%7Csam%7Cultimate%7Cuwu&selectedIndex=1&onlySetIndex=7",
+      "notes": "Budget Fast",
+      "updatedAt": "2026-03-28",
+      "ultimate": "The Weapon's Refrain",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
+    },
+    {
+      "job": "SAM",
+      "role": "Melee",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=bis%7Csam%7Cultimate%7Cuwu&selectedIndex=1&onlySetIndex=9",
+      "notes": "Bozja Crit Cursed",
+      "updatedAt": "2026-03-28",
+      "ultimate": "The Weapon's Refrain",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
+    },
+    {
+      "job": "SAM",
+      "role": "Melee",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=bis%7Csam%7Cultimate%7Cuwu&selectedIndex=1&onlySetIndex=10",
+      "notes": "Bozja Fast Cursed",
+      "updatedAt": "2026-03-28",
+      "ultimate": "The Weapon's Refrain",
+      "damage": {
+        "value": "-",
+        "type": "none"
+      }
+    },
+    {
+      "job": "BRD",
+      "role": "Physical Ranged",
+      "category": "Savage",
+      "tier": "7.4",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=sl%7Ce7315100-1b7d-47ba-8158-14b26321d2d6&onlySetIndex=1",
+      "notes": "i790 7.4 Best In Slot",
+      "updatedAt": "2026-03-28",
+      "damage": {
+        "value": "12332.07",
+        "type": "potency"
+      }
+    },
+    {
+      "job": "BRD",
+      "role": "Physical Ranged",
+      "category": "Prog",
+      "tier": "7.4",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=sl%7Ce7315100-1b7d-47ba-8158-14b26321d2d6&onlySetIndex=3",
+      "notes": "7.4 Savage prog 2.48 / general use BiS",
+      "updatedAt": "2026-03-28",
+      "damage": {
+        "value": "11247.43",
+        "type": "potency"
+      }
+    },
+    {
+      "job": "BRD",
+      "role": "Physical Ranged",
+      "category": "Prog",
+      "tier": "7.4",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=sl%7Ce7315100-1b7d-47ba-8158-14b26321d2d6&onlySetIndex=5",
+      "notes": "7.4 Savage prog / tome waste 2.50",
+      "updatedAt": "2026-03-28",
+      "damage": {
+        "value": "11310.96",
+        "type": "potency"
+      },
+      "notesTooltip": "This set entails getting a non-BiS piece in order to shed skill speed. Only recommended if you're sure you don't mind the added week of tome farm to get BiS"
+    },
+    {
+      "job": "BRD",
+      "role": "Physical Ranged",
+      "category": "Prog",
+      "tier": "7.4",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=sl%7Ce7315100-1b7d-47ba-8158-14b26321d2d6&onlySetIndex=6",
+      "notes": "7.4 Savage prog / Ornate +  tome waste",
+      "updatedAt": "2026-03-28",
+      "damage": {
+        "value": "11346.85",
+        "type": "potency"
+      },
+      "notesTooltip": "For if going absolutely all in on week 1, i.e. racing etc. and burning both tomes and gil is no object"
+    },
+    {
+      "job": "BRD",
+      "role": "Physical Ranged",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=sl%7C08860f73-14b1-4f10-889a-5ae60195f764&onlySetIndex=0",
+      "notes": "Meso BiS - FRU bow",
+      "updatedAt": "2026-03-28",
+      "damage": {
+        "value": "8437.55",
+        "type": "potency"
+      },
+      "ultimate": "Futures Rewritten"
+    },
+    {
+      "job": "BRD",
+      "role": "Physical Ranged",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=sl%7C08860f73-14b1-4f10-889a-5ae60195f764&onlySetIndex=1",
+      "notes": "Meso BiS - Dark Horse",
+      "updatedAt": "2026-03-28",
+      "damage": {
+        "value": "8416.03",
+        "type": "potency"
+      },
+      "ultimate": "Futures Rewritten"
+    },
+    {
+      "job": "BRD",
+      "role": "Physical Ranged",
+      "category": "Ultimate",
+      "tier": "7.3",
+      "sourceName": "XivGear",
+      "sourceUrl": "https://xivgear.app/?page=sl%7C08860f73-14b1-4f10-889a-5ae60195f764&onlySetIndex=2",
+      "notes": "Meso BiS - Relic",
+      "updatedAt": "2026-03-28",
+      "damage": {
+        "value": "8418.48",
+        "type": "potency"
+      },
+      "ultimate": "Futures Rewritten"
     }
   ],
   "unrealNames": [

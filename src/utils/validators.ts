@@ -107,7 +107,10 @@ function isBisEntry(value: unknown): value is BisEntry {
     if (typeof value.damage.value !== "string") {
       return false;
     }
-    if (value.damage.type !== "sim" && value.damage.type !== "potency") {
+    if (value.damage.type !== "sim" && value.damage.type !== "potency" && value.damage.type !== "none") {
+      return false;
+    }
+    if (value.damage.type === "none" && value.damage.value !== "-") {
       return false;
     }
   }

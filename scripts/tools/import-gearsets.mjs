@@ -185,6 +185,14 @@ function toNumericLikeString(value) {
   return text;
 }
 
+function classifyDamageTypeFromHeader(headerText) {
+  const header = String(headerText ?? "").toLowerCase();
+  if (header.includes("dmg/100p") || header.includes("100 potency") || header.includes("potency")) {
+    return "potency";
+  }
+  return "sim";
+}
+
 async function extractSimDpsFromRenderedPage(pageUrl) {
   let chromium;
   try {
@@ -200,53 +208,52 @@ async function extractSimDpsFromRenderedPage(pageUrl) {
     await page.goto(pageUrl, { waitUntil: "domcontentloaded", timeout: 90_000 });
     await page.waitForSelector("table tbody tr", { timeout: 90_000 });
 
-    await page.waitForFunction(
-      () => {
-        const tables = Array.from(document.querySelectorAll("table"));
-        return tables.some((table) => {
-          const headers = Array.from(table.querySelectorAll("thead th"))
-            .map((th) => (th.textContent || "").replace(/\s+/g, " ").trim());
-          const simColIndex = headers.findIndex((text) => /\bSim\b/i.test(text));
-          if (simColIndex < 0) {
+    const rows = await page.$$eval("table", (tables) => {
+      function extractHeaders(table) {
+        const theadHeaders = Array.from(table.querySelectorAll("thead th"))
+          .map((th) => (th.textContent || "").replace(/\s+/g, " ").trim());
+        if (theadHeaders.length > 0) {
+          return theadHeaders;
+        }
+        const firstHeaderRow = Array.from(table.querySelectorAll("tr")).find((tr) => tr.querySelectorAll("th").length >= 3);
+        if (!firstHeaderRow) {
+          return [];
+        }
+        return Array.from(firstHeaderRow.querySelectorAll("th"))
+          .map((th) => (th.textContent || "").replace(/\s+/g, " ").trim());
+      }
+
+      for (const table of tables) {
+        const headers = extractHeaders(table);
+        const metricColIndex = headers.findIndex((text, index) => {
+          if (index < 1) {
             return false;
           }
-          const rows = Array.from(table.querySelectorAll("tbody tr"));
-          return rows.some((tr) => {
-            const tds = Array.from(tr.querySelectorAll("td"));
-            if (tds.length <= simColIndex) {
-              return false;
-            }
-            const value = Number.parseFloat((tds[simColIndex].textContent || "").trim());
-            return Number.isFinite(value) && value > 100;
-          });
+          const lowered = text.toLowerCase();
+          return lowered.includes("sim") || lowered.includes("dmg/100p") || lowered.includes("dps");
         });
-      },
-      null,
-      { timeout: 120_000 }
-    );
-
-    const rows = await page.$$eval("table", (tables) => {
-      for (const table of tables) {
-        const headers = Array.from(table.querySelectorAll("thead th"))
-          .map((th) => (th.textContent || "").replace(/\s+/g, " ").trim());
-        const simColIndex = headers.findIndex((text) => /\bSim\b/i.test(text));
-        if (simColIndex < 0) {
+        if (metricColIndex < 0) {
           continue;
         }
+        const loweredHeader = headers[metricColIndex].toLowerCase();
+        const type =
+          loweredHeader.includes("dmg/100p") || loweredHeader.includes("100 potency") || loweredHeader.includes("potency")
+            ? "potency"
+            : "sim";
 
         const out = [];
-        const trs = Array.from(table.querySelectorAll("tbody tr"));
+        const trs = Array.from(table.querySelectorAll("tr")).filter((tr) => tr.querySelectorAll("td").length > 0);
         for (const tr of trs) {
           const tds = Array.from(tr.querySelectorAll("td"));
-          if (tds.length <= simColIndex) {
+          if (tds.length <= metricColIndex) {
             continue;
           }
-          const simText = (tds[simColIndex].textContent || "").trim();
+          const simText = (tds[metricColIndex].textContent || "").trim();
           const simValue = Number.parseFloat(simText);
           if (!Number.isFinite(simValue) || simValue <= 100) {
             continue;
           }
-          out.push(simValue.toFixed(2));
+          out.push({ value: simValue.toFixed(2), type });
         }
         if (out.length > 0) {
           return out;
@@ -500,16 +507,21 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
       }
     }
 
-    let damageType = "sim";
+    let damageType = simDps === "-" ? "none" : "sim";
     if (typeof importConfig.damageTypeByIndex[String(i)] === "string") {
       damageType = importConfig.damageTypeByIndex[String(i)];
     } else if (typeof importConfig.damageTypeByName[rawName] === "string") {
       damageType = importConfig.damageTypeByName[rawName];
     } else if (override && typeof override.damageType === "string") {
       damageType = override.damageType;
+    } else if (typeof importConfig.autoDamageTypeByIndex[String(i)] === "string") {
+      damageType = importConfig.autoDamageTypeByIndex[String(i)];
     }
-    if (damageType !== "sim" && damageType !== "potency") {
-      damageType = "sim";
+    if (damageType !== "sim" && damageType !== "potency" && damageType !== "none") {
+      damageType = simDps === "-" ? "none" : "sim";
+    }
+    if (simDps === "-") {
+      damageType = "none";
     }
 
     const sourceBaseUrl = pickSourceBaseUrl(importConfig, importConfig._resolvedPageUrl);
@@ -524,7 +536,7 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
       sourceUrl,
       notes: finalNotes,
       updatedAt: importConfig.updatedAt,
-      ...(simDps !== "-" ? { damage: { value: simDps, type: damageType } } : {}),
+      damage: { value: simDps, type: damageType },
       ...infoByCategory
     };
     if (notesTooltip) {
@@ -681,6 +693,7 @@ async function main() {
     const resolved = await resolveSheetPayload(importConfig.url);
     importConfig._resolvedPageUrl = resolved.pageUrl;
     importConfig.autoSimDpsByIndex = {};
+    importConfig.autoDamageTypeByIndex = {};
     if (!importConfig.skipSimDps) {
       const pageForSims = importConfig._resolvedPageUrl ?? normalizePageUrl(importConfig.url);
       if (pageForSims.startsWith("http")) {
@@ -689,20 +702,24 @@ async function main() {
         const nonSeparatorIndexes = Array.isArray(normalizedSets)
           ? normalizedSets
               .map((set, index) => ({ set, index }))
-              .filter(({ set, index }) => set && typeof set === "object" && !set.isSeparator && shouldIncludeSetIndex(index, importConfig))
+              .filter(({ set }) => set && typeof set === "object" && !set.isSeparator)
               .map(({ index }) => index)
           : [];
 
         const autoMap = {};
+        const autoTypeMap = {};
         const limit = Math.min(nonSeparatorIndexes.length, extractedSims.length);
         for (let idx = 0; idx < limit; idx += 1) {
           const setIndex = nonSeparatorIndexes[idx];
-          const sim = toNumericLikeString(extractedSims[idx]);
+          const extracted = extractedSims[idx];
+          const sim = toNumericLikeString(extracted?.value ?? extracted);
           if (sim) {
             autoMap[String(setIndex)] = sim;
+            autoTypeMap[String(setIndex)] = classifyDamageTypeFromHeader(extracted?.type ?? "sim");
           }
         }
         importConfig.autoSimDpsByIndex = autoMap;
+        importConfig.autoDamageTypeByIndex = autoTypeMap;
       }
     }
 

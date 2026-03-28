@@ -5,7 +5,7 @@ A Vue 3 + TypeScript static site to centralize community BiS links for Final Fan
 ## Features
 - Filters: Job, Role, Category, Encounter selector (Ultimate/Criterion/Unreal), Search
 - Category-aware sorting and encounter ordering
-- Sim DPS column with sorting and per-row updated-at tooltip
+- Damage column with sorting (`sim`, `potency`, and `none` types)
 - Row actions: favorite toggle (stored in localStorage) and copy-link button
 - URL query sync for shareable filtered links
 - Light/Dark themes
@@ -69,7 +69,11 @@ Top-level fields:
 
 Per-entry fields:
 - Required: `job`, `role`, `category`, `tier`, `sourceName`, `sourceUrl`, `updatedAt`
-- Optional: `ultimate`, `criterionName`, `unrealName`, `otherName`, `notes`, `notesTooltip`, `simDps`
+- Optional: `ultimate`, `criterionName`, `unrealName`, `otherName`, `notes`, `notesTooltip`, `damage`
+- `damage` shape examples:
+  - `{ "value": "12345.67", "type": "sim" }`
+  - `{ "value": "12.34", "type": "potency" }`
+  - `{ "value": "-", "type": "none" }`
 
 Roles:
 - `Tank`, `Healer`, `Melee`, `Physical Ranged`, `Magical Ranged`, `Limited`
@@ -93,7 +97,9 @@ npm run import:gear -- --url "https://xivgear.app/?page=bis|drk|current" --job D
 Notes:
 - `Ultimate`, `Criterion`, `Unreal`, and `Other` require `info` (encounter/content name).
 - `role` is auto-derived for known jobs if omitted.
-- Sim DPS can be supplied manually (`simDpsByName`, `simDpsByIndex`, set overrides) or auto-read from rendered tables when available.
+- Damage values can be supplied manually (`simDpsByName`, `simDpsByIndex`, set overrides) or auto-read from rendered tables when available.
+- Importer writes structured damage data to entries as `damage: { value, type }`.
+- If no readable damage value is found, importer sets `damage` to `{ "value": "-", "type": "none" }`.
 - Import dedupe identity is based on job/category/encounter/source URL and can replace existing rows.
 - Script layout/details are documented in `scripts/README.md`.
 

@@ -7,7 +7,7 @@ export type Role =
   | "Limited";
 
 export type Category = "Savage" | "Ultimate" | "Criterion" | "Unreal" | "Occult Crescent" | "Prog" | "Other";
-export type DamageType = "sim" | "potency";
+export type DamageType = "sim" | "potency" | "none";
 
 export interface DamageValue {
   value: string;
