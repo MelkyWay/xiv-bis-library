@@ -185,6 +185,24 @@ function toNumericLikeString(value) {
   return text;
 }
 
+function inferSourceNameFromUrl(urlInput) {
+  try {
+    const host = new URL(String(urlInput ?? "")).hostname.toLowerCase();
+    if (host.includes("thebalanceffxiv.com")) {
+      return "The Balance";
+    }
+    if (host.includes("xivgear.app")) {
+      return "XivGear";
+    }
+    if (host.includes("etro.gg")) {
+      return "Etro";
+    }
+    return host.replace(/^www\./, "");
+  } catch {
+    return "Source";
+  }
+}
+
 function classifyDamageTypeFromHeader(headerText) {
   const header = String(headerText ?? "").toLowerCase();
   if (header.includes("dmg/100p") || header.includes("100 potency") || header.includes("potency")) {
@@ -525,15 +543,27 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
     }
 
     const sourceBaseUrl = pickSourceBaseUrl(importConfig, importConfig._resolvedPageUrl);
-    const sourceUrl = setOnlySetIndex(sourceBaseUrl, i);
+    const linkUrl = setOnlySetIndex(sourceBaseUrl, i);
+    const sourceUrl = typeof importConfig.sourceUrl === "string" && importConfig.sourceUrl.trim().length > 0
+      ? importConfig.sourceUrl.trim()
+      : linkUrl;
+    const sourceName = typeof importConfig.sourceNameForSource === "string" && importConfig.sourceNameForSource.trim().length > 0
+      ? importConfig.sourceNameForSource.trim()
+      : inferSourceNameFromUrl(sourceUrl);
 
     const row = {
       job: importConfig.job,
       role: importConfig.role,
       category: importConfig.category,
       tier: importConfig.tier,
-      sourceName: importConfig.sourceName,
-      sourceUrl,
+      link: {
+        name: importConfig.sourceName,
+        url: linkUrl
+      },
+      source: {
+        name: sourceName,
+        url: sourceUrl
+      },
       notes: finalNotes,
       updatedAt: importConfig.updatedAt,
       damage: { value: simDps, type: damageType },
@@ -562,7 +592,7 @@ function mergeEntries(existingEntries, newEntries, replaceExisting) {
       row.criterionName ?? "",
       row.unrealName ?? "",
       row.otherName ?? "",
-      row.sourceUrl ?? ""
+      row.link?.url ?? row.linkUrl ?? row.source?.url ?? row.sourceUrl ?? ""
     ].join("||");
 
   for (const row of newEntries) {

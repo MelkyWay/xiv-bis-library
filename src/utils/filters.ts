@@ -205,7 +205,7 @@ export function filterEntries(
       }
 
       const target =
-        `${entry.job} ${entry.role} ${entry.category} ${entry.ultimate ?? ""} ${entry.criterionName ?? ""} ${entry.unrealName ?? ""} ${entry.otherName ?? ""} ${entry.tier} ${entry.sourceName} ${entry.notes ?? ""}`.toLowerCase();
+        `${entry.job} ${entry.role} ${entry.category} ${entry.ultimate ?? ""} ${entry.criterionName ?? ""} ${entry.unrealName ?? ""} ${entry.otherName ?? ""} ${entry.tier} ${entry.link.name} ${entry.source.name} ${entry.notes ?? ""}`.toLowerCase();
       return target.includes(query);
     })
     .sort(comparator);

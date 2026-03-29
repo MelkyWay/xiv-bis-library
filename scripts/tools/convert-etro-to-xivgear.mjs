@@ -162,8 +162,12 @@ async function collectUrls(args) {
     const parsed = JSON.parse(raw);
     if (Array.isArray(parsed?.entries)) {
       for (const row of parsed.entries) {
-        if (typeof row?.sourceUrl === "string" && row.sourceUrl.includes("etro.gg/gearset/")) {
-          urls.add(row.sourceUrl.trim());
+        const candidate =
+          (row?.link && typeof row.link.url === "string" ? row.link.url : null) ??
+          (row?.source && typeof row.source.url === "string" ? row.source.url : null) ??
+          (typeof row?.linkUrl === "string" ? row.linkUrl : row?.sourceUrl);
+        if (typeof candidate === "string" && candidate.includes("etro.gg/gearset/")) {
+          urls.add(candidate.trim());
         }
       }
     }
@@ -187,15 +191,22 @@ async function applyMappingToData(dataPath, mapping) {
 
   let updatedCount = 0;
   for (const row of parsed.entries) {
-    if (typeof row?.sourceUrl !== "string") {
+    const currentLinkUrl =
+      (row?.link && typeof row.link.url === "string" ? row.link.url : null) ??
+      (row?.source && typeof row.source.url === "string" ? row.source.url : null) ??
+      (typeof row?.linkUrl === "string" ? row.linkUrl : row?.sourceUrl);
+    if (typeof currentLinkUrl !== "string") {
       continue;
     }
-    const replacement = mapping[row.sourceUrl];
+    const replacement = mapping[currentLinkUrl];
     if (!replacement) {
       continue;
     }
-    row.sourceUrl = replacement;
-    row.sourceName = "XivGear";
+    row.link = {
+      ...(row.link && typeof row.link === "object" ? row.link : {}),
+      name: "XivGear",
+      url: replacement
+    };
     updatedCount += 1;
   }
 
@@ -212,9 +223,9 @@ function printHelp() {
 Options:
   --url <url>         Convert one Etro gearset URL.
   --input <file>      JSON file with either an array of URLs or { "urls": [...] }.
-  --from-data         Read Etro URLs from sourceUrl fields in the data file.
+  --from-data         Read Etro URLs from link.url fields in the data file.
   --data <file>       Data file path (default: public/data/bis-links.json).
-  --update-data       Replace matching Etro sourceUrl values in the data file.
+  --update-data       Replace matching Etro link.url values in the data file.
   --output <file>     Write URL mapping JSON output to file.
   --headful           Run browser with UI (default: headless).
   --help              Show this message.

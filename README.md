@@ -68,7 +68,9 @@ Top-level fields:
 - optional name lists: `ultimateNames`, `criterionNames`, `unrealNames`
 
 Per-entry fields:
-- Required: `job`, `role`, `category`, `tier`, `sourceName`, `sourceUrl`, `updatedAt`
+- Required: `job`, `role`, `category`, `tier`, `link`, `source`, `updatedAt`
+- `link` shape: `{ "name": "XivGear", "url": "https://..." }`
+- `source` shape: `{ "name": "The Balance", "url": "https://..." }`
 - Optional: `ultimate`, `criterionName`, `unrealName`, `otherName`, `notes`, `notesTooltip`, `damage`
 - `damage` shape examples:
   - `{ "value": "12345.67", "type": "sim" }`
@@ -100,7 +102,7 @@ Notes:
 - Damage values can be supplied manually (`simDpsByName`, `simDpsByIndex`, set overrides) or auto-read from rendered tables when available.
 - Importer writes structured damage data to entries as `damage: { value, type }`.
 - If no readable damage value is found, importer sets `damage` to `{ "value": "-", "type": "none" }`.
-- Import dedupe identity is based on job/category/encounter/source URL and can replace existing rows.
+- Import dedupe identity is based on job/category/encounter/link URL and can replace existing rows.
 - Script layout/details are documented in `scripts/README.md`.
 
 ## GitHub Pages

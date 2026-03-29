@@ -36,7 +36,15 @@ function isBisEntry(value: unknown): value is BisEntry {
     return false;
   }
 
-  if (!hasText(value.job) || !hasText(value.sourceName) || !hasText(value.sourceUrl)) {
+  if (!hasText(value.job) || !isRecord(value.link) || !isRecord(value.source)) {
+    return false;
+  }
+
+  if (!hasText(value.link.name) || !hasText(value.link.url)) {
+    return false;
+  }
+
+  if (!hasText(value.source.name) || !hasText(value.source.url)) {
     return false;
   }
 
@@ -88,7 +96,7 @@ function isBisEntry(value: unknown): value is BisEntry {
     return false;
   }
 
-  if (!URL_RE.test(value.sourceUrl)) {
+  if (!URL_RE.test(value.link.url) || !URL_RE.test(value.source.url)) {
     return false;
   }
 

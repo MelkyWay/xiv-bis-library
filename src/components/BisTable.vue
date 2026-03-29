@@ -256,6 +256,7 @@ async function copyLink(url: string): Promise<void> {
               <span class="sort-indicator" aria-hidden="true">{{ sortIndicator('damage') }}</span>
             </button>
           </th>
+          <th>{{ t("table.link") }}</th>
           <th>{{ t("table.source") }}</th>
           <th class="col-copy" aria-label="Actions"></th>
         </tr>
@@ -291,7 +292,10 @@ async function copyLink(url: string): Promise<void> {
             </span>
           </td>
           <td>
-            <a :href="row.sourceUrl" target="_blank" rel="noreferrer noopener">{{ row.sourceName }}</a>
+            <a :href="row.link.url" target="_blank" rel="noreferrer noopener">{{ row.link.name }}</a>
+          </td>
+          <td>
+            <a :href="row.source.url" target="_blank" rel="noreferrer noopener">{{ row.source.name }}</a>
           </td>
           <td class="col-copy">
             <div class="row-actions">
@@ -315,7 +319,7 @@ async function copyLink(url: string): Promise<void> {
                 type="button"
                 :title="t('table.copyLink')"
                 :aria-label="t('table.copyLink')"
-                @click="copyLink(row.sourceUrl)"
+                @click="copyLink(row.link.url)"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                   <path
@@ -328,7 +332,7 @@ async function copyLink(url: string): Promise<void> {
           </td>
         </tr>
         <tr v-if="displayRows.length === 0">
-          <td colspan="8">{{ t("table.noMatchingEntries") }}</td>
+          <td colspan="9">{{ t("table.noMatchingEntries") }}</td>
         </tr>
       </tbody>
     </table>

@@ -14,6 +14,16 @@ export interface DamageValue {
   type: DamageType;
 }
 
+export interface LinkValue {
+  name: string;
+  url: string;
+}
+
+export interface SourceValue {
+  name: string;
+  url: string;
+}
+
 export interface BisEntry {
   job: string;
   role: Role;
@@ -23,8 +33,8 @@ export interface BisEntry {
   unrealName?: string;
   otherName?: string;
   tier: string;
-  sourceName: string;
-  sourceUrl: string;
+  link: LinkValue;
+  source: SourceValue;
   notes?: string;
   notesTooltip?: string;
   damage?: DamageValue;

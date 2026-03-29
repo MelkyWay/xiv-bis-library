@@ -8,6 +8,6 @@ export function getEntryKey(entry: BisEntry): string {
     entry.criterionName ?? "",
     entry.unrealName ?? "",
     entry.otherName ?? "",
-    entry.sourceUrl
+    entry.link.url
   ].join("||");
 }
