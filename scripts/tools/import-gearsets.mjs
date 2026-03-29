@@ -50,19 +50,22 @@ function todayIsoDate() {
 
 function parseArgs(argv) {
   const parsed = {};
-  for (let i = 0; i < argv.length; i += 1) {
+  let i = 0;
+  while (i < argv.length) {
     const token = argv[i];
     if (!token.startsWith("--")) {
+      i += 1;
       continue;
     }
     const key = token.slice(2);
     const next = argv[i + 1];
     if (!next || next.startsWith("--")) {
       parsed[key] = true;
+      i += 1;
       continue;
     }
     parsed[key] = next;
-    i += 1;
+    i += 2;
   }
   return parsed;
 }
@@ -227,22 +230,23 @@ async function extractSimDpsFromRenderedPage(pageUrl) {
     await page.waitForSelector("table tbody tr", { timeout: 90_000 });
 
     const rows = await page.$$eval("table", (tables) => {
-      function extractHeaders(table) {
-        const theadHeaders = Array.from(table.querySelectorAll("thead th"))
-          .map((th) => (th.textContent || "").replace(/\s+/g, " ").trim());
-        if (theadHeaders.length > 0) {
-          return theadHeaders;
-        }
-        const firstHeaderRow = Array.from(table.querySelectorAll("tr")).find((tr) => tr.querySelectorAll("th").length >= 3);
-        if (!firstHeaderRow) {
-          return [];
-        }
-        return Array.from(firstHeaderRow.querySelectorAll("th"))
-          .map((th) => (th.textContent || "").replace(/\s+/g, " ").trim());
-      }
-
       for (const table of tables) {
-        const headers = extractHeaders(table);
+        const theadHeaders = Array.from(table.querySelectorAll("thead th"))
+          .map((th) => (th.textContent || "").replaceAll(/\s+/g, " ").trim());
+        const headers =
+          theadHeaders.length > 0
+            ? theadHeaders
+            : (() => {
+                const firstHeaderRow = Array.from(table.querySelectorAll("tr")).find(
+                  (tr) => tr.querySelectorAll("th").length >= 3
+                );
+                if (!firstHeaderRow) {
+                  return [];
+                }
+                return Array.from(firstHeaderRow.querySelectorAll("th")).map((th) =>
+                  (th.textContent || "").replaceAll(/\s+/g, " ").trim()
+                );
+              })();
         const metricColIndex = headers.findIndex((text, index) => {
           if (index < 1) {
             return false;

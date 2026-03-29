@@ -31,19 +31,22 @@ const MATERIA_STAT_PREFIX = {
 
 function parseArgs(argv) {
   const parsed = {};
-  for (let i = 0; i < argv.length; i += 1) {
+  let i = 0;
+  while (i < argv.length) {
     const token = argv[i];
     if (!token.startsWith("--")) {
+      i += 1;
       continue;
     }
     const key = token.slice(2);
     const next = argv[i + 1];
     if (!next || next.startsWith("--")) {
       parsed[key] = true;
+      i += 1;
       continue;
     }
     parsed[key] = next;
-    i += 1;
+    i += 2;
   }
   return parsed;
 }
@@ -52,7 +55,7 @@ function toTitleCaseStat(input) {
   const raw = String(input ?? "")
     .trim()
     .toUpperCase()
-    .replace(/\s+/g, "");
+    .replaceAll(/\s+/g, "");
   if (raw.includes("CRT")) {
     return "CRT";
   }
@@ -129,7 +132,7 @@ async function buildMateriaIdMap(targetValue) {
 
 function resolveSlotKey(inputSlot) {
   const raw = String(inputSlot ?? "").trim();
-  const compact = raw.replace(/\s+/g, "");
+  const compact = raw.replaceAll(/\s+/g, "");
   const key = SLOT_KEY_MAP[compact] ?? SLOT_KEY_MAP[raw];
   if (!key) {
     throw new Error(`Unsupported slot "${inputSlot}"`);
@@ -144,11 +147,11 @@ function nameKey(input) {
 function relaxedNameKey(input) {
   return String(input ?? "")
     .toLowerCase()
-    .replace(/\baug\.\b/g, "augmented")
-    .replace(/\bult\b/g, "ultimate")
-    .replace(/[^a-z0-9]+/g, " ")
+    .replaceAll(/\baug\.\b/g, "augmented")
+    .replaceAll(/\bult\b/g, "ultimate")
+    .replaceAll(/[^a-z0-9]+/g, " ")
     .trim()
-    .replace(/\s+/g, " ");
+    .replaceAll(/\s+/g, " ");
 }
 
 function resolveByNameWithFallback(entries, desiredName, label) {
