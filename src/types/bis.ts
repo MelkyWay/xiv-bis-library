@@ -52,9 +52,9 @@ export interface BisDataFile {
 export interface BisFiltersState {
   role: "All" | Role;
   category: "All" | Category;
-  job: "All" | string;
-  ultimate: "All" | string;
-  criterion: "All" | string;
-  unreal: "All" | string;
+  job: string;
+  ultimate: string;
+  criterion: string;
+  unreal: string;
   query: string;
 }

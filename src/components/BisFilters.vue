@@ -118,7 +118,7 @@ const secondaryMenuId = "secondary-filter-menu";
 const isSecondaryActive = computed(
   () => props.filters.category === "Ultimate" || props.filters.category === "Criterion" || props.filters.category === "Unreal"
 );
-const viewportWidth = ref(typeof window !== "undefined" ? window.innerWidth : 1280);
+const viewportWidth = ref(globalThis.window === undefined ? 1280 : globalThis.window.innerWidth);
 
 const visibleGroupedJobs = computed(() => {
   if (props.filters.role === "All") {
@@ -185,7 +185,7 @@ function chooseSecondary(value: string): void {
 function measureLabelWidth(text: string): number {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
-  const triggerStyle = secondaryTrigger.value ? window.getComputedStyle(secondaryTrigger.value) : null;
+  const triggerStyle = secondaryTrigger.value ? globalThis.window.getComputedStyle(secondaryTrigger.value) : null;
   const font = triggerStyle ? `${triggerStyle.fontWeight} ${triggerStyle.fontSize} ${triggerStyle.fontFamily}` : "400 16px Segoe UI";
 
   if (!context) {
@@ -220,7 +220,7 @@ function handleDocumentClick(event: MouseEvent): void {
 }
 
 function handleWindowResize(): void {
-  viewportWidth.value = window.innerWidth;
+  viewportWidth.value = globalThis.window.innerWidth;
 }
 
 watch(
@@ -232,12 +232,12 @@ watch(
 
 onMounted(() => {
   document.addEventListener("click", handleDocumentClick);
-  window.addEventListener("resize", handleWindowResize);
+  globalThis.window.addEventListener("resize", handleWindowResize);
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener("click", handleDocumentClick);
-  window.removeEventListener("resize", handleWindowResize);
+  globalThis.window.removeEventListener("resize", handleWindowResize);
 });
 </script>
 

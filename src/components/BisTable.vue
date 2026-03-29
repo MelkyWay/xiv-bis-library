@@ -12,9 +12,7 @@ const props = defineProps<{
   activeCategory: BisFiltersState["category"];
   favoriteEntryKeys: Set<string>;
 }>();
-const emit = defineEmits<{
-  (event: "toggle-favorite", entry: BisEntry): void;
-}>();
+const emit = defineEmits<(event: "toggle-favorite", entry: BisEntry) => void>();
 
 type SortDirection = "desc" | "asc";
 type SortKey = "damage";
@@ -109,11 +107,10 @@ function sortIndicator(key: SortKey): string {
 
 function sortAriaLabel(key: SortKey, label: string): string {
   const isActive = sortState.value.key === key && sortState.value.direction !== null;
-  const current = isActive
-    ? sortState.value.direction === "asc"
-      ? t("table.sortCurrent.asc")
-      : t("table.sortCurrent.desc")
-    : t("table.sortCurrent.none");
+  let current = t("table.sortCurrent.none");
+  if (isActive) {
+    current = sortState.value.direction === "asc" ? t("table.sortCurrent.asc") : t("table.sortCurrent.desc");
+  }
   const next = !isActive || sortState.value.direction === "asc" ? t("table.sortNext.desc") : t("table.sortNext.asc");
   return t("table.sortLabel", { label, current, next });
 }

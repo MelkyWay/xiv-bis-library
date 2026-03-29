@@ -160,24 +160,31 @@ const localeOptions = computed(() =>
   SUPPORTED_LOCALES.map((code) => ({ code, label: LOCALE_LABEL[code] }))
 );
 
-const KNOWN_ROLES: Role[] = ["Tank", "Healer", "Melee", "Physical Ranged", "Magical Ranged", "Limited"];
-const KNOWN_CATEGORIES: Category[] = [...CATEGORY_ORDER];
+const KNOWN_ROLES = new Set<Role>(["Tank", "Healer", "Melee", "Physical Ranged", "Magical Ranged", "Limited"]);
+const KNOWN_CATEGORIES = new Set<Category>(CATEGORY_ORDER);
+
+function buildNextUrl(params: URLSearchParams): string {
+  const windowRef = globalThis.window;
+  const nextQuery = params.toString();
+  const queryPart = nextQuery ? `?${nextQuery}` : "";
+  return `${windowRef.location.pathname}${queryPart}${windowRef.location.hash}`;
+}
 
 function parseFiltersFromUrl(): Partial<BisFiltersState> {
-  if (typeof window === "undefined") {
+  if (globalThis.window === undefined) {
     return {};
   }
 
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(globalThis.window.location.search);
   const next: Partial<BisFiltersState> = {};
 
   const role = params.get("role");
-  if (role === "All" || (role && KNOWN_ROLES.includes(role as Role))) {
+  if (role === "All" || (role && KNOWN_ROLES.has(role as Role))) {
     next.role = role as BisFiltersState["role"];
   }
 
   const category = params.get("category");
-  if (category === "All" || (category && KNOWN_CATEGORIES.includes(category as Category))) {
+  if (category === "All" || (category && KNOWN_CATEGORIES.has(category as Category))) {
     next.category = category as BisFiltersState["category"];
   }
 
@@ -210,11 +217,11 @@ function parseFiltersFromUrl(): Partial<BisFiltersState> {
 }
 
 function parseLocaleFromUrl(): SupportedLocale | null {
-  if (typeof window === "undefined") {
+  if (globalThis.window === undefined) {
     return null;
   }
 
-  const lang = new URLSearchParams(window.location.search).get("lang");
+  const lang = new URLSearchParams(globalThis.window.location.search).get("lang");
   if (lang && SUPPORTED_LOCALES.includes(lang as SupportedLocale)) {
     return lang as SupportedLocale;
   }
@@ -238,11 +245,11 @@ function resolveInitialLocale(): SupportedLocale {
 }
 
 function syncFiltersToUrl(nextFilters: BisFiltersState): void {
-  if (typeof window === "undefined") {
+  if (globalThis.window === undefined) {
     return;
   }
 
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(globalThis.window.location.search);
 
   const setOrDelete = (key: string, value: string, defaultValue = "All"): void => {
     if (!value || value === defaultValue) {
@@ -265,17 +272,16 @@ function syncFiltersToUrl(nextFilters: BisFiltersState): void {
     params.delete("q");
   }
 
-  const nextQuery = params.toString();
-  const nextUrl = `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ""}${window.location.hash}`;
-  window.history.replaceState({}, "", nextUrl);
+  const nextUrl = buildNextUrl(params);
+  globalThis.window.history.replaceState({}, "", nextUrl);
 }
 
 function syncLocaleToUrl(nextLocale: SupportedLocale): void {
-  if (typeof window === "undefined") {
+  if (globalThis.window === undefined) {
     return;
   }
 
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(globalThis.window.location.search);
 
   if (nextLocale === DEFAULT_LOCALE) {
     params.delete("lang");
@@ -283,9 +289,8 @@ function syncLocaleToUrl(nextLocale: SupportedLocale): void {
     params.set("lang", nextLocale);
   }
 
-  const nextQuery = params.toString();
-  const nextUrl = `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ""}${window.location.hash}`;
-  window.history.replaceState({}, "", nextUrl);
+  const nextUrl = buildNextUrl(params);
+  globalThis.window.history.replaceState({}, "", nextUrl);
 }
 
 function setLocale(nextLocale: SupportedLocale): void {
@@ -311,10 +316,10 @@ function updateFilters(next: BisFiltersState): void {
 
   if (nextFilters.job !== "All") {
     const jobRole = roleByJob.value[nextFilters.job];
-    if (!jobRole) {
-      nextFilters.job = "All";
-    } else {
+    if (jobRole) {
       nextFilters.role = jobRole;
+    } else {
+      nextFilters.job = "All";
     }
   }
 
@@ -416,7 +421,7 @@ async function loadData(): Promise<void> {
 
 function applyTheme(nextTheme: Theme): void {
   theme.value = nextTheme;
-  document.documentElement.setAttribute("data-theme", nextTheme);
+  document.documentElement.dataset.theme = nextTheme;
   localStorage.setItem("theme", nextTheme);
 }
 
@@ -458,17 +463,17 @@ onMounted(async () => {
   if (savedTheme === "light" || savedTheme === "dark") {
     applyTheme(savedTheme);
   } else {
-    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
+    const prefersDark = globalThis.window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
     applyTheme(prefersDark ? "dark" : "light");
   }
 
   await loadData();
   hydrateFiltersFromUrl();
-  window.addEventListener("popstate", handlePopState);
+  globalThis.window.addEventListener("popstate", handlePopState);
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("popstate", handlePopState);
+  globalThis.window.removeEventListener("popstate", handlePopState);
 });
 
 watch(
