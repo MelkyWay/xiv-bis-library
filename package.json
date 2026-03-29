@@ -12,7 +12,6 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "import:gear": "node scripts/tools/import-gearsets.mjs",
-    "convert:etro": "node scripts/tools/convert-etro-to-xivgear.mjs",
     "build:xivgear-set": "node scripts/tools/build-xivgear-set-json.mjs"
   },
   "dependencies": {

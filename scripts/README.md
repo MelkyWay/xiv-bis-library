@@ -9,10 +9,6 @@ This directory contains helper scripts for importing and transforming BiS data.
   - Supports config-file batch mode and single-URL mode.
   - Can auto-read Sim DPS from rendered tables when available.
 
-- `tools/convert-etro-to-xivgear.mjs`
-  - Converts Etro links into XivGear shortlinks (`?page=sl|...`).
-  - Useful when you want sources to be consistently XivGear-based.
-
 - `tools/build-xivgear-set-json.mjs`
   - Builds native XivGear import JSON payloads from spec files.
 
@@ -29,6 +25,8 @@ This directory contains helper scripts for importing and transforming BiS data.
 
 - `archive/one-off/`
   - Historical one-off helpers retained for traceability.
+- `archive/tools/`
+  - Former maintained tools that are no longer used.
 - `archive/generated/`
   - Generated output JSON files.
 - `archive/specs/`
