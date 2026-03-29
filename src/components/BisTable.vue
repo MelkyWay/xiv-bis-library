@@ -245,7 +245,7 @@ async function copyLink(url: string): Promise<void> {
           <th>{{ t("table.category") }}</th>
           <th>{{ infoHeaderLabel }}</th>
           <th class="col-notes">{{ t("table.notes") }}</th>
-          <th :aria-sort="sortAriaSort('damage')">
+          <th class="col-damage" :aria-sort="sortAriaSort('damage')">
             <button
               class="sortable-header"
               type="button"

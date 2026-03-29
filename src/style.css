@@ -92,7 +92,7 @@ a {
 }
 
 .app-shell {
-  max-width: 1460px;
+  max-width: 1606px;
   margin: 0 auto;
   padding: 1.5rem 1rem 2.5rem;
 }
@@ -365,15 +365,21 @@ th {
   font-weight: inherit;
   padding: 0;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.15rem;
+  display: block;
+  position: relative;
+  text-align: center;
   white-space: nowrap;
 }
 
+.table-wrap th.col-damage .sortable-header {
+  width: 100%;
+}
+
 .sort-indicator {
-  min-width: 0.5rem;
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 0.68em;
   line-height: 1;
 }
