@@ -280,15 +280,16 @@ async function copyLink(url: string): Promise<void> {
           <td>
             <span class="damage-cell">
               <span>{{ row.damage?.value ?? "-" }}</span>
-              <sup
+              <button
                 v-if="damageType(row)"
                 class="damage-kind-badge notes-tooltip-anchor has-tooltip"
                 :class="damageType(row)"
                 :data-tooltip="damageSubscriptTooltip(row)"
-                tabindex="0"
+                type="button"
+                :aria-label="damageSubscriptTooltip(row)"
               >
                 {{ damageSubscriptLabel(row) }}
-              </sup>
+              </button>
             </span>
           </td>
           <td>

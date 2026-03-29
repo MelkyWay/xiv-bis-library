@@ -420,6 +420,10 @@ th {
 }
 
 .damage-kind-badge {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: help;
   font-size: 0.62em;
   line-height: 1;
   font-weight: 700;
