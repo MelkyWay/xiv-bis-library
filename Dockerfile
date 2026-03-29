@@ -4,15 +4,15 @@ COPY package*.json ./
 RUN npm ci && chown -R node:node /app
 
 FROM base AS source
-COPY --chown=node:node index.html ./
-COPY --chown=node:node vite.config.ts ./
-COPY --chown=node:node tsconfig.json ./
-COPY --chown=node:node tsconfig.app.json ./
-COPY --chown=node:node tsconfig.base.json ./
-COPY --chown=node:node tsconfig.node.json ./
-COPY --chown=node:node eslint.config.js ./
-COPY --chown=node:node public ./public
-COPY --chown=node:node src ./src
+COPY --chmod=444 index.html ./
+COPY --chmod=444 vite.config.ts ./
+COPY --chmod=444 tsconfig.json ./
+COPY --chmod=444 tsconfig.app.json ./
+COPY --chmod=444 tsconfig.base.json ./
+COPY --chmod=444 tsconfig.node.json ./
+COPY --chmod=444 eslint.config.js ./
+COPY --chmod=555 public ./public
+COPY --chmod=555 src ./src
 
 FROM source AS dev
 USER node
