@@ -268,7 +268,7 @@ async function copyLink(url: string): Promise<void> {
           <td>{{ infoValue(row) }}</td>
           <td class="col-notes">
             <span
-              class="notes-tooltip-anchor"
+              class="notes-tooltip-anchor notes-main-tooltip"
               :class="{ 'has-tooltip': !!row.notesTooltip }"
               :data-tooltip="row.notesTooltip || ''"
               :tabindex="row.notesTooltip ? 0 : undefined"
@@ -294,35 +294,37 @@ async function copyLink(url: string): Promise<void> {
             <a :href="row.sourceUrl" target="_blank" rel="noreferrer noopener">{{ row.sourceName }}</a>
           </td>
           <td class="col-copy">
-            <button
-              class="favorite-btn"
-              :class="{ active: isFavorite(row) }"
-              type="button"
-              :title="isFavorite(row) ? 'Unfavorite' : 'Favorite'"
-              :aria-label="isFavorite(row) ? 'Unfavorite' : 'Favorite'"
-              @click="toggleFavorite(row)"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path
-                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
-            <button
-              class="copy-link-btn"
-              type="button"
-              :title="t('table.copyLink')"
-              :aria-label="t('table.copyLink')"
-              @click="copyLink(row.sourceUrl)"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path
-                  d="M9 9h10v11H9zM5 4h10v3h-2V6H7v7H6a1 1 0 0 0-1 1V4z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
+            <div class="row-actions">
+              <button
+                class="favorite-btn"
+                :class="{ active: isFavorite(row) }"
+                type="button"
+                :title="isFavorite(row) ? 'Unfavorite' : 'Favorite'"
+                :aria-label="isFavorite(row) ? 'Unfavorite' : 'Favorite'"
+                @click="toggleFavorite(row)"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+              <button
+                class="copy-link-btn"
+                type="button"
+                :title="t('table.copyLink')"
+                :aria-label="t('table.copyLink')"
+                @click="copyLink(row.sourceUrl)"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    d="M9 9h10v11H9zM5 4h10v3h-2V6H7v7H6a1 1 0 0 0-1 1V4z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </button>
+            </div>
           </td>
         </tr>
         <tr v-if="displayRows.length === 0">

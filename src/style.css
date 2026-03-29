@@ -385,6 +385,12 @@ th {
   text-align: center;
 }
 
+.table-wrap th.col-role,
+.table-wrap td.col-role {
+  white-space: nowrap;
+  min-width: 8.5rem;
+}
+
 .notes-tooltip-anchor {
   position: relative;
   display: inline-block;
@@ -468,6 +474,22 @@ th {
   transition: opacity 120ms ease;
 }
 
+.notes-main-tooltip.has-tooltip::after {
+  content: "“" attr(data-tooltip) "”";
+  padding: 0.9rem 0.95rem 0.9rem 1.25rem;
+  border-left: 3px solid var(--color-input-border);
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--color-input-border) 12%, transparent) 0 0.55rem, transparent 0.55rem),
+    var(--bg-input);
+  font-style: italic;
+  letter-spacing: 0.01em;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+}
+
+.notes-main-tooltip.has-tooltip::before {
+  box-shadow: -1px -1px 0 color-mix(in oklab, var(--color-input-border) 20%, transparent);
+}
+
 .notes-tooltip-anchor.has-tooltip::before {
   content: "";
   position: absolute;
@@ -534,7 +556,6 @@ th {
   justify-content: center;
   cursor: pointer;
   vertical-align: middle;
-  margin-right: 0.35rem;
   transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
   box-shadow: 0 1px 0 color-mix(in oklab, var(--color-input-border) 70%, transparent);
 }
@@ -565,10 +586,14 @@ th {
 }
 
 td.col-copy {
-  display: flex;
+  text-align: center;
+}
+
+.row-actions {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
+  gap: 0.16rem;
 }
 
 .pagination {
