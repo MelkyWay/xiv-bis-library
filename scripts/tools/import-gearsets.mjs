@@ -230,41 +230,49 @@ async function extractSimDpsFromRenderedPage(pageUrl) {
     await page.waitForSelector("table tbody tr", { timeout: 90_000 });
 
     const rows = await page.$$eval("table", (tables) => {
-      for (const table of tables) {
-        const theadHeaders = Array.from(table.querySelectorAll("thead th"))
-          .map((th) => (th.textContent || "").replaceAll(/\s+/g, " ").trim());
-        const headers =
-          theadHeaders.length > 0
-            ? theadHeaders
-            : (() => {
-                const firstHeaderRow = Array.from(table.querySelectorAll("tr")).find(
-                  (tr) => tr.querySelectorAll("th").length >= 3
-                );
-                if (!firstHeaderRow) {
-                  return [];
-                }
-                return Array.from(firstHeaderRow.querySelectorAll("th")).map((th) =>
-                  (th.textContent || "").replaceAll(/\s+/g, " ").trim()
-                );
-              })();
-        const metricColIndex = headers.findIndex((text, index) => {
+      const cleanText = (value) => (value || "").replaceAll(/\s+/g, " ").trim();
+
+      const getHeaders = (table) => {
+        const theadHeaders = Array.from(table.querySelectorAll("thead th")).map((th) => cleanText(th.textContent));
+        if (theadHeaders.length > 0) {
+          return theadHeaders;
+        }
+
+        const firstHeaderRow = Array.from(table.querySelectorAll("tr")).find((tr) => tr.querySelectorAll("th").length >= 3);
+        if (!firstHeaderRow) {
+          return [];
+        }
+
+        return Array.from(firstHeaderRow.querySelectorAll("th")).map((th) => cleanText(th.textContent));
+      };
+
+      const findMetricColumnIndex = (headers) =>
+        headers.findIndex((text, index) => {
           if (index < 1) {
             return false;
           }
           const lowered = text.toLowerCase();
           return lowered.includes("sim") || lowered.includes("dmg/100p") || lowered.includes("dps");
         });
-        if (metricColIndex < 0) {
-          continue;
-        }
-        const loweredHeader = headers[metricColIndex].toLowerCase();
-        const type =
-          loweredHeader.includes("dmg/100p") || loweredHeader.includes("100 potency") || loweredHeader.includes("potency")
-            ? "potency"
-            : "sim";
 
+      const inferMetricType = (headerText) => {
+        const lowered = headerText.toLowerCase();
+        return lowered.includes("dmg/100p") || lowered.includes("100 potency") || lowered.includes("potency")
+          ? "potency"
+          : "sim";
+      };
+
+      const extractRowsFromTable = (table) => {
+        const headers = getHeaders(table);
+        const metricColIndex = findMetricColumnIndex(headers);
+        if (metricColIndex < 0) {
+          return [];
+        }
+
+        const type = inferMetricType(headers[metricColIndex]);
         const out = [];
         const trs = Array.from(table.querySelectorAll("tr")).filter((tr) => tr.querySelectorAll("td").length > 0);
+
         for (const tr of trs) {
           const tds = Array.from(tr.querySelectorAll("td"));
           if (tds.length <= metricColIndex) {
@@ -277,10 +285,17 @@ async function extractSimDpsFromRenderedPage(pageUrl) {
           }
           out.push({ value: simValue.toFixed(2), type });
         }
+
+        return out;
+      };
+
+      for (const table of tables) {
+        const out = extractRowsFromTable(table);
         if (out.length > 0) {
           return out;
         }
       }
+
       return [];
     });
 
