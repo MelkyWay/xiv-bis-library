@@ -1,47 +1,68 @@
 # XIV BiS Library
 
-A Vue 3 + TypeScript static site to centralize community BiS links for Final Fantasy XIV.
+A Vue 3 + TypeScript site that centralizes community BiS links for Final Fantasy XIV.
 
-## Features
-- Filters: Job, Role, Category, Encounter selector (Ultimate/Criterion/Unreal), Search
-- Category-aware sorting and encounter ordering
-- Damage column with sorting (`sim`, `potency`, and `none` types)
-- Row actions: favorite toggle (stored in localStorage) and copy-link button
-- URL query sync for shareable filtered links
-- Light/Dark themes
-- Localization support (English, French, German, Japanese, Korean, Chinese)
-- GitHub Pages deployment workflow
+## User Guide
 
-## Tech Stack
+### What this site does
+- Centralizes BiS links by job, role, category, and encounter.
+- Lets you filter quickly and share filtered views through URL query sync.
+- Supports favorites (saved in your browser), copy-link actions, and light/dark themes.
+- Supports localization: English, French, German, Japanese, Korean, Chinese.
+
+### Main features
+- Filters: Job, Role, Category, encounter selector (Ultimate/Criterion/Unreal), and free-text search.
+- Category-aware ordering and encounter-aware ordering.
+- Damage column with sortable structured values:
+  - `sim`
+  - `potency`
+  - `none` (`-`)
+- Per-row actions: favorite toggle and copy link.
+
+### Data source
+- All displayed entries come from `public/data/bis-links.json`.
+- This project does not require a backend database.
+
+---
+
+## Developer Guide
+
+### Stack
 - Vue 3
 - TypeScript
 - Vite
-- JSON data source in `public/data/bis-links.json`
+- JSON data (`public/data/bis-links.json`)
 
-## Local Development
+### Local development
 ```bash
 npm install
 npm run dev
 ```
-Default local URL: `http://localhost:5173/xiv-bis-library/`
+Default URL: `http://localhost:5173/xiv-bis-library/`
 
-## Build / Preview
+### Build and preview
 ```bash
 npm run build
 npm run preview
 ```
 
-## Code Quality
+### Testing and quality
 ```bash
+npm run test
+npm run test:watch
+npm run test:coverage
 npm run lint
 npm run lint:fix
 npm run format:check
 npm run format
 ```
 
-CI (`.github/workflows/ci.yml`) runs `lint` + `build` on pushes and pull requests to `main`.
+CI (`.github/workflows/ci.yml`) runs:
+- `lint`
+- `test:coverage`
+- `build`
 
-## Docker
+### Docker
 Development server:
 ```bash
 docker compose up web-dev --build
@@ -59,7 +80,7 @@ Stop:
 docker compose down
 ```
 
-## Data File
+### Data schema
 Main data file: `public/data/bis-links.json`
 
 Top-level fields:
@@ -69,10 +90,10 @@ Top-level fields:
 
 Per-entry fields:
 - Required: `job`, `role`, `category`, `tier`, `link`, `source`, `updatedAt`
-- `link` shape: `{ "name": "XivGear", "url": "https://..." }`
-- `source` shape: `{ "name": "The Balance", "url": "https://..." }`
+- `link`: `{ "name": "XivGear", "url": "https://..." }`
+- `source`: `{ "name": "The Balance", "url": "https://..." }`
 - Optional: `ultimate`, `criterionName`, `unrealName`, `otherName`, `notes`, `notesTooltip`, `damage`
-- `damage` shape examples:
+- `damage` examples:
   - `{ "value": "12345.67", "type": "sim" }`
   - `{ "value": "12.34", "type": "potency" }`
   - `{ "value": "-", "type": "none" }`
@@ -83,9 +104,8 @@ Roles:
 Categories:
 - `Savage`, `Prog`, `Ultimate`, `Criterion`, `Unreal`, `Occult Crescent`, `Other`
 
-## Importing Gear Data
-Use the importer to add/update rows from XivGear sheets:
-
+### Importing gear data
+Config mode:
 ```bash
 npm run import:gear -- --config scripts/imports.example.json --dry-run
 npm run import:gear -- --config scripts/imports.example.json
@@ -97,15 +117,15 @@ npm run import:gear -- --url "https://xivgear.app/?page=bis|drk|current" --job D
 ```
 
 Notes:
-- `Ultimate`, `Criterion`, `Unreal`, and `Other` require `info` (encounter/content name).
-- `role` is auto-derived for known jobs if omitted.
-- Damage values can be supplied manually (`simDpsByName`, `simDpsByIndex`, set overrides) or auto-read from rendered tables when available.
-- Importer writes structured damage data to entries as `damage: { value, type }`.
-- If no readable damage value is found, importer sets `damage` to `{ "value": "-", "type": "none" }`.
-- Import dedupe identity is based on job/category/encounter/link URL and can replace existing rows.
-- Script layout/details are documented in `scripts/README.md`.
+- `Ultimate`, `Criterion`, `Unreal`, and `Other` require `info`.
+- `role` can be auto-derived for known jobs.
+- Damage can be provided manually or auto-read when available.
+- Importer writes `damage: { value, type }`.
+- If no readable damage is found, importer sets `{ "value": "-", "type": "none" }`.
+- Dedupe identity is based on job/category/encounter/link URL.
+- More script details: `scripts/README.md`.
 
-## GitHub Pages
-1. Ensure `vite.config.ts` `base` matches repository path (currently `/xiv-bis-library/`).
-2. In GitHub repository settings, use Pages source: `GitHub Actions`.
+### GitHub Pages
+1. Ensure `vite.config.ts` `base` matches repo path (`/xiv-bis-library/` currently).
+2. In GitHub settings, set Pages source to `GitHub Actions`.
 3. Push to `main` to run `.github/workflows/deploy-pages.yml`.
