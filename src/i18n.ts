@@ -9,7 +9,7 @@ const messages = {
   en: {
     app: {
       title: "XIV BiS Library",
-      subtitle: "Centralized links to community BiS sets by job, role, and content type.",
+      subtitle: "Centralized links to community best-in-slots gear sets by job, role, and type of content.",
       lastUpdated: "Last updated: {date}",
       notAvailable: "-",
       loading: "Loading BiS data...",

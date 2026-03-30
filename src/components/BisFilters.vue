@@ -76,7 +76,7 @@ function withSelectedBorder(base: Record<string, string>, isSelected: boolean): 
   }
   return {
     ...base,
-    borderWidth: "3px"
+    borderWidth: "2px"
   };
 }
 
@@ -138,17 +138,30 @@ function selectedRoleStyle(): Record<string, string> {
 }
 
 function selectedCategoryStyle(): Record<string, string> {
-  return withSelectedBorder({}, props.filters.category !== "All");
+  return withSelectedBorder(
+    {
+      borderColor: "var(--color-selected-border)"
+    },
+    props.filters.category !== "All"
+  );
 }
 
 function selectedSecondaryStyle(): Record<string, string> {
-  return withSelectedBorder({}, secondaryValue.value !== "All");
+  return withSelectedBorder(
+    {
+      borderColor: "var(--color-selected-border)"
+    },
+    secondaryValue.value !== "All"
+  );
 }
 
 const secondaryRoot = ref<HTMLElement | null>(null);
 const secondaryTrigger = ref<HTMLElement | null>(null);
 const secondaryOpen = ref(false);
 const secondaryMenuId = "secondary-filter-menu";
+const jobRoot = ref<HTMLElement | null>(null);
+const jobOpen = ref(false);
+const jobMenuId = "job-filter-menu";
 const isSecondaryActive = computed(
   () => props.filters.category === "Ultimate" || props.filters.category === "Criterion" || props.filters.category === "Unreal"
 );
@@ -159,7 +172,9 @@ const visibleGroupedJobs = computed(() => {
     return props.groupedJobs;
   }
 
-  return props.groupedJobs.filter((group) => group.role === props.filters.role);
+  const selected = props.groupedJobs.filter((group) => group.role === props.filters.role);
+  const others = props.groupedJobs.filter((group) => group.role !== props.filters.role);
+  return [...selected, ...others];
 });
 
 const secondaryOptions = computed(() => {
@@ -180,6 +195,12 @@ const secondaryDisplayValue = computed(() => {
     return t("common.all");
   }
   return secondaryOptionLabel(secondaryValue.value);
+});
+const jobDisplayValue = computed(() => {
+  if (props.filters.job === "All") {
+    return t("common.all");
+  }
+  return jobLabel(props.filters.job);
 });
 
 const secondaryTypeLabel = computed(() => {
@@ -209,6 +230,15 @@ function toggleSecondary(): void {
     return;
   }
   secondaryOpen.value = !secondaryOpen.value;
+}
+
+function toggleJob(): void {
+  jobOpen.value = !jobOpen.value;
+}
+
+function chooseJob(job: string): void {
+  patch({ job });
+  jobOpen.value = false;
 }
 
 function chooseSecondary(value: string): void {
@@ -245,10 +275,15 @@ const secondaryMenuStyle = computed<Record<string, string>>(() => {
 
 function handleDocumentClick(event: MouseEvent): void {
   const target = event.target as Node | null;
-  if (!target || !secondaryRoot.value) {
+  if (!target) {
     return;
   }
-  if (!secondaryRoot.value.contains(target)) {
+
+  if (jobRoot.value && !jobRoot.value.contains(target)) {
+    jobOpen.value = false;
+  }
+
+  if (secondaryRoot.value && !secondaryRoot.value.contains(target)) {
     secondaryOpen.value = false;
   }
 }
@@ -261,6 +296,13 @@ watch(
   () => props.filters.category,
   () => {
     secondaryOpen.value = false;
+  }
+);
+
+watch(
+  () => props.filters.job,
+  () => {
+    jobOpen.value = false;
   }
 );
 
@@ -278,13 +320,66 @@ onBeforeUnmount(() => {
 <template>
   <section class="panel filters">
     <label>
-      {{ t("filters.job") }}
-      <select :value="filters.job" :style="selectedJobStyle()" @change="patch({ job: ($event.target as HTMLSelectElement).value })">
-        <option value="All" :style="{ color: 'var(--color-text)' }">{{ t("common.all") }}</option>
-        <optgroup v-for="group in visibleGroupedJobs" :key="group.role" :label="group.label" :style="groupLabelStyle(group.role)">
-          <option v-for="job in group.jobs" :key="job" :value="job" :style="jobOptionStyle(job)">{{ jobLabel(job) }}</option>
-        </optgroup>
+      {{ t("filters.role") }}
+      <select
+        :value="filters.role"
+        :style="selectedRoleStyle()"
+        @change="patch({ role: ($event.target as HTMLSelectElement).value as BisFiltersState['role'] })"
+      >
+        <option v-for="role in roles" :key="role" :value="role" :style="roleOptionStyle(role)">{{ roleLabel(role) }}</option>
       </select>
+    </label>
+
+    <label>
+      {{ t("filters.job") }}
+      <div ref="jobRoot" class="job-select">
+        <button
+          type="button"
+          class="job-select-trigger"
+          :style="selectedJobStyle()"
+          :aria-label="t('filters.secondaryAriaCurrent', { type: t('filters.job'), value: jobDisplayValue })"
+          :aria-expanded="jobOpen"
+          aria-haspopup="listbox"
+          :aria-controls="jobMenuId"
+          @click.stop="toggleJob"
+        >
+          <span>{{ jobDisplayValue }}</span>
+          <span class="caret">⌄</span>
+        </button>
+        <div
+          v-if="jobOpen"
+          :id="jobMenuId"
+          class="job-select-menu"
+          role="listbox"
+          :aria-label="t('filters.secondaryAriaOptions', { type: t('filters.job') })"
+        >
+          <button
+            type="button"
+            class="job-select-option"
+            role="option"
+            :aria-selected="filters.job === 'All'"
+            :style="{ color: 'var(--color-text)' }"
+            @click="chooseJob('All')"
+          >
+            {{ t("common.all") }}
+          </button>
+          <div v-for="group in visibleGroupedJobs" :key="group.role" class="job-select-group">
+            <div class="job-select-group-label" :style="groupLabelStyle(group.role)">{{ group.label }}</div>
+            <button
+              v-for="job in group.jobs"
+              :key="job"
+              type="button"
+              class="job-select-option"
+              role="option"
+              :aria-selected="filters.job === job"
+              :style="jobOptionStyle(job)"
+              @click="chooseJob(job)"
+            >
+              {{ jobLabel(job) }}
+            </button>
+          </div>
+        </div>
+      </div>
     </label>
 
     <div class="stack">
@@ -350,17 +445,6 @@ onBeforeUnmount(() => {
       </div>
     </div>
 
-    <label>
-      {{ t("filters.role") }}
-      <select
-        :value="filters.role"
-        :style="selectedRoleStyle()"
-        @change="patch({ role: ($event.target as HTMLSelectElement).value as BisFiltersState['role'] })"
-      >
-        <option v-for="role in roles" :key="role" :value="role" :style="roleOptionStyle(role)">{{ roleLabel(role) }}</option>
-      </select>
-    </label>
-
     <label class="search">
       {{ t("filters.search") }}
       <input
@@ -378,6 +462,12 @@ onBeforeUnmount(() => {
         type="button"
         @click="emit('toggle:favorites-only')"
       >
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path
+            d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+            fill="currentColor"
+          />
+        </svg>
         Favorites
       </button>
       <button class="reset-filters" type="button" @click="resetFilters">{{ t("filters.reset") }}</button>

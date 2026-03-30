@@ -147,6 +147,11 @@ const filtered = computed(() => {
   return base.filter((entry) => favoriteEntryKeys.value.has(getEntryKey(entry)));
 });
 const hasHydratedFiltersFromUrl = ref(false);
+const brandLogoSrc = `${import.meta.env.BASE_URL}brand-logo.png`;
+const themeSunIconSrc = `${import.meta.env.BASE_URL}icon-sun.svg`;
+const themeMoonIconSrc = `${import.meta.env.BASE_URL}icon-moon.svg`;
+const baseUrl = import.meta.env.BASE_URL;
+const deployedAtRaw = String(import.meta.env.VITE_DEPLOYED_AT ?? "").trim();
 const LOCALE_LABEL: Record<SupportedLocale, string> = {
   en: "English",
   fr: "Français",
@@ -159,6 +164,7 @@ const LOCALE_LABEL: Record<SupportedLocale, string> = {
 const localeOptions = computed(() =>
   SUPPORTED_LOCALES.map((code) => ({ code, label: LOCALE_LABEL[code] }))
 );
+const headerUpdatedValue = computed(() => deployedAtRaw || data.value.lastUpdated || t("app.notAvailable"));
 
 const KNOWN_ROLES = new Set<Role>(["Tank", "Healer", "Melee", "Physical Ranged", "Magical Ranged", "Limited"]);
 const KNOWN_CATEGORIES = new Set<Category>(CATEGORY_ORDER);
@@ -505,11 +511,18 @@ watch(unreals, () => {
 <template>
   <main class="app-shell">
     <header>
-      <h1>{{ t("app.title") }}</h1>
-      <p>{{ t("app.subtitle") }}</p>
+      <div class="header-top">
+        <h1 class="brand-title">
+          <img class="brand-logo" :src="brandLogoSrc" alt="XIV BiS Library logo" />
+          <span class="brand-title-text">
+            <span class="brand-title-main">XIV BiS</span>
+            <span class="brand-title-sub">— LIBRARY —</span>
+          </span>
+        </h1>
+        <p class="header-subtitle">{{ t("app.subtitle") }}</p>
+      </div>
       <div class="header-meta-row">
-        <p class="meta" v-if="data.lastUpdated">{{ t("app.lastUpdated", { date: data.lastUpdated }) }}</p>
-        <p class="meta" v-else>{{ t("app.lastUpdated", { date: t("app.notAvailable") }) }}</p>
+        <p class="meta">{{ t("app.lastUpdated", { date: headerUpdatedValue }) }}</p>
         <div class="header-controls">
           <label class="locale-picker">
             <span class="sr-only">{{ t("common.locale") }}</span>
@@ -517,8 +530,19 @@ watch(unreals, () => {
               <option v-for="option in localeOptions" :key="option.code" :value="option.code">{{ option.label }}</option>
             </select>
           </label>
-          <button class="theme-toggle" type="button" @click="toggleTheme">
-            {{ t("app.themeSwitch", { theme: theme === "light" ? t("common.dark") : t("common.light") }) }}
+          <button
+            class="theme-switch"
+            :class="{ dark: theme === 'dark' }"
+            type="button"
+            :aria-label="t('app.themeSwitch', { theme: theme === 'light' ? t('common.dark') : t('common.light') })"
+            :title="t('app.themeSwitch', { theme: theme === 'light' ? t('common.dark') : t('common.light') })"
+            @click="toggleTheme"
+          >
+            <span class="theme-track-icon sun" aria-hidden="true"><img :src="themeSunIconSrc" alt="" /></span>
+            <span class="theme-track-icon moon" aria-hidden="true"><img :src="themeMoonIconSrc" alt="" /></span>
+            <span class="theme-thumb" aria-hidden="true">
+              <img :src="theme === 'dark' ? themeMoonIconSrc : themeSunIconSrc" alt="" class="theme-thumb-icon" />
+            </span>
           </button>
         </div>
       </div>
@@ -553,6 +577,16 @@ watch(unreals, () => {
         </ul>
       </section>
     </template>
+
+    <footer class="site-footer panel" aria-label="Site pages">
+      <nav class="footer-nav">
+        <a :href="`${baseUrl}about.html`">About</a>
+        <a :href="`${baseUrl}data-disclaimer.html`">Data & Disclaimer</a>
+        <a :href="`${baseUrl}privacy.html`">Privacy</a>
+        <a :href="`${baseUrl}contact.html`">Contact</a>
+        <a :href="`${baseUrl}legal.html`">Legal</a>
+      </nav>
+    </footer>
   </main>
 </template>
 
