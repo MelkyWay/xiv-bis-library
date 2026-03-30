@@ -11,6 +11,8 @@
   --color-input-border: #c3ceda;
   --bg-input: #ffffff;
   --color-table-border: #e5ebf2;
+  --bg-row-odd: color-mix(in oklab, var(--bg-panel) 96%, #ffffff 4%);
+  --bg-row-even: color-mix(in oklab, var(--bg-panel) 92%, #f1f5f9 8%);
   --bg-th: #f6f9fd;
   --color-th: #334155;
   --bg-error: #fff1f2;
@@ -47,6 +49,8 @@
   --color-input-border: #475569;
   --bg-input: #0f172a;
   --color-table-border: #334155;
+  --bg-row-odd: color-mix(in oklab, var(--bg-panel) 95%, #0f172a 5%);
+  --bg-row-even: color-mix(in oklab, var(--bg-panel) 90%, #1e293b 10%);
   --bg-th: #1e293b;
   --color-th: #cbd5e1;
   --bg-error: #3f1d2e;
@@ -340,6 +344,14 @@ header h1 {
 table {
   width: 100%;
   border-collapse: collapse;
+}
+
+.table-wrap tbody tr:nth-child(odd) {
+  background: var(--bg-row-odd);
+}
+
+.table-wrap tbody tr:nth-child(even) {
+  background: var(--bg-row-even);
 }
 
 th,

@@ -61,6 +61,25 @@ function jobOptionStyle(job: string): Record<string, string> {
   return { color: "var(--color-text)" };
 }
 
+function borderColorForRole(role: Role | "All" | undefined): string {
+  if (role === "Tank") return "var(--role-tank)";
+  if (role === "Healer") return "var(--role-healer)";
+  if (role === "Melee") return "var(--role-melee)";
+  if (role === "Magical Ranged") return "var(--role-magical)";
+  if (role === "Physical Ranged") return "var(--role-physical)";
+  return "var(--color-input-border)";
+}
+
+function withSelectedBorder(base: Record<string, string>, isSelected: boolean): Record<string, string> {
+  if (!isSelected) {
+    return base;
+  }
+  return {
+    ...base,
+    borderWidth: "3px"
+  };
+}
+
 function roleOptionStyle(role: "All" | Role): Record<string, string> {
   if (role === "Tank") return { color: "var(--role-tank)" };
   if (role === "Healer") return { color: "var(--role-healer)" };
@@ -101,14 +120,29 @@ function groupLabelStyle(_role: Role): Record<string, string> {
 
 function selectedJobStyle(): Record<string, string> {
   if (props.filters.job === "All") {
-    return { color: "var(--color-text)" };
+    return { color: "var(--color-text)", borderColor: "var(--color-input-border)" };
   }
 
-  return jobOptionStyle(props.filters.job);
+  const role = props.roleByJob[props.filters.job];
+  return withSelectedBorder({
+    ...jobOptionStyle(props.filters.job),
+    borderColor: borderColorForRole(role)
+  }, true);
 }
 
 function selectedRoleStyle(): Record<string, string> {
-  return roleOptionStyle(props.filters.role);
+  return withSelectedBorder({
+    ...roleOptionStyle(props.filters.role),
+    borderColor: borderColorForRole(props.filters.role)
+  }, props.filters.role !== "All");
+}
+
+function selectedCategoryStyle(): Record<string, string> {
+  return withSelectedBorder({}, props.filters.category !== "All");
+}
+
+function selectedSecondaryStyle(): Record<string, string> {
+  return withSelectedBorder({}, secondaryValue.value !== "All");
 }
 
 const secondaryRoot = ref<HTMLElement | null>(null);
@@ -258,6 +292,7 @@ onBeforeUnmount(() => {
         {{ t("filters.category") }}
         <select
           :value="filters.category"
+          :style="selectedCategoryStyle()"
           @change="patch({ category: ($event.target as HTMLSelectElement).value as BisFiltersState['category'] })"
         >
           <option v-for="category in categories" :key="category" :value="category">{{ categoryLabel(category) }}</option>
@@ -276,6 +311,7 @@ onBeforeUnmount(() => {
             :aria-expanded="secondaryOpen"
             aria-haspopup="listbox"
             :aria-controls="secondaryMenuId"
+            :style="selectedSecondaryStyle()"
             @click.stop="toggleSecondary"
           >
             <span>{{ secondaryDisplayValue }}</span>
