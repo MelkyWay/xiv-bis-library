@@ -11,6 +11,18 @@ import { filterEntries } from "./utils/filters";
 import { validateBisData } from "./utils/validators";
 
 type Theme = "light" | "dark";
+type InfoPageKey = "about" | "dataDisclaimer" | "privacy" | "contact" | "legal";
+type InfoSection = {
+  title: string;
+  paragraphs?: string[];
+  bullets?: string[];
+};
+type InfoPageContent = {
+  title: string;
+  intro: string;
+  sections: InfoSection[];
+};
+
 const { t, locale } = useI18n();
 
 const data = ref<BisDataFile>({ lastUpdated: "", entries: [] });
@@ -22,6 +34,7 @@ const favoriteEntryKeys = ref<Set<string>>(new Set());
 const favoritesOnly = ref(false);
 
 const FAVORITES_STORAGE_KEY = "favorite-entry-keys";
+const THEME_TRANSITION_CLASS = "theme-transition";
 
 const filters = ref<BisFiltersState>({
   role: "All",
@@ -150,8 +163,8 @@ const hasHydratedFiltersFromUrl = ref(false);
 const brandLogoSrc = `${import.meta.env.BASE_URL}brand-logo.png`;
 const themeSunIconSrc = `${import.meta.env.BASE_URL}icon-sun.svg`;
 const themeMoonIconSrc = `${import.meta.env.BASE_URL}icon-moon.svg`;
-const baseUrl = import.meta.env.BASE_URL;
 const deployedAtRaw = String(import.meta.env.VITE_DEPLOYED_AT ?? "").trim();
+const activeInfoPage = ref<InfoPageKey | null>(null);
 const LOCALE_LABEL: Record<SupportedLocale, string> = {
   en: "English",
   fr: "Français",
@@ -165,6 +178,110 @@ const localeOptions = computed(() =>
   SUPPORTED_LOCALES.map((code) => ({ code, label: LOCALE_LABEL[code] }))
 );
 const headerUpdatedValue = computed(() => deployedAtRaw || data.value.lastUpdated || t("app.notAvailable"));
+const INFO_PAGES: Record<InfoPageKey, InfoPageContent> = {
+  about: {
+    title: "About XIV BiS Library",
+    intro:
+      "XIV BiS Library centralizes community Best-in-Slot links for Final Fantasy XIV, grouped by job, role, and content category.",
+    sections: [
+      {
+        title: "What This Site Is For",
+        bullets: [
+          "Quickly find trusted BiS resources without opening multiple websites.",
+          "Filter by role, job, category, and encounter context.",
+          "Share filtered views and save personal favorites in your browser."
+        ]
+      },
+      {
+        title: "Maintenance",
+        paragraphs: [
+          "Entries are curated from community resources and updated when maintainers review and import changes.",
+          "The displayed update date reflects the latest deployed data snapshot."
+        ]
+      }
+    ]
+  },
+  dataDisclaimer: {
+    title: "Data Sources & Disclaimer",
+    intro: "This project references external community resources and does not guarantee perfect accuracy at all times.",
+    sections: [
+      {
+        title: "Sources",
+        bullets: [
+          "Links and references are sourced from community-maintained guides and gear planners.",
+          "Each row includes a source field to show the original provider when available."
+        ]
+      },
+      {
+        title: "Important Disclaimer",
+        bullets: [
+          "Entries may become outdated after game patches, job changes, or guide revisions.",
+          "Always verify details against the original source before finalizing your setup.",
+          "This site is an independent community project and is not affiliated with or endorsed by Square Enix."
+        ]
+      }
+    ]
+  },
+  privacy: {
+    title: "Privacy",
+    intro: "This site is designed to be lightweight and privacy-conscious.",
+    sections: [
+      {
+        title: "Data Stored Locally",
+        bullets: [
+          "Theme preference is stored in localStorage.",
+          "Language preference is stored in localStorage and URL parameters.",
+          "Favorite entries are stored in localStorage on your device."
+        ]
+      },
+      {
+        title: "What We Do Not Collect",
+        bullets: [
+          "No account registration is required.",
+          "No personal profile data is collected by the app itself.",
+          "No server-side user database is used for this site."
+        ]
+      }
+    ]
+  },
+  contact: {
+    title: "Contact & Feedback",
+    intro: "Feedback helps keep the library useful and current.",
+    sections: [
+      {
+        title: "Report Issues",
+        paragraphs: ["Open an issue in the GitHub repository for bugs, broken links, or outdated entries."]
+      },
+      {
+        title: "GitHub",
+        paragraphs: ["https://github.com/MelkyWay/xiv-bis-library"]
+      }
+    ]
+  },
+  legal: {
+    title: "Legal Notice",
+    intro: "Basic usage and attribution terms for this project.",
+    sections: [
+      {
+        title: "Usage",
+        bullets: [
+          "This site is provided as-is, without warranty of completeness or fitness for a particular purpose.",
+          "Users are responsible for validating the external resources they choose to use."
+        ]
+      },
+      {
+        title: "Trademarks and Copyright",
+        bullets: [
+          "Final Fantasy XIV and related names are property of Square Enix.",
+          "External guides, logos, and linked resources remain property of their respective owners."
+        ]
+      }
+    ]
+  }
+};
+const activeInfoContent = computed<InfoPageContent | null>(() =>
+  activeInfoPage.value ? INFO_PAGES[activeInfoPage.value] : null
+);
 
 const KNOWN_ROLES = new Set<Role>(["Tank", "Healer", "Melee", "Physical Ranged", "Magical Ranged", "Limited"]);
 const KNOWN_CATEGORIES = new Set<Category>(CATEGORY_ORDER);
@@ -425,7 +542,17 @@ async function loadData(): Promise<void> {
   }
 }
 
-function applyTheme(nextTheme: Theme): void {
+function applyTheme(nextTheme: Theme, animate = true): void {
+  const shouldAnimate =
+    animate && !(globalThis.window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false);
+
+  if (shouldAnimate) {
+    document.documentElement.classList.add(THEME_TRANSITION_CLASS);
+    globalThis.window.setTimeout(() => {
+      document.documentElement.classList.remove(THEME_TRANSITION_CLASS);
+    }, 300);
+  }
+
   theme.value = nextTheme;
   document.documentElement.dataset.theme = nextTheme;
   localStorage.setItem("theme", nextTheme);
@@ -441,6 +568,14 @@ function onLocaleChange(value: string): void {
   }
   setLocale(value as SupportedLocale);
   syncLocaleToUrl(value as SupportedLocale);
+}
+
+function openInfoPage(page: InfoPageKey): void {
+  activeInfoPage.value = page;
+}
+
+function closeInfoPage(): void {
+  activeInfoPage.value = null;
 }
 
 function handlePopState(): void {
@@ -467,10 +602,10 @@ onMounted(async () => {
 
   const savedTheme = localStorage.getItem("theme");
   if (savedTheme === "light" || savedTheme === "dark") {
-    applyTheme(savedTheme);
+    applyTheme(savedTheme, false);
   } else {
     const prefersDark = globalThis.window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
-    applyTheme(prefersDark ? "dark" : "light");
+    applyTheme(prefersDark ? "dark" : "light", false);
   }
 
   await loadData();
@@ -578,13 +713,29 @@ watch(unreals, () => {
       </section>
     </template>
 
-    <footer class="site-footer panel" aria-label="Site pages">
+    <section v-if="activeInfoContent" class="panel info-panel" aria-label="Site information">
+      <div class="info-panel-header">
+        <h2>{{ activeInfoContent.title }}</h2>
+        <button type="button" class="info-panel-close" @click="closeInfoPage">Close</button>
+      </div>
+      <p>{{ activeInfoContent.intro }}</p>
+      <section v-for="section in activeInfoContent.sections" :key="section.title" class="info-panel-section">
+        <h3>{{ section.title }}</h3>
+        <p v-for="paragraph in section.paragraphs ?? []" :key="paragraph">{{ paragraph }}</p>
+        <ul v-if="section.bullets?.length">
+          <li v-for="bullet in section.bullets" :key="bullet">{{ bullet }}</li>
+        </ul>
+      </section>
+    </section>
+
+    <footer class="site-footer" aria-label="Site pages">
       <nav class="footer-nav">
-        <a :href="`${baseUrl}about.html`">About</a>
-        <a :href="`${baseUrl}data-disclaimer.html`">Data & Disclaimer</a>
-        <a :href="`${baseUrl}privacy.html`">Privacy</a>
-        <a :href="`${baseUrl}contact.html`">Contact</a>
-        <a :href="`${baseUrl}legal.html`">Legal</a>
+        <a href="#" @click.prevent="closeInfoPage">Home</a>
+        <a href="#" @click.prevent="openInfoPage('about')">About</a>
+        <a href="#" @click.prevent="openInfoPage('dataDisclaimer')">Data & Disclaimer</a>
+        <a href="#" @click.prevent="openInfoPage('privacy')">Privacy</a>
+        <a href="#" @click.prevent="openInfoPage('contact')">Contact</a>
+        <a href="#" @click.prevent="openInfoPage('legal')">Legal</a>
       </nav>
     </footer>
   </main>
