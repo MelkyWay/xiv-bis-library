@@ -170,4 +170,47 @@ describe("validateBisData", () => {
     expect(result.errors).toContain("Invalid criterionNames (expected array of non-empty strings).");
     expect(result.errors).toContain("Invalid unrealNames (expected array of non-empty strings).");
   });
+
+  it("rejects ultimate entries with encounter names not in configured ultimate order", () => {
+    const input = makeFile([
+      makeEntry({
+        category: "Ultimate",
+        ultimate: "Unknown Ultimate"
+      })
+    ]);
+
+    const result = validateBisData(input);
+    expect(result.data?.entries).toHaveLength(0);
+    expect(result.errors.some((message) => message.includes('unknown ultimate "Unknown Ultimate"'))).toBe(true);
+  });
+
+  it("rejects entries when declared names lists do not include referenced encounter values", () => {
+    const input = {
+      ...makeFile([
+        makeEntry({
+          category: "Ultimate",
+          ultimate: "Futures Rewritten"
+        }),
+        makeEntry({
+          category: "Criterion",
+          criterionName: "Another Aloalo Island"
+        }),
+        makeEntry({
+          category: "Unreal",
+          unrealName: "Containment Bay S1T7 (Unreal)"
+        })
+      ]),
+      ultimateNames: ["The Omega Protocol"],
+      criterionNames: ["Another Mount Rokkon"],
+      unrealNames: ["Some Other Unreal"]
+    };
+
+    const result = validateBisData(input);
+    expect(result.data?.entries).toHaveLength(0);
+    expect(result.errors.some((message) => message.includes('ultimate "Futures Rewritten" is not declared'))).toBe(true);
+    expect(result.errors.some((message) => message.includes('criterion "Another Aloalo Island" is not declared'))).toBe(true);
+    expect(result.errors.some((message) => message.includes('unreal "Containment Bay S1T7 (Unreal)" is not declared'))).toBe(
+      true
+    );
+  });
 });

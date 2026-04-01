@@ -1,3 +1,4 @@
+import { CRITERION_ORDER, ULTIMATE_ORDER } from "../config/encounters";
 import { CATEGORY_ORDER } from "../config/orders";
 import { ROLE_ORDER } from "../config/roles";
 import type { BisDataFile, BisEntry, Category, Role } from "../types/bis";
@@ -150,10 +151,10 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
     return { errors };
   }
 
-  const validEntries: BisEntry[] = [];
+  const structurallyValidEntries: Array<{ entry: BisEntry; index: number }> = [];
   input.entries.forEach((entry, index) => {
     if (isBisEntry(entry)) {
-      validEntries.push(entry);
+      structurallyValidEntries.push({ entry, index });
       return;
     }
 
@@ -164,18 +165,75 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
     return { errors };
   }
 
+  const sanitizedUltimateNames = Array.isArray(input.ultimateNames)
+    ? input.ultimateNames.filter((name): name is string => hasText(name))
+    : undefined;
+  const sanitizedCriterionNames = Array.isArray(input.criterionNames)
+    ? input.criterionNames.filter((name): name is string => hasText(name))
+    : undefined;
+  const sanitizedUnrealNames = Array.isArray(input.unrealNames)
+    ? input.unrealNames.filter((name): name is string => hasText(name))
+    : undefined;
+
+  const dataDerivedUltimateNames = structurallyValidEntries
+    .filter(({ entry }) => entry.category === "Ultimate" && hasText(entry.ultimate))
+    .map(({ entry }) => entry.ultimate as string);
+  const dataDerivedCriterionNames = structurallyValidEntries
+    .filter(({ entry }) => entry.category === "Criterion" && hasText(entry.criterionName))
+    .map(({ entry }) => entry.criterionName as string);
+  const dataDerivedUnrealNames = structurallyValidEntries
+    .filter(({ entry }) => entry.category === "Unreal" && hasText(entry.unrealName))
+    .map(({ entry }) => entry.unrealName as string);
+
+  const allowedUltimateNames = new Set(sanitizedUltimateNames ?? dataDerivedUltimateNames);
+  const allowedCriterionNames = new Set(sanitizedCriterionNames ?? dataDerivedCriterionNames);
+  const allowedUnrealNames = new Set(sanitizedUnrealNames ?? dataDerivedUnrealNames);
+  const configuredUltimateNames = new Set<string>(ULTIMATE_ORDER);
+  const configuredCriterionNames = new Set<string>(CRITERION_ORDER);
+
+  const validEntries: BisEntry[] = [];
+  for (const { entry, index } of structurallyValidEntries) {
+    if (entry.category === "Ultimate") {
+      const encounter = entry.ultimate as string;
+      if (!configuredUltimateNames.has(encounter)) {
+        errors.push(`Invalid entry at index ${index}; unknown ultimate "${encounter}". It has been ignored.`);
+        continue;
+      }
+      if (!allowedUltimateNames.has(encounter)) {
+        errors.push(`Invalid entry at index ${index}; ultimate "${encounter}" is not declared in ultimateNames.`);
+        continue;
+      }
+    }
+
+    if (entry.category === "Criterion") {
+      const encounter = entry.criterionName as string;
+      if (!configuredCriterionNames.has(encounter)) {
+        errors.push(`Invalid entry at index ${index}; unknown criterion "${encounter}". It has been ignored.`);
+        continue;
+      }
+      if (!allowedCriterionNames.has(encounter)) {
+        errors.push(`Invalid entry at index ${index}; criterion "${encounter}" is not declared in criterionNames.`);
+        continue;
+      }
+    }
+
+    if (entry.category === "Unreal") {
+      const encounter = entry.unrealName as string;
+      if (!allowedUnrealNames.has(encounter)) {
+        errors.push(`Invalid entry at index ${index}; unreal "${encounter}" is not declared in unrealNames.`);
+        continue;
+      }
+    }
+
+    validEntries.push(entry);
+  }
+
   return {
     data: {
       lastUpdated: input.lastUpdated,
-      ultimateNames: Array.isArray(input.ultimateNames)
-        ? input.ultimateNames.filter((name): name is string => hasText(name))
-        : undefined,
-      criterionNames: Array.isArray(input.criterionNames)
-        ? input.criterionNames.filter((name): name is string => hasText(name))
-        : undefined,
-      unrealNames: Array.isArray(input.unrealNames)
-        ? input.unrealNames.filter((name): name is string => hasText(name))
-        : undefined,
+      ultimateNames: sanitizedUltimateNames,
+      criterionNames: sanitizedCriterionNames,
+      unrealNames: sanitizedUnrealNames,
       entries: validEntries
     },
     errors
