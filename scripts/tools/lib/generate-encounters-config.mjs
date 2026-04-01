@@ -3,12 +3,12 @@ import path from "node:path";
 
 function validateEncounterNameList(value, label) {
   if (!Array.isArray(value)) {
-    throw new Error(`${label} must be an array.`);
+    throw new TypeError(`${label} must be an array.`);
   }
   const out = [];
   for (const [index, item] of value.entries()) {
     if (typeof item !== "string" || !item.trim()) {
-      throw new Error(`${label}[${index}] must be a non-empty string.`);
+      throw new TypeError(`${label}[${index}] must be a non-empty string.`);
     }
     out.push(item);
   }
@@ -30,7 +30,7 @@ function normalizeEncounterItemsByTree(tree) {
   for (const encounter of encounters) {
     const key = encounter.name.toLowerCase();
     if (seenNames.has(key)) {
-      throw new Error(`Duplicate encounter name "${encounter.name}" in encounters.json.`);
+      throw new TypeError(`Duplicate encounter name "${encounter.name}" in encounters.json.`);
     }
     seenNames.add(key);
   }
@@ -45,11 +45,11 @@ function normalizeEncounterItemsByTree(tree) {
 
 export function validateEncountersConfig(config) {
   if (!config || typeof config !== "object" || Array.isArray(config)) {
-    throw new Error("encounters.json must be an object.");
+    throw new TypeError("encounters.json must be an object.");
   }
 
   if (!config.encounters || typeof config.encounters !== "object" || Array.isArray(config.encounters)) {
-    throw new Error("encounters.json must contain an encounters object.");
+    throw new TypeError("encounters.json must contain an encounters object.");
   }
 
   return normalizeEncounterItemsByTree(config.encounters);

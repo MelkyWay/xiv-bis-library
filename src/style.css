@@ -987,6 +987,7 @@ td.col-copy {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+  margin-bottom: 0;
 }
 
 .info-panel h2,
@@ -1005,10 +1006,6 @@ td.col-copy {
 
 .info-panel-section + .info-panel-section {
   margin-top: 0.75rem;
-}
-
-.info-panel-header {
-  margin-bottom: 0;
 }
 
 .info-panel > p {

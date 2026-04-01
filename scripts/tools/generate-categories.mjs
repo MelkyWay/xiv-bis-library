@@ -7,7 +7,7 @@ const ROOT = process.cwd();
 const INPUT_PATH = path.resolve(ROOT, "src/config/categories.json");
 const OUTPUT_PATH = path.resolve(ROOT, "src/config/categories.generated.ts");
 
-async function main() {
+try {
   await generateOrderConfigFile({
     rootDir: ROOT,
     inputPath: INPUT_PATH,
@@ -17,9 +17,7 @@ async function main() {
     typeName: "Category"
   });
   console.log(`Generated ${path.relative(ROOT, OUTPUT_PATH)}`);
-}
-
-main().catch((error) => {
+} catch (error) {
   console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
-});
+}

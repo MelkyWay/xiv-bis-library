@@ -1,6 +1,5 @@
-import { ENCOUNTERS, ULTIMATE_ORDER, CRITERION_ORDER, UNREAL_ORDER } from "./encounters.generated";
-
-export { ULTIMATE_ORDER, CRITERION_ORDER, UNREAL_ORDER };
+import { ENCOUNTERS } from "./encounters.generated";
+export { ULTIMATE_ORDER, CRITERION_ORDER, UNREAL_ORDER } from "./encounters.generated";
 export type EncounterName = (typeof ENCOUNTERS)[number]["name"];
 export type EncounterCategory = (typeof ENCOUNTERS)[number]["category"];
 
