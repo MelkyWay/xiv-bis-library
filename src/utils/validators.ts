@@ -1,3 +1,4 @@
+import { CATEGORY_ORDER } from "../config/orders";
 import type { BisDataFile, BisEntry, Category, Role } from "../types/bis";
 
 const VALID_ROLES = new Set<Role>([
@@ -9,15 +10,7 @@ const VALID_ROLES = new Set<Role>([
   "Limited"
 ]);
 
-const VALID_CATEGORIES = new Set<Category>([
-  "Savage",
-  "Ultimate",
-  "Criterion",
-  "Unreal",
-  "Occult Crescent",
-  "Prog",
-  "Other"
-]);
+const VALID_CATEGORIES: ReadonlySet<Category> = new Set<Category>(CATEGORY_ORDER);
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const VERSION_RE = /^\d+\.\d+$/;

@@ -1,3 +1,5 @@
+import type { Category as GeneratedCategory } from "../config/categories.generated";
+
 export type Role =
   | "Tank"
   | "Healer"
@@ -6,7 +8,7 @@ export type Role =
   | "Magical Ranged"
   | "Limited";
 
-export type Category = "Savage" | "Ultimate" | "Criterion" | "Unreal" | "Occult Crescent" | "Prog" | "Other";
+export type Category = GeneratedCategory;
 export type DamageType = "sim" | "potency" | "none";
 
 export interface DamageValue {

@@ -1,9 +1,19 @@
 import { createI18n } from "vue-i18n";
+import { CATEGORY_ORDER } from "./config/orders";
+import type { Category } from "./types/bis";
 
 export const SUPPORTED_LOCALES = ["en", "fr", "de", "ja", "ko", "zh"] as const;
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 export const DEFAULT_LOCALE: SupportedLocale = "en";
 export const LOCALE_STORAGE_KEY = "locale";
+
+function buildCategoryLabels(overrides: Partial<Record<Category, string>> = {}): Record<Category, string> {
+  const defaults = Object.fromEntries(CATEGORY_ORDER.map((category) => [category, category])) as Record<Category, string>;
+  return {
+    ...defaults,
+    ...overrides
+  };
+}
 
 const messages = {
   en: {
@@ -50,15 +60,7 @@ const messages = {
         "Magical Ranged": "Magical Ranged",
         Limited: "Limited"
       },
-      categories: {
-        Savage: "Savage",
-        Ultimate: "Ultimate",
-        Prog: "Prog",
-        Criterion: "Criterion",
-        Unreal: "Unreal",
-        "Occult Crescent": "Occult Crescent",
-        Other: "Other"
-      }
+      categories: buildCategoryLabels()
     },
     table: {
       job: "Job",
@@ -144,15 +146,16 @@ const messages = {
         "Magical Ranged": "Distance magique",
         Limited: "Limité"
       },
-      categories: {
+      categories: buildCategoryLabels({
         Savage: "Sadique",
         Ultimate: "Fatal",
         Prog: "Progression",
         Criterion: "Critérium",
         Unreal: "Irréel",
         "Occult Crescent": "Île de Lunule",
+        Eureka: "Eureka",
         Other: "Autre"
-      }
+      })
     },
     table: {
       job: "Job",
@@ -236,15 +239,16 @@ const messages = {
         "Magical Ranged": "Magisch Fernkampf",
         Limited: "Limitiert"
       },
-      categories: {
+      categories: buildCategoryLabels({
         Savage: "Episch",
         Ultimate: "Fatal",
         Prog: "Progression",
         Criterion: "Kriterium",
         Unreal: "Unwirklich",
         "Occult Crescent": "Kreszentia",
+        Eureka: "Eureka",
         Other: "Sonstiges"
-      }
+      })
     },
     table: {
       job: "Job",
@@ -328,15 +332,16 @@ const messages = {
         "Magical Ranged": "魔法遠隔",
         Limited: "リミテッド"
       },
-      categories: {
+      categories: buildCategoryLabels({
         Savage: "零式",
         Ultimate: "絶",
         Prog: "攻略",
         Criterion: "異聞",
         Unreal: "幻討滅戦",
         "Occult Crescent": "蜃気楼の島 クレセントアイル",
+        Eureka: "禁断の地 エウレカ",
         Other: "その他"
-      }
+      })
     },
     table: {
       job: "ジョブ",
@@ -420,15 +425,16 @@ const messages = {
         "Magical Ranged": "원거리 마법 공격",
         Limited: "리미티드 잡"
       },
-      categories: {
+      categories: buildCategoryLabels({
         Savage: "영식",
         Ultimate: "절",
         Prog: "공략",
         Criterion: "이문",
         Unreal: "환 토벌전",
         "Occult Crescent": "초승달 섬",
+        Eureka: "금단의 땅 에우레카",
         Other: "기타"
-      }
+      })
     },
     table: {
       job: "직업",
@@ -512,15 +518,16 @@ const messages = {
         "Magical Ranged": "魔法远程",
         Limited: "限定"
       },
-      categories: {
+      categories: buildCategoryLabels({
         Savage: "零式",
         Ultimate: "绝境战",
         Prog: "开荒",
         Criterion: "异闻零式",
         Unreal: "幻巧战",
         "Occult Crescent": "神秘新月",
+        Eureka: "优雷卡",
         Other: "其他"
-      }
+      })
     },
     table: {
       job: "职业",

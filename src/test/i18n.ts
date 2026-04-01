@@ -1,4 +1,14 @@
 import { createI18n } from "vue-i18n";
+import { CATEGORY_ORDER } from "../config/orders";
+import type { Category } from "../types/bis";
+
+function buildCategoryLabels(overrides: Partial<Record<Category, string>> = {}): Record<Category, string> {
+  const defaults = Object.fromEntries(CATEGORY_ORDER.map((category) => [category, category])) as Record<Category, string>;
+  return {
+    ...defaults,
+    ...overrides
+  };
+}
 
 export function createTestI18n() {
   return createI18n({
@@ -52,15 +62,7 @@ export function createTestI18n() {
             "Magical Ranged": "Magical Ranged",
             Limited: "Limited"
           },
-          categories: {
-            Savage: "Savage",
-            Ultimate: "Ultimate",
-            Prog: "Prog",
-            Criterion: "Criterion",
-            Unreal: "Unreal",
-            "Occult Crescent": "Occult Crescent",
-            Other: "Other"
-          }
+          categories: buildCategoryLabels()
         },
         table: {
           job: "Job",

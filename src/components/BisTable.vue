@@ -39,6 +39,7 @@ const infoHeaderLabel = computed(() => {
   if (
     props.activeCategory === "Savage" ||
     props.activeCategory === "Occult Crescent" ||
+    props.activeCategory === "Eureka" ||
     props.activeCategory === "Prog"
   ) {
     return t("table.tier");

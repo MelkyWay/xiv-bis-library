@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
 import fs from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 
 const DATA_FILE_PATH = path.resolve("public/data/bis-links.json");
+const CATEGORIES_CONFIG_PATH = path.resolve("src/config/categories.json");
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 const JOB_TO_ROLE = {
@@ -32,7 +34,9 @@ const JOB_TO_ROLE = {
   BST: "Limited"
 };
 
-const VALID_CATEGORIES = new Set(["Savage", "Ultimate", "Criterion", "Unreal", "Occult Crescent", "Prog", "Other"]);
+const categoryConfigRaw = JSON.parse(readFileSync(CATEGORIES_CONFIG_PATH, "utf8"));
+const categoryOrder = Array.isArray(categoryConfigRaw?.order) ? categoryConfigRaw.order : [];
+const VALID_CATEGORIES = new Set(categoryOrder);
 const REQUIRED_INFO_BY_CATEGORY = {
   Ultimate: "ultimate",
   Criterion: "criterionName",

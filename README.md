@@ -102,7 +102,11 @@ Roles:
 - `Tank`, `Healer`, `Melee`, `Physical Ranged`, `Magical Ranged`, `Limited`
 
 Categories:
-- `Savage`, `Prog`, `Ultimate`, `Criterion`, `Unreal`, `Occult Crescent`, `Other`
+- `Savage`, `Prog`, `Ultimate`, `Criterion`, `Unreal`, `Occult Crescent`, `Eureka`, `Other`
+
+Category source of truth:
+- Edit `src/config/categories.json`.
+- `src/config/categories.generated.ts` is auto-generated from JSON by `npm run generate:categories`.
 
 ### Importing gear data
 Config mode:
