@@ -5,6 +5,7 @@ import { CATEGORY_OPTIONS } from "../config/orders";
 import { ROLE_OPTIONS } from "../config/roles";
 import type { BisFiltersState, Role } from "../types/bis";
 import { localizeJobName } from "../utils/jobLocalization";
+import { roleColorBorder, roleColorTextStyle } from "../utils/roleColors";
 import { localizeUltimateName } from "../utils/ultimateLocalization";
 const { t, locale } = useI18n();
 
@@ -44,23 +45,11 @@ function resetFilters(): void {
 }
 
 function jobOptionStyle(job: string): Record<string, string> {
-  const role = props.roleByJob[job];
-
-  if (role === "Tank") return { color: "var(--role-tank)" };
-  if (role === "Healer") return { color: "var(--role-healer)" };
-  if (role === "Melee") return { color: "var(--role-melee)" };
-  if (role === "Magical Ranged") return { color: "var(--role-magical)" };
-  if (role === "Physical Ranged") return { color: "var(--role-physical)" };
-  return { color: "var(--color-text)" };
+  return roleColorTextStyle(props.roleByJob[job]);
 }
 
 function borderColorForRole(role: Role | "All" | undefined): string {
-  if (role === "Tank") return "var(--role-tank)";
-  if (role === "Healer") return "var(--role-healer)";
-  if (role === "Melee") return "var(--role-melee)";
-  if (role === "Magical Ranged") return "var(--role-magical)";
-  if (role === "Physical Ranged") return "var(--role-physical)";
-  return "var(--color-input-border)";
+  return roleColorBorder(role);
 }
 
 function withSelectedBorder(base: Record<string, string>, isSelected: boolean): Record<string, string> {
@@ -74,12 +63,7 @@ function withSelectedBorder(base: Record<string, string>, isSelected: boolean): 
 }
 
 function roleOptionStyle(role: "All" | Role): Record<string, string> {
-  if (role === "Tank") return { color: "var(--role-tank)" };
-  if (role === "Healer") return { color: "var(--role-healer)" };
-  if (role === "Melee") return { color: "var(--role-melee)" };
-  if (role === "Magical Ranged") return { color: "var(--role-magical)" };
-  if (role === "Physical Ranged") return { color: "var(--role-physical)" };
-  return { color: "var(--color-text)" };
+  return roleColorTextStyle(role);
 }
 
 function roleLabel(role: "All" | Role): string {

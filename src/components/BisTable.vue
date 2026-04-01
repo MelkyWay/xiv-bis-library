@@ -4,6 +4,7 @@ import { useI18n } from "vue-i18n";
 import type { BisEntry, BisFiltersState, Role } from "../types/bis";
 import { getEntryKey } from "../utils/entryKey";
 import { localizeJobName } from "../utils/jobLocalization";
+import { roleColorTextStyle } from "../utils/roleColors";
 import { localizeUltimateName } from "../utils/ultimateLocalization";
 const { t, locale } = useI18n();
 
@@ -52,12 +53,7 @@ const showCategoryColumn = computed(() => props.activeCategory === "All");
 const emptyStateColspan = computed(() => (showCategoryColumn.value ? 9 : 8));
 
 function roleStyle(role: Role): Record<string, string> {
-  if (role === "Tank") return { color: "var(--role-tank)" };
-  if (role === "Healer") return { color: "var(--role-healer)" };
-  if (role === "Melee") return { color: "var(--role-melee)" };
-  if (role === "Magical Ranged") return { color: "var(--role-magical)" };
-  if (role === "Physical Ranged") return { color: "var(--role-physical)" };
-  return { color: "var(--color-text)" };
+  return roleColorTextStyle(role);
 }
 
 function infoValue(row: BisEntry): string {
