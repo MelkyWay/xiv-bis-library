@@ -3,7 +3,9 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import BisFilters from "./components/BisFilters.vue";
 import BisTable from "./components/BisTable.vue";
-import { CATEGORY_ORDER, CRITERION_ORDER, ULTIMATE_ORDER } from "./config/orders";
+import { ULTIMATE_ORDER, CRITERION_ORDER } from "./config/encounters";
+import { JOB_ORDER, JOB_TO_ROLE } from "./config/jobs";
+import { CATEGORY_ORDER } from "./config/orders";
 import { ROLE_ORDER } from "./config/roles";
 import { DEFAULT_LOCALE, LOCALE_STORAGE_KEY, SUPPORTED_LOCALES, type SupportedLocale } from "./i18n";
 import type { BisDataFile, BisFiltersState, Category, Role } from "./types/bis";
@@ -58,26 +60,27 @@ const groupedJobs = computed<Array<{ role: Role; label: string; jobs: string[] }
   };
 
   const roleOrder: Role[] = ROLE_ORDER;
-  const jobsByRole = new Map<Role, Set<string>>();
+  const jobsByRole = new Map<Role, string[]>();
+  const availableJobs = new Set(data.value.entries.map((entry) => entry.job));
 
   for (const role of roleOrder) {
-    jobsByRole.set(role, new Set<string>());
-  }
-
-  for (const entry of data.value.entries) {
-    jobsByRole.get(entry.role)?.add(entry.job);
+    const jobsForRole = JOB_ORDER.filter((job) => JOB_TO_ROLE[job] === role && availableJobs.has(job));
+    jobsByRole.set(role, jobsForRole);
   }
 
   return roleOrder
     .map((role) => ({
       role,
       label: roleLabels[role],
-      jobs: [...(jobsByRole.get(role) ?? new Set<string>())].sort((a, b) => a.localeCompare(b))
+      jobs: jobsByRole.get(role) ?? []
     }))
     .filter((group) => group.jobs.length > 0);
 });
 
-const jobOrder = computed(() => groupedJobs.value.flatMap((group) => group.jobs));
+const jobOrder = computed(() => {
+  const availableJobs = new Set(data.value.entries.map((entry) => entry.job));
+  return JOB_ORDER.filter((job) => availableJobs.has(job));
+});
 
 function sortByConfiguredOrder(values: string[], order: readonly string[]): string[] {
   const orderIndex = new Map(order.map((name, index) => [name, index]));
@@ -136,7 +139,7 @@ const unreals = computed(() => {
 });
 
 const roleByJob = computed<Record<string, Role>>(() => {
-  const map: Record<string, Role> = {};
+  const map: Record<string, Role> = { ...JOB_TO_ROLE };
   for (const entry of data.value.entries) {
     if (!map[entry.job]) {
       map[entry.job] = entry.role;

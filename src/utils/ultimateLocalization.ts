@@ -1,17 +1,10 @@
+import { ULTIMATE_ORDER } from "../config/encounters";
+import type { UltimateEncounter } from "../config/encounters.generated";
 import type { SupportedLocale } from "../i18n";
 
-const ENCOUNTER_KEYS = [
-  "Futures Rewritten",
-  "Dragonsong's Reprise",
-  "The Omega Protocol",
-  "The Epic of Alexander",
-  "The Weapon's Refrain",
-  "The Unending Coil of Bahamut"
-] as const;
+const ENCOUNTER_KEYS = ULTIMATE_ORDER;
 
-type EncounterName = (typeof ENCOUNTER_KEYS)[number];
-
-const ULTIMATE_TRANSLATIONS: Record<SupportedLocale, Record<EncounterName, string>> = {
+const ULTIMATE_TRANSLATIONS: Record<SupportedLocale, Record<UltimateEncounter, string>> = {
   en: {
     "Futures Rewritten": "Futures Rewritten",
     "Dragonsong's Reprise": "Dragonsong's Reprise",
@@ -73,10 +66,10 @@ function toSupportedLocale(locale: string): SupportedLocale {
 }
 
 export function localizeUltimateName(name: string, locale: string): string {
-  if (!ENCOUNTER_KEYS.includes(name as EncounterName)) {
+  if (!ENCOUNTER_KEYS.includes(name as UltimateEncounter)) {
     return name;
   }
 
   const resolvedLocale = toSupportedLocale(locale);
-  return ULTIMATE_TRANSLATIONS[resolvedLocale][name as EncounterName] ?? name;
+  return ULTIMATE_TRANSLATIONS[resolvedLocale][name as UltimateEncounter] ?? name;
 }

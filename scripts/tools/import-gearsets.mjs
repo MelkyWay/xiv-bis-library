@@ -6,37 +6,19 @@ import path from "node:path";
 
 const DATA_FILE_PATH = path.resolve("public/data/bis-links.json");
 const CATEGORIES_CONFIG_PATH = path.resolve("src/config/categories.json");
+const JOBS_CONFIG_PATH = path.resolve("src/config/jobs.json");
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-
-const JOB_TO_ROLE = {
-  PLD: "Tank",
-  WAR: "Tank",
-  DRK: "Tank",
-  GNB: "Tank",
-  WHM: "Healer",
-  SCH: "Healer",
-  AST: "Healer",
-  SGE: "Healer",
-  MNK: "Melee",
-  DRG: "Melee",
-  NIN: "Melee",
-  SAM: "Melee",
-  RPR: "Melee",
-  VPR: "Melee",
-  BRD: "Physical Ranged",
-  MCH: "Physical Ranged",
-  DNC: "Physical Ranged",
-  BLM: "Magical Ranged",
-  SMN: "Magical Ranged",
-  RDM: "Magical Ranged",
-  PCT: "Magical Ranged",
-  BLU: "Limited",
-  BST: "Limited"
-};
 
 const categoryConfigRaw = JSON.parse(readFileSync(CATEGORIES_CONFIG_PATH, "utf8"));
 const categoryOrder = Array.isArray(categoryConfigRaw?.order) ? categoryConfigRaw.order : [];
 const VALID_CATEGORIES = new Set(categoryOrder);
+const jobsConfigRaw = JSON.parse(readFileSync(JOBS_CONFIG_PATH, "utf8"));
+const jobsConfigList = Array.isArray(jobsConfigRaw?.jobs) ? jobsConfigRaw.jobs : [];
+const JOB_TO_ROLE = Object.fromEntries(
+  jobsConfigList
+    .filter((job) => job && typeof job === "object" && typeof job.code === "string" && typeof job.role === "string")
+    .map((job) => [job.code.toUpperCase(), job.role])
+);
 const REQUIRED_INFO_BY_CATEGORY = {
   Ultimate: "ultimate",
   Criterion: "criterionName",

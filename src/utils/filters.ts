@@ -1,13 +1,7 @@
+import { ROLE_ORDER } from "../config/roles";
 import type { BisEntry, BisFiltersState } from "../types/bis";
 
-const ROLE_ORDER: Record<string, number> = {
-  Tank: 1,
-  Healer: 2,
-  Melee: 3,
-  "Physical Ranged": 4,
-  "Magical Ranged": 5,
-  Limited: 6
-};
+const ROLE_ORDER_INDEX: Map<string, number> = new Map(ROLE_ORDER.map((role, index) => [role, index + 1]));
 
 function parseSimDps(value: string | undefined): number | null {
   if (!value || value === "-") {
@@ -91,8 +85,10 @@ function compareByCriterionOrder(criterionOrderIndex: OrderIndex): EntryComparat
 }
 
 function compareByRoleOrder(a: BisEntry, b: BisEntry): number {
-  if (ROLE_ORDER[a.role] !== ROLE_ORDER[b.role]) {
-    return ROLE_ORDER[a.role] - ROLE_ORDER[b.role];
+  const aIndex = ROLE_ORDER_INDEX.get(a.role) ?? Number.MAX_SAFE_INTEGER;
+  const bIndex = ROLE_ORDER_INDEX.get(b.role) ?? Number.MAX_SAFE_INTEGER;
+  if (aIndex !== bIndex) {
+    return aIndex - bIndex;
   }
   return 0;
 }

@@ -1,0 +1,99 @@
+// AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+// Source: src/config/jobs.json
+
+export const JOBS = [
+  {
+    "code": "PLD",
+    "role": "Tank"
+  },
+  {
+    "code": "WAR",
+    "role": "Tank"
+  },
+  {
+    "code": "DRK",
+    "role": "Tank"
+  },
+  {
+    "code": "GNB",
+    "role": "Tank"
+  },
+  {
+    "code": "WHM",
+    "role": "Healer"
+  },
+  {
+    "code": "SCH",
+    "role": "Healer"
+  },
+  {
+    "code": "AST",
+    "role": "Healer"
+  },
+  {
+    "code": "SGE",
+    "role": "Healer"
+  },
+  {
+    "code": "MNK",
+    "role": "Melee"
+  },
+  {
+    "code": "DRG",
+    "role": "Melee"
+  },
+  {
+    "code": "NIN",
+    "role": "Melee"
+  },
+  {
+    "code": "SAM",
+    "role": "Melee"
+  },
+  {
+    "code": "RPR",
+    "role": "Melee"
+  },
+  {
+    "code": "VPR",
+    "role": "Melee"
+  },
+  {
+    "code": "BRD",
+    "role": "Physical Ranged"
+  },
+  {
+    "code": "MCH",
+    "role": "Physical Ranged"
+  },
+  {
+    "code": "DNC",
+    "role": "Physical Ranged"
+  },
+  {
+    "code": "BLM",
+    "role": "Magical Ranged"
+  },
+  {
+    "code": "SMN",
+    "role": "Magical Ranged"
+  },
+  {
+    "code": "RDM",
+    "role": "Magical Ranged"
+  },
+  {
+    "code": "PCT",
+    "role": "Magical Ranged"
+  },
+  {
+    "code": "BLU",
+    "role": "Limited"
+  },
+  {
+    "code": "BST",
+    "role": "Limited"
+  }
+] as const;
+
+export type JobCode = (typeof JOBS)[number]["code"];

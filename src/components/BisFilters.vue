@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { CATEGORY_OPTIONS } from "../config/orders";
+import { ROLE_OPTIONS } from "../config/roles";
 import type { BisFiltersState, Role } from "../types/bis";
 import { localizeJobName } from "../utils/jobLocalization";
 import { localizeUltimateName } from "../utils/ultimateLocalization";
@@ -22,15 +23,7 @@ const emit = defineEmits<{
   (event: "toggle:favorites-only"): void;
 }>();
 
-const roles: Array<"All" | Role> = [
-  "All",
-  "Tank",
-  "Healer",
-  "Melee",
-  "Physical Ranged",
-  "Magical Ranged",
-  "Limited"
-];
+const roles: Array<"All" | Role> = ROLE_OPTIONS;
 
 const categories = CATEGORY_OPTIONS;
 
