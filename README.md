@@ -86,7 +86,6 @@ Main data file: `public/data/bis-links.json`
 Top-level fields:
 - `lastUpdated` (`YYYY-MM-DD`)
 - `entries[]`
-- optional name lists: `ultimateNames`, `criterionNames`, `unrealNames`
 
 Per-entry fields:
 - Required: `job`, `role`, `category`, `tier`, `link`, `source`, `importedAt`, `updatedAt`

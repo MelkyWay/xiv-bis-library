@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import BisFilters from "./components/BisFilters.vue";
 import BisTable from "./components/BisTable.vue";
-import { ULTIMATE_ORDER, CRITERION_ORDER } from "./config/encounters";
+import { ULTIMATE_ORDER, CRITERION_ORDER, UNREAL_ORDER } from "./config/encounters";
 import { JOB_ORDER, JOB_TO_ROLE } from "./config/jobs";
 import { CATEGORY_ORDER } from "./config/orders";
 import { ROLE_ORDER } from "./config/roles";
@@ -95,25 +95,18 @@ function sortByConfiguredOrder(values: string[], order: readonly string[]): stri
 }
 
 const ultimates = computed(() => {
-  const names = data.value.ultimateNames?.length
-    ? [...new Set(data.value.ultimateNames)]
-    : [
-        ...new Set(
-          data.value.entries
-            .filter((entry) => entry.category === "Ultimate" && entry.ultimate)
-            .map((entry) => entry.ultimate as string)
-        )
-      ];
+  const names = [
+    ...new Set(
+      data.value.entries
+        .filter((entry) => entry.category === "Ultimate" && entry.ultimate)
+        .map((entry) => entry.ultimate as string)
+    )
+  ];
 
   return sortByConfiguredOrder(names, ULTIMATE_ORDER);
 });
 
 const criterions = computed(() => {
-  if (data.value.criterionNames?.length) {
-    const names = [...new Set(data.value.criterionNames ?? [])];
-    return sortByConfiguredOrder(names, CRITERION_ORDER);
-  }
-
   const names = [
     ...new Set(
       data.value.entries
@@ -125,17 +118,14 @@ const criterions = computed(() => {
 });
 
 const unreals = computed(() => {
-  if (data.value.unrealNames?.length) {
-    return [...new Set(data.value.unrealNames)].sort((a, b) => a.localeCompare(b));
-  }
-
-  return [
+  const names = [
     ...new Set(
       data.value.entries
         .filter((entry) => entry.category === "Unreal" && entry.unrealName)
         .map((entry) => entry.unrealName as string)
     )
-  ].sort((a, b) => a.localeCompare(b));
+  ];
+  return sortByConfiguredOrder(names, UNREAL_ORDER);
 });
 
 const roleByJob = computed<Record<string, Role>>(() => {

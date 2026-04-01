@@ -1,19 +1,5 @@
 {
   "lastUpdated": "2026-03-29",
-  "ultimateNames": [
-    "The Unending Coil of Bahamut",
-    "The Weapon's Refrain",
-    "The Epic of Alexander",
-    "Dragonsong's Reprise",
-    "The Omega Protocol",
-    "Futures Rewritten"
-  ],
-  "criterionNames": [
-    "Another Sil'dihn Subterrane",
-    "Another Mount Rokkon",
-    "Another Aloalo Island",
-    "Another Merchant's Tale"
-  ],
   "entries": [
     {
       "job": "DRK",
@@ -18004,8 +17990,5 @@
       "importedAt": "2026-03-29",
       "updatedAt": "2026-03-29"
     }
-  ],
-  "unrealNames": [
-    "Tsukuyomi's Pain"
   ]
 }

@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { UNREAL_ORDER } from "../config/encounters";
 import type { BisDataFile, BisEntry } from "../types/bis";
 import { validateBisData } from "./validators";
 
@@ -146,35 +145,6 @@ describe("validateBisData", () => {
     expect(result.errors.filter((message) => message.includes("Invalid entry at index")).length).toBe(4);
   });
 
-  it("keeps and sanitizes optional names arrays when valid", () => {
-    const input = {
-      ...makeFile([makeEntry()]),
-      ultimateNames: ["Futures Rewritten", "The Omega Protocol"],
-      criterionNames: ["Another Aloalo Island"],
-      unrealNames: [UNREAL_ORDER[0]]
-    };
-
-    const result = validateBisData(input);
-    expect(result.errors).toHaveLength(0);
-    expect(result.data?.ultimateNames).toEqual(["Futures Rewritten", "The Omega Protocol"]);
-    expect(result.data?.criterionNames).toEqual(["Another Aloalo Island"]);
-    expect(result.data?.unrealNames).toEqual([UNREAL_ORDER[0]]);
-  });
-
-  it("reports invalid optional names arrays", () => {
-    const input = {
-      ...makeFile([makeEntry()]),
-      ultimateNames: ["Valid", ""],
-      criterionNames: "nope",
-      unrealNames: ["", "Also invalid"]
-    };
-
-    const result = validateBisData(input);
-    expect(result.errors).toContain("Invalid ultimateNames (expected array of non-empty strings).");
-    expect(result.errors).toContain("Invalid criterionNames (expected array of non-empty strings).");
-    expect(result.errors).toContain("Invalid unrealNames (expected array of non-empty strings).");
-  });
-
   it("rejects ultimate entries with encounter names not in configured ultimate order", () => {
     const input = makeFile([
       makeEntry({
@@ -186,34 +156,6 @@ describe("validateBisData", () => {
     const result = validateBisData(input);
     expect(result.data?.entries).toHaveLength(0);
     expect(result.errors.some((message) => message.includes('unknown ultimate "Unknown Ultimate"'))).toBe(true);
-  });
-
-  it("rejects entries when declared names lists do not include referenced encounter values", () => {
-    const input = {
-      ...makeFile([
-        makeEntry({
-          category: "Ultimate",
-          ultimate: "Futures Rewritten"
-        }),
-        makeEntry({
-          category: "Criterion",
-          criterionName: "Another Aloalo Island"
-        }),
-        makeEntry({
-          category: "Unreal",
-          unrealName: UNREAL_ORDER[0]
-        })
-      ]),
-      ultimateNames: ["The Omega Protocol"],
-      criterionNames: ["Another Mount Rokkon"],
-      unrealNames: ["Some Other Unreal"]
-    };
-
-    const result = validateBisData(input);
-    expect(result.data?.entries).toHaveLength(0);
-    expect(result.errors.some((message) => message.includes('ultimate "Futures Rewritten" is not declared'))).toBe(true);
-    expect(result.errors.some((message) => message.includes('criterion "Another Aloalo Island" is not declared'))).toBe(true);
-    expect(result.errors.some((message) => /unreal ".+" is not declared/.test(message))).toBe(true);
   });
 
   it("rejects entries with unknown jobs", () => {

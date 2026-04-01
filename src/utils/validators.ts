@@ -131,27 +131,6 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
     errors.push("Invalid or missing lastUpdated (expected YYYY-MM-DD).");
   }
 
-  if (
-    input.ultimateNames !== undefined &&
-    (!Array.isArray(input.ultimateNames) || input.ultimateNames.some((name) => !hasText(name)))
-  ) {
-    errors.push("Invalid ultimateNames (expected array of non-empty strings).");
-  }
-
-  if (
-    input.criterionNames !== undefined &&
-    (!Array.isArray(input.criterionNames) || input.criterionNames.some((name) => !hasText(name)))
-  ) {
-    errors.push("Invalid criterionNames (expected array of non-empty strings).");
-  }
-
-  if (
-    input.unrealNames !== undefined &&
-    (!Array.isArray(input.unrealNames) || input.unrealNames.some((name) => !hasText(name)))
-  ) {
-    errors.push("Invalid unrealNames (expected array of non-empty strings).");
-  }
-
   if (!Array.isArray(input.entries)) {
     errors.push("Invalid or missing entries array.");
     return { errors };
@@ -171,29 +150,6 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
     return { errors };
   }
 
-  const sanitizedUltimateNames = Array.isArray(input.ultimateNames)
-    ? input.ultimateNames.filter((name): name is string => hasText(name))
-    : undefined;
-  const sanitizedCriterionNames = Array.isArray(input.criterionNames)
-    ? input.criterionNames.filter((name): name is string => hasText(name))
-    : undefined;
-  const sanitizedUnrealNames = Array.isArray(input.unrealNames)
-    ? input.unrealNames.filter((name): name is string => hasText(name))
-    : undefined;
-
-  const dataDerivedUltimateNames = structurallyValidEntries
-    .filter(({ entry }) => entry.category === "Ultimate" && hasText(entry.ultimate))
-    .map(({ entry }) => entry.ultimate as string);
-  const dataDerivedCriterionNames = structurallyValidEntries
-    .filter(({ entry }) => entry.category === "Criterion" && hasText(entry.criterionName))
-    .map(({ entry }) => entry.criterionName as string);
-  const dataDerivedUnrealNames = structurallyValidEntries
-    .filter(({ entry }) => entry.category === "Unreal" && hasText(entry.unrealName))
-    .map(({ entry }) => entry.unrealName as string);
-
-  const allowedUltimateNames = new Set(sanitizedUltimateNames ?? dataDerivedUltimateNames);
-  const allowedCriterionNames = new Set(sanitizedCriterionNames ?? dataDerivedCriterionNames);
-  const allowedUnrealNames = new Set(sanitizedUnrealNames ?? dataDerivedUnrealNames);
   const configuredUltimateNames = new Set<string>(ULTIMATE_ORDER);
   const configuredCriterionNames = new Set<string>(CRITERION_ORDER);
   const configuredUnrealNames = new Set<string>(UNREAL_ORDER);
@@ -224,10 +180,6 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
         );
         continue;
       }
-      if (!allowedUltimateNames.has(encounter)) {
-        errors.push(`Invalid entry at index ${index}; ultimate "${encounter}" is not declared in ultimateNames.`);
-        continue;
-      }
     }
 
     if (entry.category === "Criterion") {
@@ -240,10 +192,6 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
         errors.push(
           `Invalid entry at index ${index}; encounter "${encounter}" is not mapped to category Criterion. It has been ignored.`
         );
-        continue;
-      }
-      if (!allowedCriterionNames.has(encounter)) {
-        errors.push(`Invalid entry at index ${index}; criterion "${encounter}" is not declared in criterionNames.`);
         continue;
       }
     }
@@ -260,10 +208,6 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
         );
         continue;
       }
-      if (!allowedUnrealNames.has(encounter)) {
-        errors.push(`Invalid entry at index ${index}; unreal "${encounter}" is not declared in unrealNames.`);
-        continue;
-      }
     }
 
     validEntries.push(entry);
@@ -272,9 +216,6 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
   return {
     data: {
       lastUpdated: input.lastUpdated,
-      ultimateNames: sanitizedUltimateNames,
-      criterionNames: sanitizedCriterionNames,
-      unrealNames: sanitizedUnrealNames,
       entries: validEntries
     },
     errors

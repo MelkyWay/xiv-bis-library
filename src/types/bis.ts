@@ -41,9 +41,6 @@ export interface BisEntry {
 
 export interface BisDataFile {
   lastUpdated: string;
-  ultimateNames?: string[];
-  criterionNames?: string[];
-  unrealNames?: string[];
   entries: BisEntry[];
 }
 

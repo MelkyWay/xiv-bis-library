@@ -627,41 +627,6 @@ function mergeEntries(existingEntries, newEntries, replaceExisting) {
   return { entries: next, added, replaced, skipped };
 }
 
-function updateNameLists(dataFile, importConfig) {
-  const infoValue = importConfig.info ?? importConfig.encounter ?? importConfig.name;
-  if (!infoValue || typeof infoValue !== "string") {
-    return;
-  }
-  const trimmed = infoValue.trim();
-  if (!trimmed) {
-    return;
-  }
-
-  if (importConfig.category === "Ultimate") {
-    const current = Array.isArray(dataFile.ultimateNames) ? [...dataFile.ultimateNames] : [];
-    if (!current.includes(trimmed)) {
-      current.push(trimmed);
-    }
-    dataFile.ultimateNames = current;
-  }
-
-  if (importConfig.category === "Criterion") {
-    const current = Array.isArray(dataFile.criterionNames) ? [...dataFile.criterionNames] : [];
-    if (!current.includes(trimmed)) {
-      current.push(trimmed);
-    }
-    dataFile.criterionNames = current;
-  }
-
-  if (importConfig.category === "Unreal") {
-    const current = Array.isArray(dataFile.unrealNames) ? [...dataFile.unrealNames] : [];
-    if (!current.includes(trimmed)) {
-      current.push(trimmed);
-    }
-    dataFile.unrealNames = current;
-  }
-}
-
 function printHelp() {
   console.log(`Usage:
   npm run import:gear -- --config scripts/imports/my-batch.json [--dry-run]
@@ -769,7 +734,6 @@ async function main() {
     const rows = buildEntriesFromSheet(resolved.payload, importConfig);
     const merged = mergeEntries(dataFile.entries, rows, importConfig.replaceExisting);
     dataFile.entries = merged.entries;
-    updateNameLists(dataFile, importConfig);
 
     totalAdded += merged.added;
     totalReplaced += merged.replaced;
