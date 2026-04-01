@@ -92,7 +92,7 @@ Per-entry fields:
 - Required: `job`, `role`, `category`, `tier`, `link`, `source`, `importedAt`, `updatedAt`
 - `link`: `{ "name": "XivGear", "url": "https://..." }`
 - `source`: `{ "name": "The Balance", "url": "https://..." }`
-- Optional: `ultimate`, `criterionName`, `unrealName`, `otherName`, `note`, `damage`
+- Optional: `encounter`, `note`, `damage`
 - `note` example:
   - `{ "text": "2.50 GCD", "tooltip": "Optional context shown on hover." }`
 - `damage` examples:

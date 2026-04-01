@@ -20,10 +20,10 @@ const JOB_TO_ROLE = Object.fromEntries(
     .map((job) => [job.code.toUpperCase(), job.role])
 );
 const REQUIRED_INFO_BY_CATEGORY = {
-  Ultimate: "ultimate",
-  Criterion: "criterionName",
-  Unreal: "unrealName",
-  Other: "otherName"
+  Ultimate: "encounter",
+  Criterion: "encounter",
+  Unreal: "encounter",
+  Other: "encounter"
 };
 
 function todayIsoDate() {
@@ -619,10 +619,7 @@ function mergeEntries(existingEntries, newEntries, replaceExisting) {
     [
       row.job ?? "",
       row.category ?? "",
-      row.ultimate ?? "",
-      row.criterionName ?? "",
-      row.unrealName ?? "",
-      row.otherName ?? "",
+      row.encounter ?? "",
       row.link?.url ?? row.linkUrl ?? row.source?.url ?? row.sourceUrl ?? ""
     ].join("||");
 

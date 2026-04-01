@@ -30,10 +30,7 @@ export interface BisEntry {
   job: string;
   role: Role;
   category: Category;
-  ultimate?: string;
-  criterionName?: string;
-  unrealName?: string;
-  otherName?: string;
+  encounter?: string;
   tier: string;
   link: LinkValue;
   source: SourceValue;

@@ -31,7 +31,7 @@ describe("validateBisData", () => {
       makeEntry(),
       makeEntry({
         category: "Ultimate",
-        ultimate: "Futures Rewritten",
+        encounter: "Futures Rewritten",
         damage: { value: 9999.9, type: "sim" }
       })
     ]);
@@ -160,10 +160,10 @@ describe("validateBisData", () => {
 
   it("rejects missing required category-specific fields", () => {
     const entries: BisEntry[] = [
-      makeEntry({ category: "Ultimate", ultimate: undefined }),
-      makeEntry({ category: "Criterion", criterionName: undefined }),
-      makeEntry({ category: "Unreal", unrealName: undefined }),
-      makeEntry({ category: "Other", otherName: undefined })
+      makeEntry({ category: "Ultimate", encounter: undefined }),
+      makeEntry({ category: "Criterion", encounter: undefined }),
+      makeEntry({ category: "Unreal", encounter: undefined }),
+      makeEntry({ category: "Other", encounter: undefined })
     ];
 
     const result = validateBisData(makeFile(entries));
@@ -175,7 +175,7 @@ describe("validateBisData", () => {
     const input = makeFile([
       makeEntry({
         category: "Ultimate",
-        ultimate: "Unknown Ultimate"
+        encounter: "Unknown Ultimate"
       })
     ]);
 

@@ -137,7 +137,7 @@ describe("BisTable", () => {
       [
         makeEntry({
           category: "Ultimate",
-          ultimate: "Futures Rewritten"
+          encounter: "Futures Rewritten"
         })
       ],
       "Ultimate"

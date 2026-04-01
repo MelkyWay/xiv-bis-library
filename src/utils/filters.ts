@@ -76,11 +76,11 @@ function compareByCategoryOrder(categoryOrderIndex: OrderIndex): EntryComparator
 }
 
 function compareByUltimateOrder(ultimateOrderIndex: OrderIndex): EntryComparator {
-  return (a, b) => compareByOrder(a.ultimate, b.ultimate, ultimateOrderIndex);
+  return (a, b) => compareByOrder(a.encounter, b.encounter, ultimateOrderIndex);
 }
 
 function compareByCriterionOrder(criterionOrderIndex: OrderIndex): EntryComparator {
-  return (a, b) => compareByOrder(a.criterionName, b.criterionName, criterionOrderIndex);
+  return (a, b) => compareByOrder(a.encounter, b.encounter, criterionOrderIndex);
 }
 
 function compareByRoleOrder(a: BisEntry, b: BisEntry): number {
@@ -183,15 +183,15 @@ export function filterEntries(
         return false;
       }
 
-      if (filters.ultimate !== "All" && entry.ultimate !== filters.ultimate) {
+      if (filters.ultimate !== "All" && entry.category === "Ultimate" && entry.encounter !== filters.ultimate) {
         return false;
       }
 
-      if (filters.criterion !== "All" && entry.criterionName !== filters.criterion) {
+      if (filters.criterion !== "All" && entry.category === "Criterion" && entry.encounter !== filters.criterion) {
         return false;
       }
 
-      if (filters.unreal !== "All" && entry.unrealName !== filters.unreal) {
+      if (filters.unreal !== "All" && entry.category === "Unreal" && entry.encounter !== filters.unreal) {
         return false;
       }
 
@@ -200,7 +200,7 @@ export function filterEntries(
       }
 
       const target =
-        `${entry.job} ${entry.role} ${entry.category} ${entry.ultimate ?? ""} ${entry.criterionName ?? ""} ${entry.unrealName ?? ""} ${entry.otherName ?? ""} ${entry.tier} ${entry.link.name} ${entry.source.name} ${entry.note?.text ?? ""}`.toLowerCase();
+        `${entry.job} ${entry.role} ${entry.category} ${entry.encounter ?? ""} ${entry.tier} ${entry.link.name} ${entry.source.name} ${entry.note?.text ?? ""}`.toLowerCase();
       return target.includes(query);
     })
     .sort(comparator);

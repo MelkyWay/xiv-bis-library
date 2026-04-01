@@ -58,11 +58,9 @@ function roleStyle(role: Role): Record<string, string> {
 
 function infoValue(row: BisEntry): string {
   if (row.category === "Ultimate") {
-    return row.ultimate ? localizeUltimateName(row.ultimate, String(locale.value)) : "-";
+    return row.encounter ? localizeUltimateName(row.encounter, String(locale.value)) : "-";
   }
-  if (row.category === "Criterion") return row.criterionName ?? "-";
-  if (row.category === "Unreal") return row.unrealName ?? "-";
-  if (row.category === "Other") return row.otherName ?? "-";
+  if (row.category === "Criterion" || row.category === "Unreal" || row.category === "Other") return row.encounter ?? "-";
   return row.tier;
 }
 

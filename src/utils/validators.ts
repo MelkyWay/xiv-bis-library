@@ -47,35 +47,11 @@ function isBisEntry(value: unknown): value is BisEntry {
     return false;
   }
 
-  if (value.ultimate !== undefined && typeof value.ultimate !== "string") {
+  if (value.encounter !== undefined && typeof value.encounter !== "string") {
     return false;
   }
 
-  if (value.criterionName !== undefined && typeof value.criterionName !== "string") {
-    return false;
-  }
-
-  if (value.unrealName !== undefined && typeof value.unrealName !== "string") {
-    return false;
-  }
-
-  if (value.otherName !== undefined && typeof value.otherName !== "string") {
-    return false;
-  }
-
-  if (value.category === "Ultimate" && !hasText(value.ultimate)) {
-    return false;
-  }
-
-  if (value.category === "Criterion" && !hasText(value.criterionName)) {
-    return false;
-  }
-
-  if (value.category === "Unreal" && !hasText(value.unrealName)) {
-    return false;
-  }
-
-  if (value.category === "Other" && !hasText(value.otherName)) {
+  if ((value.category === "Ultimate" || value.category === "Criterion" || value.category === "Unreal" || value.category === "Other") && !hasText(value.encounter)) {
     return false;
   }
 
@@ -178,7 +154,7 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
     }
 
     if (entry.category === "Ultimate") {
-      const encounter = entry.ultimate as string;
+      const encounter = entry.encounter as string;
       if (!configuredUltimateNames.has(encounter)) {
         errors.push(`Invalid entry at index ${index}; unknown ultimate "${encounter}". It has been ignored.`);
         continue;
@@ -192,7 +168,7 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
     }
 
     if (entry.category === "Criterion") {
-      const encounter = entry.criterionName as string;
+      const encounter = entry.encounter as string;
       if (!configuredCriterionNames.has(encounter)) {
         errors.push(`Invalid entry at index ${index}; unknown criterion "${encounter}". It has been ignored.`);
         continue;
@@ -206,7 +182,7 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
     }
 
     if (entry.category === "Unreal") {
-      const encounter = entry.unrealName as string;
+      const encounter = entry.encounter as string;
       if (!configuredUnrealNames.has(encounter)) {
         errors.push(`Invalid entry at index ${index}; unknown unreal "${encounter}". It has been ignored.`);
         continue;

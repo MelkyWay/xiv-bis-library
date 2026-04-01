@@ -34,7 +34,7 @@ describe("filterEntries", () => {
   it("filters by role, category, and query", () => {
     const entries: BisEntry[] = [
       makeEntry({ job: "DRK", role: "Tank", category: "Savage", note: { text: "Main tank set" } }),
-      makeEntry({ job: "GNB", role: "Tank", category: "Ultimate", ultimate: "Futures Rewritten", note: { text: "FRU set" } }),
+      makeEntry({ job: "GNB", role: "Tank", category: "Ultimate", encounter: "Futures Rewritten", note: { text: "FRU set" } }),
       makeEntry({ job: "SCH", role: "Healer", category: "Savage", note: { text: "Healer setup" } })
     ];
 
@@ -57,28 +57,28 @@ describe("filterEntries", () => {
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
-        ultimate: "Futures Rewritten",
+        encounter: "Futures Rewritten",
         damage: { value: 9000.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
-        ultimate: "The Omega Protocol",
+        encounter: "The Omega Protocol",
         damage: { value: 9800.0, type: "sim" }
       }),
       makeEntry({
         job: "GNB",
         role: "Tank",
         category: "Ultimate",
-        ultimate: "Futures Rewritten",
+        encounter: "Futures Rewritten",
         damage: { value: 8700.0, type: "sim" }
       }),
       makeEntry({
         job: "GNB",
         role: "Tank",
         category: "Ultimate",
-        ultimate: "The Omega Protocol",
+        encounter: "The Omega Protocol",
         damage: { value: 9900.0, type: "sim" }
       })
     ];
@@ -88,7 +88,7 @@ describe("filterEntries", () => {
       ultimateOrder: ["Futures Rewritten", "The Omega Protocol"]
     });
 
-    expect(out.map((entry) => `${entry.job}|${entry.ultimate}`)).toEqual([
+    expect(out.map((entry) => `${entry.job}|${entry.encounter}`)).toEqual([
       "GNB|Futures Rewritten",
       "GNB|The Omega Protocol",
       "DRK|Futures Rewritten",
@@ -102,14 +102,14 @@ describe("filterEntries", () => {
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
-        ultimate: "The Omega Protocol",
+        encounter: "The Omega Protocol",
         damage: { value: 8200.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
-        ultimate: "Futures Rewritten",
+        encounter: "Futures Rewritten",
         damage: { value: 8100.0, type: "sim" }
       }),
       makeEntry({
@@ -122,14 +122,14 @@ describe("filterEntries", () => {
         job: "DRK",
         role: "Tank",
         category: "Criterion",
-        criterionName: "Another Aloalo Island",
+        encounter: "Another Aloalo Island",
         damage: { value: 7000.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Criterion",
-        criterionName: "Another Mount Rokkon",
+        encounter: "Another Mount Rokkon",
         damage: { value: 7100.0, type: "sim" }
       })
     ];
@@ -140,7 +140,7 @@ describe("filterEntries", () => {
       criterionOrder: ["Another Aloalo Island", "Another Mount Rokkon"]
     });
 
-    expect(out.map((entry) => `${entry.category}|${entry.ultimate ?? entry.criterionName ?? "-"}`)).toEqual([
+    expect(out.map((entry) => `${entry.category}|${entry.encounter ?? "-"}`)).toEqual([
       "Savage|-",
       "Ultimate|Futures Rewritten",
       "Ultimate|The Omega Protocol",
@@ -155,7 +155,7 @@ describe("filterEntries", () => {
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
-        ultimate: "Futures Rewritten",
+        encounter: "Futures Rewritten",
         note: { text: "with damage" },
         damage: { value: 9000.0, type: "sim" }
       }),
@@ -163,7 +163,7 @@ describe("filterEntries", () => {
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
-        ultimate: "Futures Rewritten",
+        encounter: "Futures Rewritten",
         note: { text: "without damage" },
         damage: { value: null, type: "none" }
       })
@@ -184,19 +184,19 @@ describe("filterEntries", () => {
         job: "DRK",
         role: "Tank",
         category: "Criterion",
-        criterionName: "Another Mount Rokkon"
+        encounter: "Another Mount Rokkon"
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Criterion",
-        criterionName: "Another Aloalo Island"
+        encounter: "Another Aloalo Island"
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Unreal",
-        unrealName: "Containment Bay S1T7 (Unreal)"
+        encounter: "Containment Bay S1T7 (Unreal)"
       })
     ];
 
@@ -208,7 +208,7 @@ describe("filterEntries", () => {
       })
     );
     expect(criterionOut).toHaveLength(1);
-    expect(criterionOut[0].criterionName).toBe("Another Mount Rokkon");
+    expect(criterionOut[0].encounter).toBe("Another Mount Rokkon");
 
     const unrealOut = filterEntries(
       entries,
@@ -218,7 +218,7 @@ describe("filterEntries", () => {
       })
     );
     expect(unrealOut).toHaveLength(1);
-    expect(unrealOut[0].unrealName).toBe("Containment Bay S1T7 (Unreal)");
+    expect(unrealOut[0].encounter).toBe("Containment Bay S1T7 (Unreal)");
   });
 
   it("for all filters=All, applies category ordering and category-specific encounter ordering", () => {
@@ -227,28 +227,28 @@ describe("filterEntries", () => {
         job: "DRK",
         role: "Tank",
         category: "Criterion",
-        criterionName: "Another Mount Rokkon",
+        encounter: "Another Mount Rokkon",
         damage: { value: 7000.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
-        ultimate: "The Omega Protocol",
+        encounter: "The Omega Protocol",
         damage: { value: 8000.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
-        ultimate: "Futures Rewritten",
+        encounter: "Futures Rewritten",
         damage: { value: 7900.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Criterion",
-        criterionName: "Another Aloalo Island",
+        encounter: "Another Aloalo Island",
         damage: { value: 7100.0, type: "sim" }
       }),
       makeEntry({
@@ -266,7 +266,7 @@ describe("filterEntries", () => {
       criterionOrder: ["Another Aloalo Island", "Another Mount Rokkon"]
     });
 
-    expect(out.map((entry) => `${entry.category}|${entry.ultimate ?? entry.criterionName ?? "-"}`)).toEqual([
+    expect(out.map((entry) => `${entry.category}|${entry.encounter ?? "-"}`)).toEqual([
       "Savage|-",
       "Ultimate|Futures Rewritten",
       "Ultimate|The Omega Protocol",
@@ -336,15 +336,16 @@ describe("filterEntries", () => {
     expect(jobMismatch).toHaveLength(0);
 
     const ultimateMismatch = filterEntries(
-      [makeEntry({ category: "Ultimate", ultimate: "Futures Rewritten" })],
+      [makeEntry({ category: "Ultimate", encounter: "Futures Rewritten" })],
       makeFilters({ category: "Ultimate", ultimate: "The Omega Protocol" })
     );
     expect(ultimateMismatch).toHaveLength(0);
 
     const unrealMismatch = filterEntries(
-      [makeEntry({ category: "Unreal", unrealName: "Containment Bay S1T7 (Unreal)" })],
+      [makeEntry({ category: "Unreal", encounter: "Containment Bay S1T7 (Unreal)" })],
       makeFilters({ category: "Unreal", unreal: "Another Unreal" })
     );
     expect(unrealMismatch).toHaveLength(0);
   });
 });
+
