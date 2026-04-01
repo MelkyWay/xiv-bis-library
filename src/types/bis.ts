@@ -1,12 +1,7 @@
 import type { Category as GeneratedCategory } from "../config/categories.generated";
+import type { Role as GeneratedRole } from "../config/roles.generated";
 
-export type Role =
-  | "Tank"
-  | "Healer"
-  | "Melee"
-  | "Physical Ranged"
-  | "Magical Ranged"
-  | "Limited";
+export type Role = GeneratedRole;
 
 export type Category = GeneratedCategory;
 export type DamageType = "sim" | "potency" | "none";

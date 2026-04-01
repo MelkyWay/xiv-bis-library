@@ -1,14 +1,8 @@
 import { CATEGORY_ORDER } from "../config/orders";
+import { ROLE_ORDER } from "../config/roles";
 import type { BisDataFile, BisEntry, Category, Role } from "../types/bis";
 
-const VALID_ROLES = new Set<Role>([
-  "Tank",
-  "Healer",
-  "Melee",
-  "Physical Ranged",
-  "Magical Ranged",
-  "Limited"
-]);
+const VALID_ROLES: ReadonlySet<Role> = new Set<Role>(ROLE_ORDER);
 
 const VALID_CATEGORIES: ReadonlySet<Category> = new Set<Category>(CATEGORY_ORDER);
 

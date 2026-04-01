@@ -4,6 +4,7 @@ import { useI18n } from "vue-i18n";
 import BisFilters from "./components/BisFilters.vue";
 import BisTable from "./components/BisTable.vue";
 import { CATEGORY_ORDER, CRITERION_ORDER, ULTIMATE_ORDER } from "./config/orders";
+import { ROLE_ORDER } from "./config/roles";
 import { DEFAULT_LOCALE, LOCALE_STORAGE_KEY, SUPPORTED_LOCALES, type SupportedLocale } from "./i18n";
 import type { BisDataFile, BisFiltersState, Category, Role } from "./types/bis";
 import { getEntryKey } from "./utils/entryKey";
@@ -56,7 +57,7 @@ const groupedJobs = computed<Array<{ role: Role; label: string; jobs: string[] }
     Limited: t("filters.roleGroups.Limited")
   };
 
-  const roleOrder: Role[] = ["Tank", "Healer", "Melee", "Physical Ranged", "Magical Ranged", "Limited"];
+  const roleOrder: Role[] = ROLE_ORDER;
   const jobsByRole = new Map<Role, Set<string>>();
 
   for (const role of roleOrder) {
@@ -283,7 +284,7 @@ const activeInfoContent = computed<InfoPageContent | null>(() =>
   activeInfoPage.value ? INFO_PAGES[activeInfoPage.value] : null
 );
 
-const KNOWN_ROLES = new Set<Role>(["Tank", "Healer", "Melee", "Physical Ranged", "Magical Ranged", "Limited"]);
+const KNOWN_ROLES = new Set<Role>(ROLE_ORDER);
 const KNOWN_CATEGORIES = new Set<Category>(CATEGORY_ORDER);
 
 function buildNextUrl(params: URLSearchParams): string {
