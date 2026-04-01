@@ -26,6 +26,10 @@ const REQUIRED_INFO_BY_CATEGORY = {
   Other: "encounter"
 };
 
+function contentKindForCategory(category) {
+  return REQUIRED_INFO_BY_CATEGORY[category] ? "encounter" : "tier";
+}
+
 function todayIsoDate() {
   const now = new Date();
   const year = now.getFullYear();
@@ -87,14 +91,26 @@ function splitSetName(name) {
 function normalizeCategoryInfo(importConfig) {
   const category = importConfig.category;
   const info = importConfig.info ?? importConfig.encounter ?? importConfig.name ?? null;
-  const infoField = REQUIRED_INFO_BY_CATEGORY[category];
-  if (!infoField) {
-    return {};
+  const kind = contentKindForCategory(category);
+  if (kind === "tier") {
+    return {
+      content: {
+        category,
+        kind: "tier",
+        value: importConfig.tier
+      }
+    };
   }
   if (!info || typeof info !== "string" || info.trim().length === 0) {
     throw new Error(`Category "${category}" requires --info (or "info" in config).`);
   }
-  return { [infoField]: info.trim() };
+  return {
+    content: {
+      category,
+      kind: "encounter",
+      value: info.trim()
+    }
+  };
 }
 
 function normalizePageUrl(urlInput) {
@@ -579,8 +595,6 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
     const row = {
       job: importConfig.job,
       role: importConfig.role,
-      category: importConfig.category,
-      tier: importConfig.tier,
       link: {
         name: importConfig.sourceName,
         url: linkUrl
@@ -618,8 +632,9 @@ function mergeEntries(existingEntries, newEntries, replaceExisting) {
   const identityKey = (row) =>
     [
       row.job ?? "",
-      row.category ?? "",
-      row.encounter ?? "",
+      row.content?.category ?? "",
+      row.content?.kind ?? "",
+      row.content?.value ?? "",
       row.link?.url ?? row.linkUrl ?? row.source?.url ?? row.sourceUrl ?? ""
     ].join("||");
 

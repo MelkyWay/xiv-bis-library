@@ -6,8 +6,11 @@ function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
   return {
     job: "DRK",
     role: "Tank",
-    category: "Savage",
-    tier: "7.4",
+    content: {
+      category: "Savage",
+      kind: "tier",
+      value: "7.4"
+    },
     link: { name: "XivGear", url: "https://xivgear.app" },
     source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
     importedAt: "2026-03-29",
@@ -30,8 +33,11 @@ describe("validateBisData", () => {
     const input = makeFile([
       makeEntry(),
       makeEntry({
-        category: "Ultimate",
-        encounter: "Futures Rewritten",
+        content: {
+          category: "Ultimate",
+          kind: "encounter",
+          value: "Futures Rewritten"
+        },
         damage: { value: 9999.9, type: "sim" }
       })
     ]);
@@ -68,8 +74,6 @@ describe("validateBisData", () => {
       {
         job: "DRK",
         role: "Tank",
-        category: "Ultimate",
-        tier: "7.4",
         link: { name: "XivGear", url: "https://xivgear.app" },
         source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
         importedAt: "2026-03-29",
@@ -141,8 +145,15 @@ describe("validateBisData", () => {
     const base = makeEntry();
     const variants: BisEntry[] = [
       { ...base, role: "NotARole" as BisEntry["role"] },
-      { ...base, category: "NotACategory" as BisEntry["category"] },
-      { ...base, tier: "x.y" },
+      {
+        ...base,
+        content: {
+          category: "NotACategory" as BisEntry["content"]["category"],
+          kind: "tier",
+          value: "7.4"
+        }
+      },
+      { ...base, content: { category: "Savage", kind: "tier", value: "x.y" } },
       { ...base, updatedAt: "03-29-2026" },
       { ...base, importedAt: "03-29-2026" },
       { ...base, link: { ...base.link, url: "ftp://example.com" } },
@@ -160,10 +171,10 @@ describe("validateBisData", () => {
 
   it("rejects missing required category-specific fields", () => {
     const entries: BisEntry[] = [
-      makeEntry({ category: "Ultimate", encounter: undefined }),
-      makeEntry({ category: "Criterion", encounter: undefined }),
-      makeEntry({ category: "Unreal", encounter: undefined }),
-      makeEntry({ category: "Other", encounter: undefined })
+      makeEntry({ content: { category: "Ultimate", kind: "encounter", value: "" } }),
+      makeEntry({ content: { category: "Criterion", kind: "encounter", value: "" } }),
+      makeEntry({ content: { category: "Unreal", kind: "encounter", value: "" } }),
+      makeEntry({ content: { category: "Other", kind: "encounter", value: "" } })
     ];
 
     const result = validateBisData(makeFile(entries));
@@ -174,8 +185,11 @@ describe("validateBisData", () => {
   it("rejects ultimate entries with encounter names not in configured ultimate order", () => {
     const input = makeFile([
       makeEntry({
-        category: "Ultimate",
-        encounter: "Unknown Ultimate"
+        content: {
+          category: "Ultimate",
+          kind: "encounter",
+          value: "Unknown Ultimate"
+        }
       })
     ]);
 

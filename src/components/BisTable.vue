@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import type { BisEntry, BisFiltersState, Role } from "../types/bis";
+import type { BisEntry, BisFiltersState, Category, Role } from "../types/bis";
 import { getEntryKey } from "../utils/entryKey";
 import { localizeJobName } from "../utils/jobLocalization";
 import { roleColorTextStyle } from "../utils/roleColors";
@@ -57,11 +57,10 @@ function roleStyle(role: Role): Record<string, string> {
 }
 
 function infoValue(row: BisEntry): string {
-  if (row.category === "Ultimate") {
-    return row.encounter ? localizeUltimateName(row.encounter, String(locale.value)) : "-";
+  if (row.content.kind === "encounter" && row.content.category === "Ultimate") {
+    return row.content.value ? localizeUltimateName(row.content.value, String(locale.value)) : "-";
   }
-  if (row.category === "Criterion" || row.category === "Unreal" || row.category === "Other") return row.encounter ?? "-";
-  return row.tier;
+  return row.content.value;
 }
 
 function parseDamage(value: number | null | undefined): number | null {
@@ -159,7 +158,7 @@ function roleLabel(role: Role): string {
   return t(`filters.roles.${role}`);
 }
 
-function categoryLabel(category: BisEntry["category"]): string {
+function categoryLabel(category: Category): string {
   return t(`filters.categories.${category}`);
 }
 
@@ -266,7 +265,7 @@ async function copyLink(url: string): Promise<void> {
         <tr v-for="row in paginatedRows" :key="getEntryKey(row)">
           <td class="col-job"><strong :style="roleStyle(row.role)">{{ jobLabel(row.job) }}</strong></td>
           <td class="col-role" :style="roleStyle(row.role)">{{ roleLabel(row.role) }}</td>
-          <td v-if="showCategoryColumn">{{ categoryLabel(row.category) }}</td>
+          <td v-if="showCategoryColumn">{{ categoryLabel(row.content.category) }}</td>
           <td>{{ infoValue(row) }}</td>
           <td class="col-notes">
             <span

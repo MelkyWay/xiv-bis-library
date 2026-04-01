@@ -8,8 +8,11 @@ function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
   return {
     job: "DRK",
     role: "Tank",
-    category: "Savage",
-    tier: "7.4",
+    content: {
+      category: "Savage",
+      kind: "tier",
+      value: "7.4"
+    },
     link: { name: "XivGear", url: "https://xivgear.app/base" },
     source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
     importedAt: "2026-03-29",
@@ -19,7 +22,7 @@ function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
   };
 }
 
-function mountTable(rows: BisEntry[], activeCategory: "All" | BisEntry["category"] = "All") {
+function mountTable(rows: BisEntry[], activeCategory: "All" | BisEntry["content"]["category"] = "All") {
   return mount(BisTable, {
     props: {
       rows,
@@ -136,8 +139,11 @@ describe("BisTable", () => {
     const wrapper = mountTable(
       [
         makeEntry({
-          category: "Ultimate",
-          encounter: "Futures Rewritten"
+          content: {
+            category: "Ultimate",
+            kind: "encounter",
+            value: "Futures Rewritten"
+          }
         })
       ],
       "Ultimate"

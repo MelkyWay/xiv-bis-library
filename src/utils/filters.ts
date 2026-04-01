@@ -72,15 +72,15 @@ function composeComparators(...comparators: EntryComparator[]): EntryComparator 
 }
 
 function compareByCategoryOrder(categoryOrderIndex: OrderIndex): EntryComparator {
-  return (a, b) => compareByOrder(a.category, b.category, categoryOrderIndex);
+  return (a, b) => compareByOrder(a.content.category, b.content.category, categoryOrderIndex);
 }
 
 function compareByUltimateOrder(ultimateOrderIndex: OrderIndex): EntryComparator {
-  return (a, b) => compareByOrder(a.encounter, b.encounter, ultimateOrderIndex);
+  return (a, b) => compareByOrder(a.content.value, b.content.value, ultimateOrderIndex);
 }
 
 function compareByCriterionOrder(criterionOrderIndex: OrderIndex): EntryComparator {
-  return (a, b) => compareByOrder(a.encounter, b.encounter, criterionOrderIndex);
+  return (a, b) => compareByOrder(a.content.value, b.content.value, criterionOrderIndex);
 }
 
 function compareByRoleOrder(a: BisEntry, b: BisEntry): number {
@@ -114,13 +114,13 @@ function buildComparator(
     return composeComparators(
       byCategoryOrder,
       (a, b) => {
-        if (a.category !== b.category) {
+        if (a.content.category !== b.content.category) {
           return 0;
         }
-        if (a.category === "Ultimate") {
+        if (a.content.category === "Ultimate") {
           return byUltimateOrder(a, b);
         }
-        if (a.category === "Criterion") {
+        if (a.content.category === "Criterion") {
           return byCriterionOrder(a, b);
         }
         return 0;
@@ -134,13 +134,13 @@ function buildComparator(
     byJobPickerOrder,
     byCategoryOrder,
     (a, b) => {
-      if (a.category !== b.category) {
+      if (a.content.category !== b.content.category) {
         return 0;
       }
-      if (a.category === "Ultimate") {
+      if (a.content.category === "Ultimate") {
         return byUltimateOrder(a, b);
       }
-      if (a.category === "Criterion") {
+      if (a.content.category === "Criterion") {
         return byCriterionOrder(a, b);
       }
       return 0;
@@ -175,7 +175,7 @@ export function filterEntries(
         return false;
       }
 
-      if (filters.category !== "All" && entry.category !== filters.category) {
+      if (filters.category !== "All" && entry.content.category !== filters.category) {
         return false;
       }
 
@@ -183,15 +183,30 @@ export function filterEntries(
         return false;
       }
 
-      if (filters.ultimate !== "All" && entry.category === "Ultimate" && entry.encounter !== filters.ultimate) {
+      if (
+        filters.ultimate !== "All" &&
+        entry.content.category === "Ultimate" &&
+        entry.content.kind === "encounter" &&
+        entry.content.value !== filters.ultimate
+      ) {
         return false;
       }
 
-      if (filters.criterion !== "All" && entry.category === "Criterion" && entry.encounter !== filters.criterion) {
+      if (
+        filters.criterion !== "All" &&
+        entry.content.category === "Criterion" &&
+        entry.content.kind === "encounter" &&
+        entry.content.value !== filters.criterion
+      ) {
         return false;
       }
 
-      if (filters.unreal !== "All" && entry.category === "Unreal" && entry.encounter !== filters.unreal) {
+      if (
+        filters.unreal !== "All" &&
+        entry.content.category === "Unreal" &&
+        entry.content.kind === "encounter" &&
+        entry.content.value !== filters.unreal
+      ) {
         return false;
       }
 
@@ -200,7 +215,7 @@ export function filterEntries(
       }
 
       const target =
-        `${entry.job} ${entry.role} ${entry.category} ${entry.encounter ?? ""} ${entry.tier} ${entry.link.name} ${entry.source.name} ${entry.note?.text ?? ""}`.toLowerCase();
+        `${entry.job} ${entry.role} ${entry.content.category} ${entry.content.value} ${entry.link.name} ${entry.source.name} ${entry.note?.text ?? ""}`.toLowerCase();
       return target.includes(query);
     })
     .sort(comparator);

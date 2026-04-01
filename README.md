@@ -89,10 +89,13 @@ Top-level fields:
 - `entries[]`
 
 Per-entry fields:
-- Required: `job`, `role`, `category`, `tier`, `link`, `source`, `importedAt`, `updatedAt`
+- Required: `job`, `role`, `content`, `link`, `source`, `importedAt`, `updatedAt`
+- `content`: `{ "category": "...", "kind": "tier" | "encounter", "value": "..." }`
+  - Example tier entry: `{ "category": "Savage", "kind": "tier", "value": "7.4" }`
+  - Example encounter entry: `{ "category": "Ultimate", "kind": "encounter", "value": "The Unending Coil of Bahamut" }`
 - `link`: `{ "name": "XivGear", "url": "https://..." }`
 - `source`: `{ "name": "The Balance", "url": "https://..." }`
-- Optional: `encounter`, `note`, `damage`
+- Optional: `note`, `damage`
 - `note` example:
   - `{ "text": "2.50 GCD", "tooltip": "Optional context shown on hover." }`
 - `damage` examples:
@@ -132,7 +135,7 @@ Notes:
 - Importer writes `damage: { value, type }`.
 - Importer writes `importedAt` (defaults to `updatedAt` if omitted).
 - If no readable damage is found, importer sets `{ "value": null, "type": "none" }`.
-- Dedupe identity is based on job/category/encounter/link URL.
+- Dedupe identity is based on job/content/category+kind+value/link URL.
 - More script details: `scripts/README.md`.
 
 ### GitHub Pages

@@ -14,6 +14,13 @@ const VERSION_RE = /^\d+\.\d+$/;
 const URL_RE = /^https?:\/\//i;
 const SCHEMA_VERSION = 1;
 
+function expectedContentKind(category: Category): "tier" | "encounter" {
+  if (category === "Ultimate" || category === "Criterion" || category === "Unreal" || category === "Other") {
+    return "encounter";
+  }
+  return "tier";
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -43,19 +50,27 @@ function isBisEntry(value: unknown): value is BisEntry {
     return false;
   }
 
-  if (typeof value.category !== "string" || !VALID_CATEGORIES.has(value.category as Category)) {
+  if (!isRecord(value.content)) {
     return false;
   }
 
-  if (value.encounter !== undefined && typeof value.encounter !== "string") {
+  if (typeof value.content.category !== "string" || !VALID_CATEGORIES.has(value.content.category as Category)) {
     return false;
   }
 
-  if ((value.category === "Ultimate" || value.category === "Criterion" || value.category === "Unreal" || value.category === "Other") && !hasText(value.encounter)) {
+  if (value.content.kind !== "tier" && value.content.kind !== "encounter") {
     return false;
   }
 
-  if (typeof value.tier !== "string" || !VERSION_RE.test(value.tier)) {
+  if (!hasText(value.content.value)) {
+    return false;
+  }
+
+  if (expectedContentKind(value.content.category as Category) !== value.content.kind) {
+    return false;
+  }
+
+  if (value.content.kind === "tier" && !VERSION_RE.test(value.content.value)) {
     return false;
   }
 
@@ -153,8 +168,8 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
       continue;
     }
 
-    if (entry.category === "Ultimate") {
-      const encounter = entry.encounter as string;
+    if (entry.content.category === "Ultimate") {
+      const encounter = entry.content.value;
       if (!configuredUltimateNames.has(encounter)) {
         errors.push(`Invalid entry at index ${index}; unknown ultimate "${encounter}". It has been ignored.`);
         continue;
@@ -167,8 +182,8 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
       }
     }
 
-    if (entry.category === "Criterion") {
-      const encounter = entry.encounter as string;
+    if (entry.content.category === "Criterion") {
+      const encounter = entry.content.value;
       if (!configuredCriterionNames.has(encounter)) {
         errors.push(`Invalid entry at index ${index}; unknown criterion "${encounter}". It has been ignored.`);
         continue;
@@ -181,8 +196,8 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
       }
     }
 
-    if (entry.category === "Unreal") {
-      const encounter = entry.encounter as string;
+    if (entry.content.category === "Unreal") {
+      const encounter = entry.content.value;
       if (!configuredUnrealNames.has(encounter)) {
         errors.push(`Invalid entry at index ${index}; unknown unreal "${encounter}". It has been ignored.`);
         continue;

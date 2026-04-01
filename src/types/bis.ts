@@ -5,6 +5,7 @@ export type Role = GeneratedRole;
 
 export type Category = GeneratedCategory;
 export type DamageType = "sim" | "potency" | "none";
+export type ContentKind = "tier" | "encounter";
 
 export interface DamageValue {
   value: number | null;
@@ -29,9 +30,11 @@ export interface SourceValue {
 export interface BisEntry {
   job: string;
   role: Role;
-  category: Category;
-  encounter?: string;
-  tier: string;
+  content: {
+    category: Category;
+    kind: ContentKind;
+    value: string;
+  };
   link: LinkValue;
   source: SourceValue;
   note?: NoteValue;

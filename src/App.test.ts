@@ -10,8 +10,11 @@ const mockData = {
     {
       job: "DRK",
       role: "Tank",
-      category: "Savage",
-      tier: "7.4",
+      content: {
+        category: "Savage",
+        kind: "tier",
+        value: "7.4"
+      },
       link: { name: "XivGear", url: "https://xivgear.app/drk" },
       source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
       importedAt: "2026-03-29",
@@ -22,8 +25,11 @@ const mockData = {
     {
       job: "GNB",
       role: "Tank",
-      category: "Savage",
-      tier: "7.4",
+      content: {
+        category: "Savage",
+        kind: "tier",
+        value: "7.4"
+      },
       link: { name: "XivGear", url: "https://xivgear.app/gnb" },
       source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
       importedAt: "2026-03-29",
