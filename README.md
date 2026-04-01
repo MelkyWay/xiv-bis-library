@@ -89,7 +89,7 @@ Top-level fields:
 - optional name lists: `ultimateNames`, `criterionNames`, `unrealNames`
 
 Per-entry fields:
-- Required: `job`, `role`, `category`, `tier`, `link`, `source`, `updatedAt`
+- Required: `job`, `role`, `category`, `tier`, `link`, `source`, `importedAt`, `updatedAt`
 - `link`: `{ "name": "XivGear", "url": "https://..." }`
 - `source`: `{ "name": "The Balance", "url": "https://..." }`
 - Optional: `ultimate`, `criterionName`, `unrealName`, `otherName`, `notes`, `notesTooltip`, `damage`
@@ -125,6 +125,7 @@ Notes:
 - `role` can be auto-derived for known jobs.
 - Damage can be provided manually or auto-read when available.
 - Importer writes `damage: { value, type }`.
+- Importer writes `importedAt` (defaults to `updatedAt` if omitted).
 - If no readable damage is found, importer sets `{ "value": "-", "type": "none" }`.
 - Dedupe identity is based on job/category/encounter/link URL.
 - More script details: `scripts/README.md`.

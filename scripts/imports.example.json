@@ -1,6 +1,7 @@
 {
   "defaults": {
     "sourceName": "XivGear",
+    "importedAt": "2026-03-26",
     "updatedAt": "2026-03-26",
     "replaceExisting": true
   },

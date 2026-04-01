@@ -35,6 +35,7 @@ export interface BisEntry {
   notes?: string;
   notesTooltip?: string;
   damage?: DamageValue;
+  importedAt: string;
   updatedAt: string;
 }
 

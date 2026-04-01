@@ -12,6 +12,7 @@ function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
     tier: "7.4",
     link: { name: "XivGear", url: "https://xivgear.app/base" },
     source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
+    importedAt: "2026-03-29",
     updatedAt: "2026-03-29",
     damage: { value: "-", type: "none" },
     ...overrides

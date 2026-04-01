@@ -13,6 +13,7 @@ const mockData = {
       tier: "7.4",
       link: { name: "XivGear", url: "https://xivgear.app/drk" },
       source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
+      importedAt: "2026-03-29",
       updatedAt: "2026-03-29",
       notes: "drk row",
       damage: { value: "1000.0", type: "sim" }
@@ -24,6 +25,7 @@ const mockData = {
       tier: "7.4",
       link: { name: "XivGear", url: "https://xivgear.app/gnb" },
       source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
+      importedAt: "2026-03-29",
       updatedAt: "2026-03-29",
       notes: "gnb row",
       damage: { value: "900.0", type: "sim" }

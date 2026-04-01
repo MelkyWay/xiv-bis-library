@@ -86,6 +86,10 @@ function isBisEntry(value: unknown): value is BisEntry {
     return false;
   }
 
+  if (typeof value.importedAt !== "string" || !DATE_RE.test(value.importedAt)) {
+    return false;
+  }
+
   if (!URL_RE.test(value.link.url) || !URL_RE.test(value.source.url)) {
     return false;
   }

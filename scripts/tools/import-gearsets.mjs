@@ -422,10 +422,16 @@ function normalizeImportConfig(rawConfig, globalDefaults) {
     throw new Error(`Import URL ${merged.url} has invalid updatedAt "${updatedAt}". Expected YYYY-MM-DD.`);
   }
 
+  const importedAt = merged.importedAt ?? updatedAt;
+  if (!DATE_RE.test(importedAt)) {
+    throw new Error(`Import URL ${merged.url} has invalid importedAt "${importedAt}". Expected YYYY-MM-DD.`);
+  }
+
   return {
     ...merged,
     job: upperJob,
     role,
+    importedAt,
     updatedAt,
     sourceName: merged.sourceName ?? "XivGear",
     replaceExisting: merged.replaceExisting !== false,
@@ -570,6 +576,7 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
         url: sourceUrl
       },
       notes: finalNotes,
+      importedAt: importConfig.importedAt,
       updatedAt: importConfig.updatedAt,
       damage: { value: simDps, type: damageType },
       ...infoByCategory
@@ -660,7 +667,7 @@ function printHelp() {
   npm run import:gear -- --config scripts/imports/my-batch.json [--dry-run]
 
 Single import mode:
-  npm run import:gear -- --url "<xivgear url>" --job DRK --category Savage --tier 7.4 [--role Tank] [--info "<name>"] [--updatedAt 2026-03-26]
+  npm run import:gear -- --url "<xivgear url>" --job DRK --category Savage --tier 7.4 [--role Tank] [--info "<name>"] [--updatedAt 2026-03-26] [--importedAt 2026-03-26]
 
 Notes:
   - category-specific --info is required for: Ultimate, Criterion, Unreal, Other
@@ -679,6 +686,7 @@ function buildSingleImportFromCli(args) {
     category: args.category,
     tier: args.tier,
     info: args.info,
+    importedAt: args.importedAt,
     updatedAt: args.updatedAt,
     sourceName: args.sourceName,
     replaceExisting: args.replaceExisting !== "false"

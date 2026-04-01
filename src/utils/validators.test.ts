@@ -11,6 +11,7 @@ function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
     tier: "7.4",
     link: { name: "XivGear", url: "https://xivgear.app" },
     source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
+    importedAt: "2026-03-29",
     updatedAt: "2026-03-29",
     damage: { value: "-", type: "none" },
     ...overrides
@@ -57,6 +58,7 @@ describe("validateBisData", () => {
         // invalid because Ultimate requires ultimate name
         link: { name: "XivGear", url: "https://xivgear.app" },
         source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
+        importedAt: "2026-03-29",
         updatedAt: "2026-03-29"
       } as unknown as BisEntry
     ]);
@@ -117,6 +119,7 @@ describe("validateBisData", () => {
       { ...base, category: "NotACategory" as BisEntry["category"] },
       { ...base, tier: "x.y" },
       { ...base, updatedAt: "03-29-2026" },
+      { ...base, importedAt: "03-29-2026" },
       { ...base, link: { ...base.link, url: "ftp://example.com" } },
       { ...base, source: { ...base.source, url: "mailto:test@example.com" } },
       { ...base, notes: 123 as unknown as string },
