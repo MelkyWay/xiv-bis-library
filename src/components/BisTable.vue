@@ -48,6 +48,9 @@ const infoHeaderLabel = computed(() => {
   return t("table.info");
 });
 
+const showCategoryColumn = computed(() => props.activeCategory === "All");
+const emptyStateColspan = computed(() => (showCategoryColumn.value ? 9 : 8));
+
 function roleStyle(role: Role): Record<string, string> {
   if (role === "Tank") return { color: "var(--role-tank)" };
   if (role === "Healer") return { color: "var(--role-healer)" };
@@ -240,7 +243,7 @@ async function copyLink(url: string): Promise<void> {
         <tr>
           <th class="col-job">{{ t("table.job") }}</th>
           <th class="col-role">{{ t("table.role") }}</th>
-          <th>{{ t("table.category") }}</th>
+          <th v-if="showCategoryColumn">{{ t("table.category") }}</th>
           <th>{{ infoHeaderLabel }}</th>
           <th class="col-notes">{{ t("table.notes") }}</th>
           <th class="col-damage" :aria-sort="sortAriaSort('damage')">
@@ -263,7 +266,7 @@ async function copyLink(url: string): Promise<void> {
         <tr v-for="row in paginatedRows" :key="getEntryKey(row)">
           <td class="col-job"><strong :style="roleStyle(row.role)">{{ jobLabel(row.job) }}</strong></td>
           <td class="col-role" :style="roleStyle(row.role)">{{ roleLabel(row.role) }}</td>
-          <td>{{ categoryLabel(row.category) }}</td>
+          <td v-if="showCategoryColumn">{{ categoryLabel(row.category) }}</td>
           <td>{{ infoValue(row) }}</td>
           <td class="col-notes">
             <span
@@ -331,7 +334,7 @@ async function copyLink(url: string): Promise<void> {
           </td>
         </tr>
         <tr v-if="displayRows.length === 0">
-          <td colspan="9">{{ t("table.noMatchingEntries") }}</td>
+          <td :colspan="emptyStateColspan">{{ t("table.noMatchingEntries") }}</td>
         </tr>
       </tbody>
     </table>

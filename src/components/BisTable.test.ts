@@ -18,11 +18,11 @@ function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
   };
 }
 
-function mountTable(rows: BisEntry[]) {
+function mountTable(rows: BisEntry[], activeCategory: "All" | BisEntry["category"] = "All") {
   return mount(BisTable, {
     props: {
       rows,
-      activeCategory: "All",
+      activeCategory,
       favoriteEntryKeys: new Set<string>()
     },
     global: {
@@ -103,5 +103,30 @@ describe("BisTable", () => {
     const favoriteEvents = wrapper.emitted("toggle-favorite");
     expect(favoriteEvents).toHaveLength(1);
     expect(copySpy).toHaveBeenCalledWith("https://xivgear.app/base");
+  });
+
+  it("hides Category column when a specific category is selected", () => {
+    const wrapper = mountTable(
+      [
+        makeEntry({
+          category: "Ultimate",
+          ultimate: "Futures Rewritten"
+        })
+      ],
+      "Ultimate"
+    );
+
+    expect(wrapper.findAll("thead th").some((cell) => cell.text() === "Category")).toBe(false);
+    expect(wrapper.findAll("tbody tr td").some((cell) => cell.text() === "Ultimate")).toBe(false);
+  });
+
+  it("uses correct empty-state colspan depending on category filter", () => {
+    const allWrapper = mountTable([], "All");
+    const allColspan = allWrapper.get("tbody tr td").attributes("colspan");
+    expect(allColspan).toBe("9");
+
+    const ultimateWrapper = mountTable([], "Ultimate");
+    const ultimateColspan = ultimateWrapper.get("tbody tr td").attributes("colspan");
+    expect(ultimateColspan).toBe("8");
   });
 });
