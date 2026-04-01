@@ -3,8 +3,9 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import BisFilters from "./components/BisFilters.vue";
 import BisTable from "./components/BisTable.vue";
-import { ULTIMATE_ORDER, CRITERION_ORDER, UNREAL_ORDER } from "./config/encounters";
+import { CRITERION_ORDER, ULTIMATE_ORDER, UNREAL_ORDER } from "./config/encounters";
 import { JOB_ORDER, JOB_TO_ROLE } from "./config/jobs";
+import { JOB_GROUPS_BY_ROLE } from "./config/options";
 import { CATEGORY_ORDER } from "./config/orders";
 import { ROLE_ORDER } from "./config/roles";
 import { DEFAULT_LOCALE, LOCALE_STORAGE_KEY, SUPPORTED_LOCALES, type SupportedLocale } from "./i18n";
@@ -59,40 +60,12 @@ const groupedJobs = computed<Array<{ role: Role; label: string; jobs: string[] }
     Limited: t("filters.roleGroups.Limited")
   };
 
-  const roleOrder: Role[] = ROLE_ORDER;
-  const jobsByRole = new Map<Role, string[]>();
-  const availableJobs = new Set(data.value.entries.map((entry) => entry.job));
-
-  for (const role of roleOrder) {
-    const jobsForRole = JOB_ORDER.filter((job) => JOB_TO_ROLE[job] === role && availableJobs.has(job));
-    jobsByRole.set(role, jobsForRole);
-  }
-
-  return roleOrder
-    .map((role) => ({
-      role,
-      label: roleLabels[role],
-      jobs: jobsByRole.get(role) ?? []
-    }))
-    .filter((group) => group.jobs.length > 0);
+  return JOB_GROUPS_BY_ROLE.map((group) => ({
+    role: group.role,
+    label: roleLabels[group.role],
+    jobs: [...group.jobs]
+  }));
 });
-
-const jobOrder = computed(() => {
-  const availableJobs = new Set(data.value.entries.map((entry) => entry.job));
-  return JOB_ORDER.filter((job) => availableJobs.has(job));
-});
-
-function sortByConfiguredOrder(values: string[], order: readonly string[]): string[] {
-  const orderIndex = new Map(order.map((name, index) => [name, index]));
-  return [...values].sort((a, b) => {
-    const aIndex = orderIndex.get(a);
-    const bIndex = orderIndex.get(b);
-    if (aIndex !== undefined && bIndex !== undefined) return aIndex - bIndex;
-    if (aIndex !== undefined) return -1;
-    if (bIndex !== undefined) return 1;
-    return a.localeCompare(b);
-  });
-}
 
 const ultimates = computed(() => {
   return [...ULTIMATE_ORDER];
@@ -106,23 +79,15 @@ const unreals = computed(() => {
   return [...UNREAL_ORDER];
 });
 
-const roleByJob = computed<Record<string, Role>>(() => {
-  const map: Record<string, Role> = { ...JOB_TO_ROLE };
-  for (const entry of data.value.entries) {
-    if (!map[entry.job]) {
-      map[entry.job] = entry.role;
-    }
-  }
-  return map;
-});
-const knownJobs = computed<Set<string>>(() => new Set(data.value.entries.map((entry) => entry.job)));
+const roleByJob: Record<string, Role> = { ...JOB_TO_ROLE };
+const knownJobs = new Set<string>(JOB_ORDER);
 
 const filtered = computed(() => {
   const base = filterEntries(data.value.entries, filters.value, {
     ultimateOrder: ultimates.value,
     criterionOrder: criterions.value,
     categoryOrder: CATEGORY_ORDER,
-    jobOrder: jobOrder.value
+    jobOrder: [...JOB_ORDER]
   });
 
   if (!favoritesOnly.value) {
@@ -284,7 +249,7 @@ function parseFiltersFromUrl(): Partial<BisFiltersState> {
   }
 
   const job = params.get("job");
-  if (job && (job === "All" || knownJobs.value.has(job))) {
+  if (job && (job === "All" || knownJobs.has(job))) {
     next.job = job;
   }
 
@@ -403,14 +368,14 @@ function updateFilters(next: BisFiltersState): void {
   const categoryChanged = nextFilters.category !== previousFilters.category;
 
   if (roleChanged && !jobChanged && nextFilters.job !== "All") {
-    const selectedJobRole = roleByJob.value[nextFilters.job];
+    const selectedJobRole = roleByJob[nextFilters.job];
     if (selectedJobRole && nextFilters.role !== selectedJobRole) {
       nextFilters.job = "All";
     }
   }
 
   if (nextFilters.job !== "All") {
-    const jobRole = roleByJob.value[nextFilters.job];
+    const jobRole = roleByJob[nextFilters.job];
     if (jobRole) {
       nextFilters.role = jobRole;
     } else {
