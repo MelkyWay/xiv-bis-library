@@ -95,37 +95,15 @@ function sortByConfiguredOrder(values: string[], order: readonly string[]): stri
 }
 
 const ultimates = computed(() => {
-  const names = [
-    ...new Set(
-      data.value.entries
-        .filter((entry) => entry.category === "Ultimate" && entry.ultimate)
-        .map((entry) => entry.ultimate as string)
-    )
-  ];
-
-  return sortByConfiguredOrder(names, ULTIMATE_ORDER);
+  return [...ULTIMATE_ORDER];
 });
 
 const criterions = computed(() => {
-  const names = [
-    ...new Set(
-      data.value.entries
-        .filter((entry) => entry.category === "Criterion" && entry.criterionName)
-        .map((entry) => entry.criterionName as string)
-    )
-  ];
-  return sortByConfiguredOrder(names, CRITERION_ORDER);
+  return [...CRITERION_ORDER];
 });
 
 const unreals = computed(() => {
-  const names = [
-    ...new Set(
-      data.value.entries
-        .filter((entry) => entry.category === "Unreal" && entry.unrealName)
-        .map((entry) => entry.unrealName as string)
-    )
-  ];
-  return sortByConfiguredOrder(names, UNREAL_ORDER);
+  return [...UNREAL_ORDER];
 });
 
 const roleByJob = computed<Record<string, Role>>(() => {
