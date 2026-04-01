@@ -7,8 +7,13 @@ export type Category = GeneratedCategory;
 export type DamageType = "sim" | "potency" | "none";
 
 export interface DamageValue {
-  value: string;
+  value: number | null;
   type: DamageType;
+}
+
+export interface NoteValue {
+  text: string;
+  tooltip?: string | null;
 }
 
 export interface LinkValue {
@@ -32,14 +37,14 @@ export interface BisEntry {
   tier: string;
   link: LinkValue;
   source: SourceValue;
-  notes?: string;
-  notesTooltip?: string;
+  note?: NoteValue;
   damage?: DamageValue;
   importedAt: string;
   updatedAt: string;
 }
 
 export interface BisDataFile {
+  schemaVersion: 1;
   lastUpdated: string;
   entries: BisEntry[];
 }

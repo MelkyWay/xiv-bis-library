@@ -12,13 +12,14 @@ function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
     source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
     importedAt: "2026-03-29",
     updatedAt: "2026-03-29",
-    damage: { value: "-", type: "none" },
+    damage: { value: null, type: "none" },
     ...overrides
   };
 }
 
 function makeFile(entries: BisEntry[]): BisDataFile {
   return {
+    schemaVersion: 1,
     lastUpdated: "2026-03-29",
     entries
   };
@@ -31,13 +32,28 @@ describe("validateBisData", () => {
       makeEntry({
         category: "Ultimate",
         ultimate: "Futures Rewritten",
-        damage: { value: "9999.9", type: "sim" }
+        damage: { value: 9999.9, type: "sim" }
       })
     ]);
 
     const result = validateBisData(input);
     expect(result.errors).toHaveLength(0);
     expect(result.data?.entries).toHaveLength(2);
+  });
+
+  it("accepts note tooltip set to null", () => {
+    const input = makeFile([
+      makeEntry({
+        note: {
+          text: "valid note",
+          tooltip: null
+        }
+      })
+    ]);
+
+    const result = validateBisData(input);
+    expect(result.errors).toHaveLength(0);
+    expect(result.data?.entries).toHaveLength(1);
   });
 
   it("rejects a non-object root", () => {
@@ -54,7 +70,6 @@ describe("validateBisData", () => {
         role: "Tank",
         category: "Ultimate",
         tier: "7.4",
-        // invalid because Ultimate requires ultimate name
         link: { name: "XivGear", url: "https://xivgear.app" },
         source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
         importedAt: "2026-03-29",
@@ -67,10 +82,10 @@ describe("validateBisData", () => {
     expect(result.errors.some((message) => message.includes("Invalid entry at index 1"))).toBe(true);
   });
 
-  it("rejects damage type none when value is not '-'", () => {
+  it("rejects damage type none when value is not null", () => {
     const input = makeFile([
       makeEntry({
-        damage: { value: "1234.5", type: "none" }
+        damage: { value: 1234.5, type: "none" }
       })
     ]);
 
@@ -101,8 +116,19 @@ describe("validateBisData", () => {
     expect(result.errors).toContain("Invalid or missing lastUpdated (expected YYYY-MM-DD).");
   });
 
+  it("returns error for missing schemaVersion", () => {
+    const input = {
+      lastUpdated: "2026-03-29",
+      entries: [makeEntry()]
+    };
+
+    const result = validateBisData(input);
+    expect(result.errors).toContain("Invalid or missing schemaVersion (expected 1).");
+  });
+
   it("returns error when entries is missing or not an array", () => {
     const result = validateBisData({
+      schemaVersion: 1,
       lastUpdated: "2026-03-29",
       entries: "not-an-array"
     });
@@ -121,10 +147,10 @@ describe("validateBisData", () => {
       { ...base, importedAt: "03-29-2026" },
       { ...base, link: { ...base.link, url: "ftp://example.com" } },
       { ...base, source: { ...base.source, url: "mailto:test@example.com" } },
-      { ...base, notes: 123 as unknown as string },
-      { ...base, notesTooltip: 456 as unknown as string },
-      { ...base, damage: { value: 1 as unknown as string, type: "sim" } },
-      { ...base, damage: { value: "1234.5", type: "invalid" as unknown as "sim" } }
+      { ...base, note: 123 as unknown as BisEntry["note"] },
+      { ...base, note: { text: "ok", tooltip: 456 as unknown as string } },
+      { ...base, damage: { value: "1234.5" as unknown as number, type: "sim" } },
+      { ...base, damage: { value: 1234.5, type: "invalid" as unknown as "sim" } }
     ];
 
     const result = validateBisData(makeFile(variants));

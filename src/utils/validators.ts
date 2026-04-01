@@ -12,6 +12,7 @@ const VALID_JOBS: ReadonlySet<string> = new Set<string>(JOB_ORDER);
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const VERSION_RE = /^\d+\.\d+$/;
 const URL_RE = /^https?:\/\//i;
+const SCHEMA_VERSION = 1;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -94,25 +95,29 @@ function isBisEntry(value: unknown): value is BisEntry {
     return false;
   }
 
-  if (value.notes !== undefined && typeof value.notes !== "string") {
-    return false;
-  }
-
-  if (value.notesTooltip !== undefined && typeof value.notesTooltip !== "string") {
-    return false;
+  if (value.note !== undefined) {
+    if (!isRecord(value.note) || !hasText(value.note.text)) {
+      return false;
+    }
+    if (value.note.tooltip !== undefined && value.note.tooltip !== null && typeof value.note.tooltip !== "string") {
+      return false;
+    }
   }
 
   if (value.damage !== undefined) {
     if (!isRecord(value.damage)) {
       return false;
     }
-    if (typeof value.damage.value !== "string") {
-      return false;
-    }
     if (value.damage.type !== "sim" && value.damage.type !== "potency" && value.damage.type !== "none") {
       return false;
     }
-    if (value.damage.type === "none" && value.damage.value !== "-") {
+    if (value.damage.type === "none" && value.damage.value !== null) {
+      return false;
+    }
+    if (
+      value.damage.type !== "none" &&
+      (typeof value.damage.value !== "number" || !Number.isFinite(value.damage.value))
+    ) {
       return false;
     }
   }
@@ -129,6 +134,10 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
 
   if (typeof input.lastUpdated !== "string" || !DATE_RE.test(input.lastUpdated)) {
     errors.push("Invalid or missing lastUpdated (expected YYYY-MM-DD).");
+  }
+
+  if (input.schemaVersion !== SCHEMA_VERSION) {
+    errors.push(`Invalid or missing schemaVersion (expected ${SCHEMA_VERSION}).`);
   }
 
   if (!Array.isArray(input.entries)) {
@@ -215,6 +224,7 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
 
   return {
     data: {
+      schemaVersion: SCHEMA_VERSION,
       lastUpdated: input.lastUpdated,
       entries: validEntries
     },

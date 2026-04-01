@@ -66,13 +66,12 @@ function infoValue(row: BisEntry): string {
   return row.tier;
 }
 
-function parseDamage(value: string | undefined): number | null {
-  if (!value || value === "-") {
+function parseDamage(value: number | null | undefined): number | null {
+  if (value === null || value === undefined) {
     return null;
   }
 
-  const parsed = Number.parseFloat(value);
-  return Number.isFinite(parsed) ? parsed : null;
+  return Number.isFinite(value) ? value : null;
 }
 
 const SORT_CONFIGS: Record<SortKey, SortConfig> = {
@@ -124,7 +123,7 @@ function sortAriaSort(key: SortKey): "ascending" | "descending" | "none" {
 }
 
 function hasDamageValue(row: BisEntry): boolean {
-  return !!row.damage?.value && row.damage.value !== "-";
+  return typeof row.damage?.value === "number" && Number.isFinite(row.damage.value);
 }
 
 function damageType(row: BisEntry): "sim" | "potency" | null {
@@ -149,6 +148,13 @@ function damageSubscriptLabel(row: BisEntry): string {
 
 function damageSubscriptTooltip(row: BisEntry): string {
   return damageType(row) === "potency" ? t("table.damageTypePotency") : t("table.damageTypeSim");
+}
+
+function damageDisplayValue(row: BisEntry): string {
+  if (!hasDamageValue(row)) {
+    return "-";
+  }
+  return row.damage!.value!.toFixed(2);
 }
 
 function roleLabel(role: Role): string {
@@ -267,16 +273,16 @@ async function copyLink(url: string): Promise<void> {
           <td class="col-notes">
             <span
               class="notes-tooltip-anchor notes-main-tooltip"
-              :class="{ 'has-tooltip': !!row.notesTooltip }"
-              :data-tooltip="row.notesTooltip || ''"
-              :tabindex="row.notesTooltip ? 0 : undefined"
+              :class="{ 'has-tooltip': !!row.note?.tooltip }"
+              :data-tooltip="row.note?.tooltip || ''"
+              :tabindex="row.note?.tooltip ? 0 : undefined"
             >
-              {{ row.notes ?? "-" }}
+              {{ row.note?.text ?? "-" }}
             </span>
           </td>
           <td>
             <span class="damage-cell">
-              <span>{{ row.damage?.value ?? "-" }}</span>
+              <span>{{ damageDisplayValue(row) }}</span>
               <button
                 v-if="damageType(row)"
                 class="damage-kind-badge notes-tooltip-anchor has-tooltip"

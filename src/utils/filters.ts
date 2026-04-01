@@ -3,13 +3,12 @@ import type { BisEntry, BisFiltersState } from "../types/bis";
 
 const ROLE_ORDER_INDEX: Map<string, number> = new Map(ROLE_ORDER.map((role, index) => [role, index + 1]));
 
-function parseSimDps(value: string | undefined): number | null {
-  if (!value || value === "-") {
+function parseSimDps(value: number | null | undefined): number | null {
+  if (value === null || value === undefined) {
     return null;
   }
 
-  const parsed = Number.parseFloat(value);
-  return Number.isFinite(parsed) ? parsed : null;
+  return Number.isFinite(value) ? value : null;
 }
 
 type OrderIndex = Map<string, number>;
@@ -201,7 +200,7 @@ export function filterEntries(
       }
 
       const target =
-        `${entry.job} ${entry.role} ${entry.category} ${entry.ultimate ?? ""} ${entry.criterionName ?? ""} ${entry.unrealName ?? ""} ${entry.otherName ?? ""} ${entry.tier} ${entry.link.name} ${entry.source.name} ${entry.notes ?? ""}`.toLowerCase();
+        `${entry.job} ${entry.role} ${entry.category} ${entry.ultimate ?? ""} ${entry.criterionName ?? ""} ${entry.unrealName ?? ""} ${entry.otherName ?? ""} ${entry.tier} ${entry.link.name} ${entry.source.name} ${entry.note?.text ?? ""}`.toLowerCase();
       return target.includes(query);
     })
     .sort(comparator);

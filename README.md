@@ -16,7 +16,7 @@ A Vue 3 + TypeScript site that centralizes community BiS links for Final Fantasy
 - Damage column with sortable structured values:
   - `sim`
   - `potency`
-  - `none` (`-`)
+  - `none` (stored as `null`, displayed as `-`)
 - Per-row actions: favorite toggle and copy link.
 
 ### Data source
@@ -84,6 +84,7 @@ docker compose down
 Main data file: `public/data/bis-links.json`
 
 Top-level fields:
+- `schemaVersion` (`1`)
 - `lastUpdated` (`YYYY-MM-DD`)
 - `entries[]`
 
@@ -91,11 +92,16 @@ Per-entry fields:
 - Required: `job`, `role`, `category`, `tier`, `link`, `source`, `importedAt`, `updatedAt`
 - `link`: `{ "name": "XivGear", "url": "https://..." }`
 - `source`: `{ "name": "The Balance", "url": "https://..." }`
-- Optional: `ultimate`, `criterionName`, `unrealName`, `otherName`, `notes`, `notesTooltip`, `damage`
+- Optional: `ultimate`, `criterionName`, `unrealName`, `otherName`, `note`, `damage`
+- `note` example:
+  - `{ "text": "2.50 GCD", "tooltip": "Optional context shown on hover." }`
 - `damage` examples:
-  - `{ "value": "12345.67", "type": "sim" }`
-  - `{ "value": "12.34", "type": "potency" }`
-  - `{ "value": "-", "type": "none" }`
+  - `{ "value": 12345.67, "type": "sim" }`
+  - `{ "value": 12.34, "type": "potency" }`
+  - `{ "value": null, "type": "none" }`
+- Date semantics:
+  - `importedAt`: date this row was ingested into this library.
+  - `updatedAt`: freshness date for the referenced external set data.
 
 Roles:
 - `Tank`, `Healer`, `Melee`, `Physical Ranged`, `Magical Ranged`, `Limited`
@@ -125,7 +131,7 @@ Notes:
 - Damage can be provided manually or auto-read when available.
 - Importer writes `damage: { value, type }`.
 - Importer writes `importedAt` (defaults to `updatedAt` if omitted).
-- If no readable damage is found, importer sets `{ "value": "-", "type": "none" }`.
+- If no readable damage is found, importer sets `{ "value": null, "type": "none" }`.
 - Dedupe identity is based on job/category/encounter/link URL.
 - More script details: `scripts/README.md`.
 

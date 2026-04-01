@@ -14,7 +14,7 @@ function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
     source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
     importedAt: "2026-03-29",
     updatedAt: "2026-03-29",
-    damage: { value: "-", type: "none" },
+    damage: { value: null, type: "none" },
     ...overrides
   };
 }
@@ -37,11 +37,11 @@ describe("BisTable", () => {
     const wrapper = mountTable([
       makeEntry({
         link: { name: "XivGear", url: "https://xivgear.app/sim" },
-        damage: { value: "12345.67", type: "sim" }
+        damage: { value: 12345.67, type: "sim" }
       }),
       makeEntry({
         link: { name: "XivGear", url: "https://xivgear.app/potency" },
-        damage: { value: "456.78", type: "potency" }
+        damage: { value: 456.78, type: "potency" }
       })
     ]);
 
@@ -53,17 +53,43 @@ describe("BisTable", () => {
     expect(badges[1].attributes("data-tooltip")).toBe("dmg/100 potency");
   });
 
+  it("shows '-' and no damage badge when damage is none", () => {
+    const wrapper = mountTable([
+      makeEntry({
+        damage: { value: null, type: "none" }
+      })
+    ]);
+
+    expect(wrapper.text()).toContain("-");
+    expect(wrapper.find(".damage-kind-badge").exists()).toBe(false);
+  });
+
+  it("renders note text and tooltip from note object", () => {
+    const wrapper = mountTable([
+      makeEntry({
+        note: {
+          text: "2.50 GCD",
+          tooltip: "Sample tooltip"
+        }
+      })
+    ]);
+
+    const anchor = wrapper.get(".notes-main-tooltip");
+    expect(anchor.text()).toContain("2.50 GCD");
+    expect(anchor.attributes("data-tooltip")).toBe("Sample tooltip");
+  });
+
   it("sorts by damage descending on first click", async () => {
     const wrapper = mountTable([
       makeEntry({
         link: { name: "XivGear", url: "https://xivgear.app/low" },
-        notes: "low",
-        damage: { value: "100.0", type: "sim" }
+        note: { text: "low" },
+        damage: { value: 100.0, type: "sim" }
       }),
       makeEntry({
         link: { name: "XivGear", url: "https://xivgear.app/high" },
-        notes: "high",
-        damage: { value: "999.0", type: "sim" }
+        note: { text: "high" },
+        damage: { value: 999.0, type: "sim" }
       })
     ]);
 
@@ -78,7 +104,7 @@ describe("BisTable", () => {
     const rows = Array.from({ length: 101 }, (_, index) =>
       makeEntry({
         link: { name: "XivGear", url: `https://xivgear.app/${index}` },
-        notes: `row-${index}`
+        note: { text: `row-${index}` }
       })
     );
     const wrapper = mountTable(rows);

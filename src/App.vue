@@ -29,7 +29,7 @@ type InfoPageContent = {
 
 const { t, locale } = useI18n();
 
-const data = ref<BisDataFile>({ lastUpdated: "", entries: [] });
+const data = ref<BisDataFile>({ schemaVersion: 1, lastUpdated: "", entries: [] });
 const loading = ref(true);
 const loadError = ref<string | null>(null);
 const validationWarnings = ref<string[]>([]);

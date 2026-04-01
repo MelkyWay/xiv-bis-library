@@ -12,7 +12,7 @@ function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
     source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
     importedAt: "2026-03-29",
     updatedAt: "2026-03-29",
-    damage: { value: "-", type: "none" },
+    damage: { value: null, type: "none" },
     ...overrides
   };
 }
@@ -33,9 +33,9 @@ function makeFilters(overrides: Partial<BisFiltersState> = {}): BisFiltersState 
 describe("filterEntries", () => {
   it("filters by role, category, and query", () => {
     const entries: BisEntry[] = [
-      makeEntry({ job: "DRK", role: "Tank", category: "Savage", notes: "Main tank set" }),
-      makeEntry({ job: "GNB", role: "Tank", category: "Ultimate", ultimate: "Futures Rewritten", notes: "FRU set" }),
-      makeEntry({ job: "SCH", role: "Healer", category: "Savage", notes: "Healer setup" })
+      makeEntry({ job: "DRK", role: "Tank", category: "Savage", note: { text: "Main tank set" } }),
+      makeEntry({ job: "GNB", role: "Tank", category: "Ultimate", ultimate: "Futures Rewritten", note: { text: "FRU set" } }),
+      makeEntry({ job: "SCH", role: "Healer", category: "Savage", note: { text: "Healer setup" } })
     ];
 
     const out = filterEntries(
@@ -58,28 +58,28 @@ describe("filterEntries", () => {
         role: "Tank",
         category: "Ultimate",
         ultimate: "Futures Rewritten",
-        damage: { value: "9000.0", type: "sim" }
+        damage: { value: 9000.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
         ultimate: "The Omega Protocol",
-        damage: { value: "9800.0", type: "sim" }
+        damage: { value: 9800.0, type: "sim" }
       }),
       makeEntry({
         job: "GNB",
         role: "Tank",
         category: "Ultimate",
         ultimate: "Futures Rewritten",
-        damage: { value: "8700.0", type: "sim" }
+        damage: { value: 8700.0, type: "sim" }
       }),
       makeEntry({
         job: "GNB",
         role: "Tank",
         category: "Ultimate",
         ultimate: "The Omega Protocol",
-        damage: { value: "9900.0", type: "sim" }
+        damage: { value: 9900.0, type: "sim" }
       })
     ];
 
@@ -103,34 +103,34 @@ describe("filterEntries", () => {
         role: "Tank",
         category: "Ultimate",
         ultimate: "The Omega Protocol",
-        damage: { value: "8200.0", type: "sim" }
+        damage: { value: 8200.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
         ultimate: "Futures Rewritten",
-        damage: { value: "8100.0", type: "sim" }
+        damage: { value: 8100.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Savage",
-        damage: { value: "10100.0", type: "sim" }
+        damage: { value: 10100.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Criterion",
         criterionName: "Another Aloalo Island",
-        damage: { value: "7000.0", type: "sim" }
+        damage: { value: 7000.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Criterion",
         criterionName: "Another Mount Rokkon",
-        damage: { value: "7100.0", type: "sim" }
+        damage: { value: 7100.0, type: "sim" }
       })
     ];
 
@@ -156,16 +156,16 @@ describe("filterEntries", () => {
         role: "Tank",
         category: "Ultimate",
         ultimate: "Futures Rewritten",
-        notes: "with damage",
-        damage: { value: "9000.0", type: "sim" }
+        note: { text: "with damage" },
+        damage: { value: 9000.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
         ultimate: "Futures Rewritten",
-        notes: "without damage",
-        damage: { value: "-", type: "none" }
+        note: { text: "without damage" },
+        damage: { value: null, type: "none" }
       })
     ];
 
@@ -174,8 +174,8 @@ describe("filterEntries", () => {
       ultimateOrder: ["Futures Rewritten"]
     });
 
-    expect(out[0].notes).toBe("with damage");
-    expect(out[1].notes).toBe("without damage");
+    expect(out[0].note?.text).toBe("with damage");
+    expect(out[1].note?.text).toBe("without damage");
   });
 
   it("filters by criterion and unreal selectors", () => {
@@ -228,34 +228,34 @@ describe("filterEntries", () => {
         role: "Tank",
         category: "Criterion",
         criterionName: "Another Mount Rokkon",
-        damage: { value: "7000.0", type: "sim" }
+        damage: { value: 7000.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
         ultimate: "The Omega Protocol",
-        damage: { value: "8000.0", type: "sim" }
+        damage: { value: 8000.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Ultimate",
         ultimate: "Futures Rewritten",
-        damage: { value: "7900.0", type: "sim" }
+        damage: { value: 7900.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Criterion",
         criterionName: "Another Aloalo Island",
-        damage: { value: "7100.0", type: "sim" }
+        damage: { value: 7100.0, type: "sim" }
       }),
       makeEntry({
         job: "DRK",
         role: "Tank",
         category: "Savage",
-        damage: { value: "9000.0", type: "sim" }
+        damage: { value: 9000.0, type: "sim" }
       })
     ];
 
@@ -281,13 +281,13 @@ describe("filterEntries", () => {
         job: "AAA",
         role: "Tank",
         category: "Savage",
-        damage: { value: "-", type: "none" }
+        damage: { value: null, type: "none" }
       }),
       makeEntry({
         job: "AAA",
         role: "Healer",
         category: "Savage",
-        damage: { value: "-", type: "none" }
+        damage: { value: null, type: "none" }
       })
     ];
 
@@ -307,15 +307,15 @@ describe("filterEntries", () => {
         job: "AAA",
         role: "Tank",
         category: "Savage",
-        notes: "first",
-        damage: { value: "-", type: "none" }
+        note: { text: "first" },
+        damage: { value: null, type: "none" }
       }),
       makeEntry({
         job: "AAA",
         role: "Tank",
         category: "Savage",
-        notes: "second",
-        damage: { value: "-", type: "none" }
+        note: { text: "second" },
+        damage: { value: null, type: "none" }
       })
     ];
 
@@ -325,7 +325,7 @@ describe("filterEntries", () => {
     });
 
     expect(out).toHaveLength(2);
-    expect(out.map((entry) => entry.notes)).toEqual(["first", "second"]);
+    expect(out.map((entry) => entry.note?.text)).toEqual(["first", "second"]);
   });
 
   it("rejects entries on job, ultimate, and unreal mismatch branches", () => {

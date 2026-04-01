@@ -473,6 +473,18 @@ function resolveSetOverride(setName, setIndex, overrides) {
   return null;
 }
 
+function parseDamageNumber(raw) {
+  if (typeof raw !== "string") {
+    return null;
+  }
+  const compact = raw.replaceAll(",", "").trim();
+  if (!compact || compact === "-") {
+    return null;
+  }
+  const parsed = Number.parseFloat(compact);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
 function buildEntriesFromSheet(sheetPayload, importConfig) {
   const sets = normalizePayloadSets(sheetPayload);
   const infoByCategory = normalizeCategoryInfo(importConfig);
@@ -536,7 +548,8 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
       }
     }
 
-    let damageType = simDps === "-" ? "none" : "sim";
+    const numericDamage = parseDamageNumber(simDps);
+    let damageType = numericDamage === null ? "none" : "sim";
     if (typeof importConfig.damageTypeByIndex[String(i)] === "string") {
       damageType = importConfig.damageTypeByIndex[String(i)];
     } else if (typeof importConfig.damageTypeByName[rawName] === "string") {
@@ -549,9 +562,10 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
     if (damageType !== "sim" && damageType !== "potency" && damageType !== "none") {
       damageType = simDps === "-" ? "none" : "sim";
     }
-    if (simDps === "-") {
+    if (numericDamage === null) {
       damageType = "none";
     }
+    const damageValue = damageType === "none" ? null : numericDamage;
 
     const sourceBaseUrl = pickSourceBaseUrl(importConfig, importConfig._resolvedPageUrl);
     const linkUrl = setOnlySetIndex(sourceBaseUrl, i);
@@ -575,14 +589,19 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
         name: sourceName,
         url: sourceUrl
       },
-      notes: finalNotes,
       importedAt: importConfig.importedAt,
       updatedAt: importConfig.updatedAt,
-      damage: { value: simDps, type: damageType },
+      damage: { value: damageValue, type: damageType },
       ...infoByCategory
     };
+    if (typeof finalNotes === "string" && finalNotes.trim().length > 0) {
+      row.note = {
+        text: finalNotes.trim()
+      };
+    }
     if (notesTooltip) {
-      row.notesTooltip = notesTooltip;
+      row.note = row.note ?? { text: rawName };
+      row.note.tooltip = notesTooltip;
     }
     entries.push(row);
   }
@@ -667,6 +686,9 @@ async function main() {
 
   const dataRaw = await fs.readFile(DATA_FILE_PATH, "utf8");
   const dataFile = JSON.parse(dataRaw);
+  if (dataFile.schemaVersion !== 1) {
+    dataFile.schemaVersion = 1;
+  }
   if (!Array.isArray(dataFile.entries)) {
     throw new Error(`Data file ${DATA_FILE_PATH} has no entries array.`);
   }

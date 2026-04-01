@@ -4,6 +4,7 @@ import App from "./App.vue";
 import { createTestI18n } from "./test/i18n";
 
 const mockData = {
+  schemaVersion: 1,
   lastUpdated: "2026-03-29",
   entries: [
     {
@@ -15,8 +16,8 @@ const mockData = {
       source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
       importedAt: "2026-03-29",
       updatedAt: "2026-03-29",
-      notes: "drk row",
-      damage: { value: "1000.0", type: "sim" }
+      note: { text: "drk row" },
+      damage: { value: 1000.0, type: "sim" }
     },
     {
       job: "GNB",
@@ -27,8 +28,8 @@ const mockData = {
       source: { name: "The Balance", url: "https://www.thebalanceffxiv.com" },
       importedAt: "2026-03-29",
       updatedAt: "2026-03-29",
-      notes: "gnb row",
-      damage: { value: "900.0", type: "sim" }
+      note: { text: "gnb row" },
+      damage: { value: 900.0, type: "sim" }
     }
   ]
 };
