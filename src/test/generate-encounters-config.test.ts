@@ -25,24 +25,44 @@ afterEach(async () => {
 describe("generate-encounters-config", () => {
   it("validates encounter config structure", () => {
     const data = validateEncountersConfig({
-      ultimateOrder: ["U1", "U2"],
-      criterionOrder: ["C1"]
+      encounters: {
+        ultimate: ["U1", "U0"],
+        criterion: ["C1"],
+        unreal: []
+      }
     });
-    expect(data.ultimateOrder).toEqual(["U1", "U2"]);
+    expect(data.ultimateOrder).toEqual(["U1", "U0"]);
     expect(data.criterionOrder).toEqual(["C1"]);
   });
 
   it("rejects invalid structure", () => {
-    expect(() => validateEncountersConfig({ ultimateOrder: [], criterionOrder: ["C1"] })).toThrow("ultimateOrder");
+    expect(() => validateEncountersConfig({ encounters: [] })).toThrow("encounters object");
+  });
+
+  it("rejects duplicate encounter names", () => {
+    expect(() =>
+      validateEncountersConfig({
+        encounters: {
+          ultimate: ["U1"],
+          criterion: ["U1"],
+          unreal: []
+        }
+      })
+    ).toThrow("Duplicate encounter name");
   });
 
   it("builds generated TS output", () => {
     const output = buildEncountersGeneratedTs("src/config/encounters.json", {
+      encounters: [{ name: "U1", category: "Ultimate", order: 1 }],
       ultimateOrder: ["U1"],
-      criterionOrder: ["C1"]
+      criterionOrder: ["C1"],
+      unrealOrder: ["X1"]
     });
+    expect(output).toContain("export const ENCOUNTERS");
     expect(output).toContain("export const ULTIMATE_ORDER");
     expect(output).toContain("export const CRITERION_ORDER");
+    expect(output).toContain("export const UNREAL_ORDER");
+    expect(output).toContain("export type EncounterCategory");
     expect(output).toContain("export type UltimateEncounter");
   });
 
@@ -54,7 +74,7 @@ describe("generate-encounters-config", () => {
     const outputPath = path.join(tempDir, "encounters.generated.ts");
     await fs.writeFile(
       inputPath,
-      JSON.stringify({ ultimateOrder: ["U1", "U2"], criterionOrder: ["C1"] }),
+      JSON.stringify({ encounters: { ultimate: ["U1"], criterion: ["C1"], unreal: [] } }),
       "utf8"
     );
 
@@ -66,6 +86,7 @@ describe("generate-encounters-config", () => {
 
     const generated = await fs.readFile(outputPath, "utf8");
     expect(generated).toContain("Source: encounters.json");
+    expect(generated).toContain("ENCOUNTERS");
     expect(generated).toContain("ULTIMATE_ORDER");
     expect(generated).toContain("CRITERION_ORDER");
   });

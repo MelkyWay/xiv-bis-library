@@ -1,16 +1,19 @@
 {
-  "ultimateOrder": [
-    "Futures Rewritten",
-    "The Omega Protocol",
-    "Dragonsong's Reprise",
-    "The Epic of Alexander",
-    "The Weapon's Refrain",
-    "The Unending Coil of Bahamut"
-  ],
-  "criterionOrder": [
-    "Another Merchant's Tale",
-    "Another Aloalo Island",
-    "Another Mount Rokkon",
-    "Another Sil'dihn Subterrane"
-  ]
+  "encounters": {
+    "ultimate": [
+      "Futures Rewritten",
+      "The Omega Protocol",
+      "Dragonsong's Reprise",
+      "The Epic of Alexander",
+      "The Weapon's Refrain",
+      "The Unending Coil of Bahamut"
+    ],
+    "criterion": [
+      "Another Merchant's Tale",
+      "Another Aloalo Island",
+      "Another Mount Rokkon",
+      "Another Sil'dihn Subterrane"
+    ],
+    "unreal": ["Tsukuyomi's Pain"]
+  }
 }
