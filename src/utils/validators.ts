@@ -1,4 +1,5 @@
-import { CRITERION_ORDER, ULTIMATE_ORDER } from "../config/encounters";
+import { CRITERION_ORDER, ENCOUNTER_CATEGORY_BY_NAME, ULTIMATE_ORDER, UNREAL_ORDER } from "../config/encounters";
+import { JOB_ORDER, JOB_TO_ROLE } from "../config/jobs";
 import { CATEGORY_ORDER } from "../config/orders";
 import { ROLE_ORDER } from "../config/roles";
 import type { BisDataFile, BisEntry, Category, Role } from "../types/bis";
@@ -6,6 +7,7 @@ import type { BisDataFile, BisEntry, Category, Role } from "../types/bis";
 const VALID_ROLES: ReadonlySet<Role> = new Set<Role>(ROLE_ORDER);
 
 const VALID_CATEGORIES: ReadonlySet<Category> = new Set<Category>(CATEGORY_ORDER);
+const VALID_JOBS: ReadonlySet<string> = new Set<string>(JOB_ORDER);
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const VERSION_RE = /^\d+\.\d+$/;
@@ -190,13 +192,32 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
   const allowedUnrealNames = new Set(sanitizedUnrealNames ?? dataDerivedUnrealNames);
   const configuredUltimateNames = new Set<string>(ULTIMATE_ORDER);
   const configuredCriterionNames = new Set<string>(CRITERION_ORDER);
+  const configuredUnrealNames = new Set<string>(UNREAL_ORDER);
 
   const validEntries: BisEntry[] = [];
   for (const { entry, index } of structurallyValidEntries) {
+    if (!VALID_JOBS.has(entry.job)) {
+      errors.push(`Invalid entry at index ${index}; unknown job "${entry.job}". It has been ignored.`);
+      continue;
+    }
+
+    if (JOB_TO_ROLE[entry.job as keyof typeof JOB_TO_ROLE] !== entry.role) {
+      errors.push(
+        `Invalid entry at index ${index}; role "${entry.role}" does not match configured role for job "${entry.job}". It has been ignored.`
+      );
+      continue;
+    }
+
     if (entry.category === "Ultimate") {
       const encounter = entry.ultimate as string;
       if (!configuredUltimateNames.has(encounter)) {
         errors.push(`Invalid entry at index ${index}; unknown ultimate "${encounter}". It has been ignored.`);
+        continue;
+      }
+      if (ENCOUNTER_CATEGORY_BY_NAME[encounter as keyof typeof ENCOUNTER_CATEGORY_BY_NAME] !== "Ultimate") {
+        errors.push(
+          `Invalid entry at index ${index}; encounter "${encounter}" is not mapped to category Ultimate. It has been ignored.`
+        );
         continue;
       }
       if (!allowedUltimateNames.has(encounter)) {
@@ -211,6 +232,12 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
         errors.push(`Invalid entry at index ${index}; unknown criterion "${encounter}". It has been ignored.`);
         continue;
       }
+      if (ENCOUNTER_CATEGORY_BY_NAME[encounter as keyof typeof ENCOUNTER_CATEGORY_BY_NAME] !== "Criterion") {
+        errors.push(
+          `Invalid entry at index ${index}; encounter "${encounter}" is not mapped to category Criterion. It has been ignored.`
+        );
+        continue;
+      }
       if (!allowedCriterionNames.has(encounter)) {
         errors.push(`Invalid entry at index ${index}; criterion "${encounter}" is not declared in criterionNames.`);
         continue;
@@ -219,6 +246,16 @@ export function validateBisData(input: unknown): { data?: BisDataFile; errors: s
 
     if (entry.category === "Unreal") {
       const encounter = entry.unrealName as string;
+      if (!configuredUnrealNames.has(encounter)) {
+        errors.push(`Invalid entry at index ${index}; unknown unreal "${encounter}". It has been ignored.`);
+        continue;
+      }
+      if (ENCOUNTER_CATEGORY_BY_NAME[encounter as keyof typeof ENCOUNTER_CATEGORY_BY_NAME] !== "Unreal") {
+        errors.push(
+          `Invalid entry at index ${index}; encounter "${encounter}" is not mapped to category Unreal. It has been ignored.`
+        );
+        continue;
+      }
       if (!allowedUnrealNames.has(encounter)) {
         errors.push(`Invalid entry at index ${index}; unreal "${encounter}" is not declared in unrealNames.`);
         continue;

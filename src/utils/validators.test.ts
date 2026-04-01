@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { UNREAL_ORDER } from "../config/encounters";
 import type { BisDataFile, BisEntry } from "../types/bis";
 import { validateBisData } from "./validators";
 
@@ -147,14 +148,14 @@ describe("validateBisData", () => {
       ...makeFile([makeEntry()]),
       ultimateNames: ["Futures Rewritten", "The Omega Protocol"],
       criterionNames: ["Another Aloalo Island"],
-      unrealNames: ["Containment Bay S1T7 (Unreal)"]
+      unrealNames: [UNREAL_ORDER[0]]
     };
 
     const result = validateBisData(input);
     expect(result.errors).toHaveLength(0);
     expect(result.data?.ultimateNames).toEqual(["Futures Rewritten", "The Omega Protocol"]);
     expect(result.data?.criterionNames).toEqual(["Another Aloalo Island"]);
-    expect(result.data?.unrealNames).toEqual(["Containment Bay S1T7 (Unreal)"]);
+    expect(result.data?.unrealNames).toEqual([UNREAL_ORDER[0]]);
   });
 
   it("reports invalid optional names arrays", () => {
@@ -197,7 +198,7 @@ describe("validateBisData", () => {
         }),
         makeEntry({
           category: "Unreal",
-          unrealName: "Containment Bay S1T7 (Unreal)"
+          unrealName: UNREAL_ORDER[0]
         })
       ]),
       ultimateNames: ["The Omega Protocol"],
@@ -209,8 +210,31 @@ describe("validateBisData", () => {
     expect(result.data?.entries).toHaveLength(0);
     expect(result.errors.some((message) => message.includes('ultimate "Futures Rewritten" is not declared'))).toBe(true);
     expect(result.errors.some((message) => message.includes('criterion "Another Aloalo Island" is not declared'))).toBe(true);
-    expect(result.errors.some((message) => message.includes('unreal "Containment Bay S1T7 (Unreal)" is not declared'))).toBe(
-      true
-    );
+    expect(result.errors.some((message) => /unreal ".+" is not declared/.test(message))).toBe(true);
+  });
+
+  it("rejects entries with unknown jobs", () => {
+    const input = makeFile([
+      makeEntry({
+        job: "XYZ"
+      })
+    ]);
+
+    const result = validateBisData(input);
+    expect(result.data?.entries).toHaveLength(0);
+    expect(result.errors.some((message) => message.includes('unknown job "XYZ"'))).toBe(true);
+  });
+
+  it("rejects entries when role does not match configured role for job", () => {
+    const input = makeFile([
+      makeEntry({
+        job: "DRK",
+        role: "Healer"
+      })
+    ]);
+
+    const result = validateBisData(input);
+    expect(result.data?.entries).toHaveLength(0);
+    expect(result.errors.some((message) => message.includes('does not match configured role for job "DRK"'))).toBe(true);
   });
 });
