@@ -37,9 +37,12 @@ const infoHeaderLabel = computed(() => {
     return t("table.encounter");
   }
 
+  if (props.activeCategory === "Occult Crescent") {
+    return t("table.patch");
+  }
+
   if (
     props.activeCategory === "Savage" ||
-    props.activeCategory === "Occult Crescent" ||
     props.activeCategory === "Prog"
   ) {
     return t("table.tier");
