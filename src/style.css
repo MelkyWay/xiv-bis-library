@@ -341,6 +341,16 @@ a {
   font-weight: 600;
 }
 
+.filters .filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.filters .field-label {
+  font-weight: 600;
+}
+
 .filters .stack {
   display: flex;
   flex-direction: column;

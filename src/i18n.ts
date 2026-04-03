@@ -1,14 +1,19 @@
 import { createI18n } from "vue-i18n";
 import { CATEGORY_ORDER } from "./config/orders";
+import { infoMessages } from "./locales/infoMessages";
 import type { Category } from "./types/bis";
 
-export const SUPPORTED_LOCALES = ["en", "fr", "de", "ja", "ko", "zh"] as const;
+export const SUPPORTED_LOCALES = ["en", "fr", "de", "ja", "ko", "zh-CN", "zh-TW"] as const;
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 export const DEFAULT_LOCALE: SupportedLocale = "en";
 export const LOCALE_STORAGE_KEY = "locale";
 
-function buildCategoryLabels(overrides: Partial<Record<Category, string>> = {}): Record<Category, string> {
-  const defaults = Object.fromEntries(CATEGORY_ORDER.map((category) => [category, category])) as Record<Category, string>;
+function buildCategoryLabels(
+  overrides: Partial<Record<Category, string>> = {}
+): Record<Category, string> {
+  const defaults = Object.fromEntries(
+    CATEGORY_ORDER.map((category) => [category, category])
+  ) as Record<Category, string>;
   return {
     ...defaults,
     ...overrides
@@ -19,7 +24,8 @@ const messages = {
   en: {
     app: {
       title: "XIV BiS Library",
-      subtitle: "Centralized links to community best-in-slots gear sets by job, role, and type of content.",
+      subtitle:
+        "Centralized links to community best-in-slots gear sets by job, role, and type of content.",
       lastUpdated: "Last updated: {date}",
       notAvailable: "-",
       loading: "Loading BiS data...",
@@ -39,6 +45,7 @@ const messages = {
       search: "Search",
       searchPlaceholder: "Job, tier, source...",
       reset: "Reset filters",
+      favorites: "Favorites",
       secondaryTypeUltimate: "Ultimate",
       secondaryTypeCriterion: "Criterion",
       secondaryTypeUnreal: "Unreal",
@@ -73,6 +80,9 @@ const messages = {
       damage: "Damage",
       link: "Link",
       source: "Source",
+      actionsAria: "Actions",
+      favoriteAdd: "Favorite",
+      favoriteRemove: "Unfavorite",
       noMatchingEntries: "No matching entries.",
       sortLabel: "{label} sort ({current}). Activate for {next}.",
       sortCurrent: {
@@ -105,7 +115,8 @@ const messages = {
   fr: {
     app: {
       title: "Bibliothèque BiS XIV",
-      subtitle: "Liens centralisés vers les sets BiS de la communauté par job, rôle et type de contenu.",
+      subtitle:
+        "Liens centralisés vers les sets BiS de la communauté par job, rôle et type de contenu.",
       lastUpdated: "Dernière mise à jour : {date}",
       notAvailable: "-",
       loading: "Chargement des données BiS...",
@@ -125,6 +136,7 @@ const messages = {
       search: "Recherche",
       searchPlaceholder: "Job, tier, source...",
       reset: "Réinitialiser les filtres",
+      favorites: "Favoris",
       secondaryTypeUltimate: "Ultimate",
       secondaryTypeCriterion: "Criterion",
       secondaryTypeUnreal: "Unreal",
@@ -153,7 +165,6 @@ const messages = {
         Criterion: "Critérium",
         Unreal: "Irréel",
         "Occult Crescent": "Île de Lunule",
-        Eureka: "Eureka",
         Other: "Autre"
       })
     },
@@ -168,6 +179,9 @@ const messages = {
       damage: "DPS Sim",
       link: "Lien",
       source: "Source",
+      actionsAria: "Actions",
+      favoriteAdd: "Ajouter aux favoris",
+      favoriteRemove: "Retirer des favoris",
       noMatchingEntries: "Aucune entrée correspondante.",
       sortLabel: "Tri {label} ({current}). Activer pour {next}.",
       sortCurrent: {
@@ -217,7 +231,8 @@ const messages = {
       role: "Rolle",
       search: "Suche",
       searchPlaceholder: "Job, Tier, Quelle...",
-      reset: "Filter zurucksetzen",
+      reset: "Filter zurücksetzen",
+      favorites: "Favoriten",
       secondaryTypeUltimate: "Ultimate",
       secondaryTypeCriterion: "Criterion",
       secondaryTypeUnreal: "Unreal",
@@ -246,7 +261,6 @@ const messages = {
         Criterion: "Kriterium",
         Unreal: "Unwirklich",
         "Occult Crescent": "Kreszentia",
-        Eureka: "Eureka",
         Other: "Sonstiges"
       })
     },
@@ -261,8 +275,11 @@ const messages = {
       damage: "Sim DPS",
       link: "Link",
       source: "Quelle",
-      noMatchingEntries: "Keine passenden Eintrage.",
-      sortLabel: "{label}-Sortierung ({current}). Aktivieren fur {next}.",
+      actionsAria: "Aktionen",
+      favoriteAdd: "Zu Favoriten hinzufügen",
+      favoriteRemove: "Aus Favoriten entfernen",
+      noMatchingEntries: "Keine passenden Einträge.",
+      sortLabel: "{label}-Sortierung ({current}). Aktivieren für {next}.",
       sortCurrent: {
         none: "keine",
         asc: "aufsteigend",
@@ -278,12 +295,12 @@ const messages = {
         showing: "{from}-{to} von {total}",
         page: "Seite {current} / {total}",
         first: "Erste",
-        prev: "Zuruck",
+        prev: "Zurück",
         next: "Weiter",
         last: "Letzte",
         firstAria: "Erste Seite",
         prevAria: "Vorherige Seite",
-        nextAria: "Nachste Seite",
+        nextAria: "Nächste Seite",
         lastAria: "Letzte Seite"
       }
     }
@@ -311,6 +328,7 @@ const messages = {
       search: "検索",
       searchPlaceholder: "ジョブ、Tier、ソース...",
       reset: "フィルターをリセット",
+      favorites: "お気に入り",
       secondaryTypeUltimate: "絶",
       secondaryTypeCriterion: "異聞",
       secondaryTypeUnreal: "幻",
@@ -339,7 +357,6 @@ const messages = {
         Criterion: "異聞",
         Unreal: "幻討滅戦",
         "Occult Crescent": "蜃気楼の島 クレセントアイル",
-        Eureka: "禁断の地 エウレカ",
         Other: "その他"
       })
     },
@@ -354,6 +371,9 @@ const messages = {
       damage: "Sim DPS",
       link: "リンク",
       source: "ソース",
+      actionsAria: "操作",
+      favoriteAdd: "お気に入りに追加",
+      favoriteRemove: "お気に入り解除",
       noMatchingEntries: "一致するエントリがありません。",
       sortLabel: "{label}の並び替え（{current}）。{next}で並び替え。",
       sortCurrent: {
@@ -404,35 +424,35 @@ const messages = {
       search: "검색",
       searchPlaceholder: "직업, 티어, 출처...",
       reset: "필터 초기화",
-      secondaryTypeUltimate: "절",
-      secondaryTypeCriterion: "변형",
-      secondaryTypeUnreal: "환상",
+      favorites: "즐겨찾기",
+      secondaryTypeUltimate: "얼티밋",
+      secondaryTypeCriterion: "이문",
+      secondaryTypeUnreal: "환 토벌전",
       secondaryAriaCurrent: "{type} 필터, 현재 값: {value}",
       secondaryAriaOptions: "{type} 옵션",
       roles: {
-        Tank: "방어",
-        Healer: "회복",
-        Melee: "근거리 공격",
+        Tank: "방어 역할",
+        Healer: "회복 역할",
+        Melee: "근거리 딜러",
         "Physical Ranged": "원거리 물리 공격",
         "Magical Ranged": "원거리 마법 공격",
-        Limited: "리미티드 잡"
+        Limited: "미정"
       },
       roleGroups: {
-        Tank: "방어",
-        Healer: "회복",
-        Melee: "근거리 공격",
+        Tank: "방어 역할",
+        Healer: "회복 역할",
+        Melee: "근거리 딜러",
         "Physical Ranged": "원거리 물리 공격",
         "Magical Ranged": "원거리 마법 공격",
-        Limited: "리미티드 잡"
+        Limited: "미정"
       },
       categories: buildCategoryLabels({
         Savage: "영식",
-        Ultimate: "절",
+        Ultimate: "얼티밋 레이드",
         Prog: "공략",
         Criterion: "이문",
         Unreal: "환 토벌전",
-        "Occult Crescent": "초승달 섬",
-        Eureka: "금단의 땅 에우레카",
+        "Occult Crescent": "신비한 초승달",
         Other: "기타"
       })
     },
@@ -447,6 +467,9 @@ const messages = {
       damage: "Sim DPS",
       link: "링크",
       source: "출처",
+      actionsAria: "작업",
+      favoriteAdd: "즐겨찾기에 추가",
+      favoriteRemove: "즐겨찾기 해제",
       noMatchingEntries: "일치하는 항목이 없습니다.",
       sortLabel: "{label} 정렬 ({current}). {next}(으)로 전환.",
       sortCurrent: {
@@ -474,7 +497,7 @@ const messages = {
       }
     }
   },
-  zh: {
+  "zh-CN": {
     app: {
       title: "XIV BiS 资料库",
       subtitle: "按职业、职责与内容类型集中整理社区 BiS 配装链接。",
@@ -497,6 +520,7 @@ const messages = {
       search: "搜索",
       searchPlaceholder: "职业、层级、来源...",
       reset: "重置筛选",
+      favorites: "收藏",
       secondaryTypeUltimate: "绝境战",
       secondaryTypeCriterion: "异闻",
       secondaryTypeUnreal: "幻巧",
@@ -524,8 +548,7 @@ const messages = {
         Prog: "开荒",
         Criterion: "异闻零式",
         Unreal: "幻巧战",
-        "Occult Crescent": "神秘新月",
-        Eureka: "优雷卡",
+        "Occult Crescent": "隐月牙环",
         Other: "其他"
       })
     },
@@ -540,6 +563,9 @@ const messages = {
       damage: "模拟 DPS",
       link: "链接",
       source: "来源",
+      actionsAria: "操作",
+      favoriteAdd: "加入收藏",
+      favoriteRemove: "取消收藏",
       noMatchingEntries: "没有匹配的条目。",
       sortLabel: "{label}排序（{current}）。点击后{next}。",
       sortCurrent: {
@@ -566,13 +592,118 @@ const messages = {
         lastAria: "最后一页"
       }
     }
+  },
+  "zh-TW": {
+    app: {
+      title: "XIV BiS 資料庫",
+      subtitle: "按職業、職責與內容類型集中整理社群 BiS 配裝連結。",
+      lastUpdated: "最後更新：{date}",
+      notAvailable: "-",
+      loading: "正在載入 BiS 資料...",
+      themeSwitch: "切換到{theme}主題",
+      validationWarnings: "校驗警告"
+    },
+    common: {
+      all: "全部",
+      light: "淺色",
+      dark: "深色",
+      locale: "語言"
+    },
+    filters: {
+      job: "職業",
+      category: "分類",
+      role: "職責",
+      search: "搜尋",
+      searchPlaceholder: "職業、層級、來源...",
+      reset: "重置篩選",
+      favorites: "收藏",
+      secondaryTypeUltimate: "絕境戰",
+      secondaryTypeCriterion: "異聞",
+      secondaryTypeUnreal: "幻巧",
+      secondaryAriaCurrent: "{type}篩選，當前值：{value}",
+      secondaryAriaOptions: "{type}選項",
+      roles: {
+        Tank: "坦克",
+        Healer: "治療",
+        Melee: "近戰",
+        "Physical Ranged": "物理遠程",
+        "Magical Ranged": "魔法遠程",
+        Limited: "限定"
+      },
+      roleGroups: {
+        Tank: "坦克",
+        Healer: "治療",
+        Melee: "近戰",
+        "Physical Ranged": "物理遠程",
+        "Magical Ranged": "魔法遠程",
+        Limited: "限定"
+      },
+      categories: buildCategoryLabels({
+        Savage: "零式",
+        Ultimate: "絕境戰",
+        Prog: "開荒",
+        Criterion: "異聞零式",
+        Unreal: "幻巧戰",
+        "Occult Crescent": "隱月牙環",
+        Other: "其他"
+      })
+    },
+    table: {
+      job: "職業",
+      role: "職責",
+      category: "分類",
+      info: "資訊",
+      encounter: "副本",
+      tier: "層級",
+      notes: "備註",
+      damage: "模擬 DPS",
+      link: "連結",
+      source: "來源",
+      actionsAria: "操作",
+      favoriteAdd: "加入收藏",
+      favoriteRemove: "取消收藏",
+      noMatchingEntries: "沒有匹配的條目。",
+      sortLabel: "{label}排序（{current}）。點擊後{next}。",
+      sortCurrent: {
+        none: "無",
+        asc: "升序",
+        desc: "降序"
+      },
+      sortNext: {
+        asc: "升序",
+        desc: "降序"
+      },
+      copyLink: "複製連結",
+      simUpdated: "最後更新：{date}",
+      pagination: {
+        showing: "顯示第 {from}-{to} 條，共 {total} 條",
+        page: "第 {current} / {total} 頁",
+        first: "首頁",
+        prev: "上一頁",
+        next: "下一頁",
+        last: "末頁",
+        firstAria: "第一頁",
+        prevAria: "上一頁",
+        nextAria: "下一頁",
+        lastAria: "最後一頁"
+      }
+    }
   }
 };
+
+const mergedMessages = Object.fromEntries(
+  SUPPORTED_LOCALES.map((locale) => [
+    locale,
+    {
+      ...messages[locale],
+      ...infoMessages[locale]
+    }
+  ])
+);
 
 export const i18n = createI18n({
   legacy: false,
   locale: DEFAULT_LOCALE,
   fallbackLocale: DEFAULT_LOCALE,
-  messages
+  messages: mergedMessages
 });
-

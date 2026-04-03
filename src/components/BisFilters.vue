@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { CATEGORY_OPTIONS } from "../config/orders";
 import { ROLE_OPTIONS } from "../config/roles";
@@ -134,9 +134,12 @@ function selectedSecondaryStyle(): Record<string, string> {
 
 const secondaryRoot = ref<HTMLElement | null>(null);
 const secondaryTrigger = ref<HTMLElement | null>(null);
+const secondaryMenu = ref<HTMLElement | null>(null);
 const secondaryOpen = ref(false);
 const secondaryMenuId = "secondary-filter-menu";
 const jobRoot = ref<HTMLElement | null>(null);
+const jobTrigger = ref<HTMLElement | null>(null);
+const jobMenu = ref<HTMLElement | null>(null);
 const jobOpen = ref(false);
 const jobMenuId = "job-filter-menu";
 const isSecondaryActive = computed(
@@ -207,20 +210,134 @@ function toggleSecondary(): void {
     return;
   }
   secondaryOpen.value = !secondaryOpen.value;
+  if (secondaryOpen.value) {
+    void focusSecondarySelectedOption();
+  }
 }
 
 function toggleJob(): void {
   jobOpen.value = !jobOpen.value;
+  if (jobOpen.value) {
+    void focusJobSelectedOption();
+  }
 }
 
-function chooseJob(job: string): void {
+async function chooseJob(job: string): Promise<void> {
   patch({ job });
   jobOpen.value = false;
+  await nextTick();
+  jobTrigger.value?.focus();
 }
 
-function chooseSecondary(value: string): void {
+async function chooseSecondary(value: string): Promise<void> {
   onSecondaryChange(value);
   secondaryOpen.value = false;
+  await nextTick();
+  secondaryTrigger.value?.focus();
+}
+
+function optionIndexByChecked(options: HTMLButtonElement[]): number {
+  const checkedIndex = options.findIndex((option) => option.getAttribute("aria-checked") === "true");
+  return checkedIndex >= 0 ? checkedIndex : 0;
+}
+
+function focusOption(options: HTMLButtonElement[], index: number): void {
+  if (options.length === 0) {
+    return;
+  }
+  const nextIndex = Math.max(0, Math.min(index, options.length - 1));
+  options[nextIndex].focus();
+}
+
+function moveMenuFocus(event: KeyboardEvent, options: HTMLButtonElement[]): boolean {
+  if (options.length === 0) {
+    return false;
+  }
+  const activeIndex = options.findIndex((option) => option === document.activeElement);
+  const selectedIndex = optionIndexByChecked(options);
+  const currentIndex = activeIndex >= 0 ? activeIndex : selectedIndex;
+
+  switch (event.key) {
+    case "ArrowDown":
+      event.preventDefault();
+      focusOption(options, currentIndex + 1);
+      return true;
+    case "ArrowUp":
+      event.preventDefault();
+      focusOption(options, currentIndex - 1);
+      return true;
+    case "Home":
+      event.preventDefault();
+      focusOption(options, 0);
+      return true;
+    case "End":
+      event.preventDefault();
+      focusOption(options, options.length - 1);
+      return true;
+    default:
+      return false;
+  }
+}
+
+function openJobFromKeyboard(event: KeyboardEvent): void {
+  if (event.key !== "Enter" && event.key !== " " && event.key !== "ArrowDown") {
+    return;
+  }
+  event.preventDefault();
+  if (!jobOpen.value) {
+    jobOpen.value = true;
+  }
+  void focusJobSelectedOption();
+}
+
+function openSecondaryFromKeyboard(event: KeyboardEvent): void {
+  if (event.key !== "Enter" && event.key !== " " && event.key !== "ArrowDown") {
+    return;
+  }
+  if (!isSecondaryActive.value) {
+    return;
+  }
+  event.preventDefault();
+  if (!secondaryOpen.value) {
+    secondaryOpen.value = true;
+  }
+  void focusSecondarySelectedOption();
+}
+
+async function focusJobSelectedOption(): Promise<void> {
+  await nextTick();
+  const options = Array.from(jobMenu.value?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]') ?? []);
+  focusOption(options, optionIndexByChecked(options));
+}
+
+async function focusSecondarySelectedOption(): Promise<void> {
+  await nextTick();
+  const options = Array.from(secondaryMenu.value?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]') ?? []);
+  focusOption(options, optionIndexByChecked(options));
+}
+
+function onJobMenuKeydown(event: KeyboardEvent): void {
+  const options = Array.from(jobMenu.value?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]') ?? []);
+  if (moveMenuFocus(event, options)) {
+    return;
+  }
+  if (event.key === "Escape") {
+    event.preventDefault();
+    jobOpen.value = false;
+    jobTrigger.value?.focus();
+  }
+}
+
+function onSecondaryMenuKeydown(event: KeyboardEvent): void {
+  const options = Array.from(secondaryMenu.value?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]') ?? []);
+  if (moveMenuFocus(event, options)) {
+    return;
+  }
+  if (event.key === "Escape") {
+    event.preventDefault();
+    secondaryOpen.value = false;
+    secondaryTrigger.value?.focus();
+  }
 }
 
 function measureLabelWidth(text: string): number {
@@ -307,34 +424,38 @@ onBeforeUnmount(() => {
       </select>
     </label>
 
-    <label>
-      {{ t("filters.job") }}
+    <div class="filter-field">
+      <span class="field-label">{{ t("filters.job") }}</span>
       <div ref="jobRoot" class="job-select">
         <button
+          ref="jobTrigger"
           type="button"
           class="job-select-trigger"
           :style="selectedJobStyle()"
           :aria-label="t('filters.secondaryAriaCurrent', { type: t('filters.job'), value: jobDisplayValue })"
           :aria-expanded="jobOpen"
-          aria-haspopup="listbox"
+          aria-haspopup="menu"
           :aria-controls="jobMenuId"
           @click.stop="toggleJob"
+          @keydown="openJobFromKeyboard"
         >
           <span>{{ jobDisplayValue }}</span>
           <span class="caret">⌄</span>
         </button>
         <div
+          ref="jobMenu"
           v-if="jobOpen"
           :id="jobMenuId"
           class="job-select-menu"
-          role="listbox"
+          role="menu"
           :aria-label="t('filters.secondaryAriaOptions', { type: t('filters.job') })"
+          @keydown="onJobMenuKeydown"
         >
           <button
             type="button"
             class="job-select-option"
-            role="option"
-            :aria-selected="filters.job === 'All'"
+            role="menuitemradio"
+            :aria-checked="filters.job === 'All'"
             :style="{ color: 'var(--color-text)' }"
             @click="chooseJob('All')"
           >
@@ -347,8 +468,8 @@ onBeforeUnmount(() => {
               :key="job"
               type="button"
               class="job-select-option"
-              role="option"
-              :aria-selected="filters.job === job"
+              role="menuitemradio"
+              :aria-checked="filters.job === job"
               :style="jobOptionStyle(job)"
               @click="chooseJob(job)"
             >
@@ -357,7 +478,7 @@ onBeforeUnmount(() => {
           </div>
         </div>
       </div>
-    </label>
+    </div>
 
     <div class="stack">
       <label>
@@ -381,27 +502,30 @@ onBeforeUnmount(() => {
             :disabled="!isSecondaryActive"
             :aria-label="t('filters.secondaryAriaCurrent', { type: secondaryTypeLabel, value: secondaryDisplayValue })"
             :aria-expanded="secondaryOpen"
-            aria-haspopup="listbox"
+            aria-haspopup="menu"
             :aria-controls="secondaryMenuId"
             :style="selectedSecondaryStyle()"
             @click.stop="toggleSecondary"
+            @keydown="openSecondaryFromKeyboard"
           >
             <span>{{ secondaryDisplayValue }}</span>
             <span class="caret">⌄</span>
           </button>
           <div
+            ref="secondaryMenu"
             v-if="secondaryOpen && isSecondaryActive"
             :id="secondaryMenuId"
             class="secondary-select-menu"
-            role="listbox"
+            role="menu"
             :aria-label="t('filters.secondaryAriaOptions', { type: secondaryTypeLabel })"
             :style="secondaryMenuStyle"
+            @keydown="onSecondaryMenuKeydown"
           >
             <button
               type="button"
               class="secondary-select-option"
-              role="option"
-              :aria-selected="secondaryValue === 'All'"
+              role="menuitemradio"
+              :aria-checked="secondaryValue === 'All'"
               @click="chooseSecondary('All')"
             >
               {{ t("common.all") }}
@@ -411,8 +535,8 @@ onBeforeUnmount(() => {
               :key="option"
               type="button"
               class="secondary-select-option"
-              role="option"
-              :aria-selected="secondaryValue === option"
+              role="menuitemradio"
+              :aria-checked="secondaryValue === option"
               @click="chooseSecondary(option)"
             >
               {{ secondaryOptionLabel(option) }}

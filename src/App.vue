@@ -9,25 +9,15 @@ import { JOB_GROUPS_BY_ROLE } from "./config/options";
 import { CATEGORY_ORDER } from "./config/orders";
 import { ROLE_ORDER } from "./config/roles";
 import { DEFAULT_LOCALE, LOCALE_STORAGE_KEY, SUPPORTED_LOCALES, type SupportedLocale } from "./i18n";
+import type { InfoPageContent, InfoPageKey } from "./locales/infoMessages";
 import type { BisDataFile, BisFiltersState, Category, Role } from "./types/bis";
 import { getEntryKey } from "./utils/entryKey";
 import { filterEntries } from "./utils/filters";
 import { validateBisData } from "./utils/validators";
 
 type Theme = "light" | "dark";
-type InfoPageKey = "about" | "dataDisclaimer" | "privacy" | "contact" | "legal";
-type InfoSection = {
-  title: string;
-  paragraphs?: string[];
-  bullets?: string[];
-};
-type InfoPageContent = {
-  title: string;
-  intro: string;
-  sections: InfoSection[];
-};
 
-const { t, locale } = useI18n();
+const { t, tm, locale } = useI18n();
 
 const data = ref<BisDataFile>({ schemaVersion: 1, lastUpdated: "", entries: [] });
 const loading = ref(true);
@@ -108,116 +98,16 @@ const LOCALE_LABEL: Record<SupportedLocale, string> = {
   de: "Deutsch",
   ja: "日本語",
   ko: "한국어",
-  zh: "中文"
+  "zh-CN": "简体中文",
+  "zh-TW": "繁體中文"
 };
 
 const localeOptions = computed(() =>
   SUPPORTED_LOCALES.map((code) => ({ code, label: LOCALE_LABEL[code] }))
 );
 const headerUpdatedValue = computed(() => deployedAtRaw || data.value.lastUpdated || t("app.notAvailable"));
-const INFO_PAGES: Record<InfoPageKey, InfoPageContent> = {
-  about: {
-    title: "About XIV BiS Library",
-    intro:
-      "XIV BiS Library centralizes community Best-in-Slot links for Final Fantasy XIV, grouped by job, role, and content category.",
-    sections: [
-      {
-        title: "What This Site Is For",
-        bullets: [
-          "Quickly find trusted BiS resources without opening multiple websites.",
-          "Filter by role, job, category, and encounter context.",
-          "Share filtered views and save personal favorites in your browser."
-        ]
-      },
-      {
-        title: "Maintenance",
-        paragraphs: [
-          "Entries are curated from community resources and updated when maintainers review and import changes.",
-          "The displayed update date reflects the latest deployed data snapshot."
-        ]
-      }
-    ]
-  },
-  dataDisclaimer: {
-    title: "Data Sources & Disclaimer",
-    intro: "This project references external community resources and does not guarantee perfect accuracy at all times.",
-    sections: [
-      {
-        title: "Sources",
-        bullets: [
-          "Links and references are sourced from community-maintained guides and gear planners.",
-          "Each row includes a source field to show the original provider when available."
-        ]
-      },
-      {
-        title: "Important Disclaimer",
-        bullets: [
-          "Entries may become outdated after game patches, job changes, or guide revisions.",
-          "Always verify details against the original source before finalizing your setup.",
-          "This site is an independent community project and is not affiliated with or endorsed by Square Enix."
-        ]
-      }
-    ]
-  },
-  privacy: {
-    title: "Privacy",
-    intro: "This site is designed to be lightweight and privacy-conscious.",
-    sections: [
-      {
-        title: "Data Stored Locally",
-        bullets: [
-          "Theme preference is stored in localStorage.",
-          "Language preference is stored in localStorage and URL parameters.",
-          "Favorite entries are stored in localStorage on your device."
-        ]
-      },
-      {
-        title: "What We Do Not Collect",
-        bullets: [
-          "No account registration is required.",
-          "No personal profile data is collected by the app itself.",
-          "No server-side user database is used for this site."
-        ]
-      }
-    ]
-  },
-  contact: {
-    title: "Contact & Feedback",
-    intro: "Feedback helps keep the library useful and current.",
-    sections: [
-      {
-        title: "Report Issues",
-        paragraphs: ["Open an issue in the GitHub repository for bugs, broken links, or outdated entries."]
-      },
-      {
-        title: "GitHub",
-        paragraphs: ["https://github.com/MelkyWay/xiv-bis-library"]
-      }
-    ]
-  },
-  legal: {
-    title: "Legal Notice",
-    intro: "Basic usage and attribution terms for this project.",
-    sections: [
-      {
-        title: "Usage",
-        bullets: [
-          "This site is provided as-is, without warranty of completeness or fitness for a particular purpose.",
-          "Users are responsible for validating the external resources they choose to use."
-        ]
-      },
-      {
-        title: "Trademarks and Copyright",
-        bullets: [
-          "Final Fantasy XIV and related names are property of Square Enix.",
-          "External guides, logos, and linked resources remain property of their respective owners."
-        ]
-      }
-    ]
-  }
-};
 const activeInfoContent = computed<InfoPageContent | null>(() =>
-  activeInfoPage.value ? INFO_PAGES[activeInfoPage.value] : null
+  activeInfoPage.value ? (tm(`info.pages.${activeInfoPage.value}`) as InfoPageContent) : null
 );
 
 const KNOWN_ROLES = new Set<Role>(ROLE_ORDER);
@@ -276,16 +166,30 @@ function parseFiltersFromUrl(): Partial<BisFiltersState> {
   return next;
 }
 
+function normalizeLocaleCode(value: string | null): SupportedLocale | null {
+  if (!value) {
+    return null;
+  }
+
+  const normalized = value.toLowerCase();
+  if (normalized === "zh" || normalized === "zh-cn" || normalized === "zh-hans" || normalized.startsWith("zh-cn-")) {
+    return "zh-CN";
+  }
+  if (normalized === "zh-tw" || normalized === "zh-hant" || normalized.startsWith("zh-tw-")) {
+    return "zh-TW";
+  }
+
+  const exact = SUPPORTED_LOCALES.find((code) => code.toLowerCase() === normalized);
+  return exact ?? null;
+}
+
 function parseLocaleFromUrl(): SupportedLocale | null {
   if (globalThis.window === undefined) {
     return null;
   }
 
   const lang = new URLSearchParams(globalThis.window.location.search).get("lang");
-  if (lang && SUPPORTED_LOCALES.includes(lang as SupportedLocale)) {
-    return lang as SupportedLocale;
-  }
-  return null;
+  return normalizeLocaleCode(lang);
 }
 
 function resolveInitialLocale(): SupportedLocale {
@@ -295,13 +199,19 @@ function resolveInitialLocale(): SupportedLocale {
   }
 
   const fromStorage = localStorage.getItem(LOCALE_STORAGE_KEY);
-  if (fromStorage && SUPPORTED_LOCALES.includes(fromStorage as SupportedLocale)) {
-    return fromStorage as SupportedLocale;
+  const normalizedFromStorage = normalizeLocaleCode(fromStorage);
+  if (normalizedFromStorage) {
+    return normalizedFromStorage;
   }
 
   const browserLocale = navigator.language.toLowerCase();
-  const matched = SUPPORTED_LOCALES.find((code) => browserLocale === code || browserLocale.startsWith(`${code}-`));
-  return matched ?? DEFAULT_LOCALE;
+  const normalizedBrowserLocale = normalizeLocaleCode(browserLocale);
+  if (normalizedBrowserLocale) {
+    return normalizedBrowserLocale;
+  }
+
+  const base = browserLocale.split("-")[0];
+  return normalizeLocaleCode(base) ?? DEFAULT_LOCALE;
 }
 
 function syncFiltersToUrl(nextFilters: BisFiltersState): void {
@@ -500,11 +410,12 @@ function toggleTheme(): void {
 }
 
 function onLocaleChange(value: string): void {
-  if (!SUPPORTED_LOCALES.includes(value as SupportedLocale)) {
+  const normalized = normalizeLocaleCode(value);
+  if (!normalized) {
     return;
   }
-  setLocale(value as SupportedLocale);
-  syncLocaleToUrl(value as SupportedLocale);
+  setLocale(normalized);
+  syncLocaleToUrl(normalized);
 }
 
 function openInfoPage(page: InfoPageKey): void {
@@ -650,10 +561,10 @@ watch(unreals, () => {
       </section>
     </template>
 
-    <section v-if="activeInfoContent" class="panel info-panel" aria-label="Site information">
+    <section v-if="activeInfoContent" class="panel info-panel" :aria-label="t('info.ariaPanel')">
       <div class="info-panel-header">
         <h2>{{ activeInfoContent.title }}</h2>
-        <button type="button" class="info-panel-close" @click="closeInfoPage">Close</button>
+        <button type="button" class="info-panel-close" @click="closeInfoPage">{{ t("info.close") }}</button>
       </div>
       <p>{{ activeInfoContent.intro }}</p>
       <section v-for="section in activeInfoContent.sections" :key="section.title" class="info-panel-section">
@@ -665,16 +576,17 @@ watch(unreals, () => {
       </section>
     </section>
 
-    <footer class="site-footer" aria-label="Site pages">
+    <footer class="site-footer" :aria-label="t('info.ariaFooter')">
       <nav class="footer-nav">
-        <a href="#" @click.prevent="closeInfoPage">Home</a>
-        <a href="#" @click.prevent="openInfoPage('about')">About</a>
-        <a href="#" @click.prevent="openInfoPage('dataDisclaimer')">Data & Disclaimer</a>
-        <a href="#" @click.prevent="openInfoPage('privacy')">Privacy</a>
-        <a href="#" @click.prevent="openInfoPage('contact')">Contact</a>
-        <a href="#" @click.prevent="openInfoPage('legal')">Legal</a>
+        <a href="#" @click.prevent="closeInfoPage">{{ t("info.footer.home") }}</a>
+        <a href="#" @click.prevent="openInfoPage('about')">{{ t("info.footer.about") }}</a>
+        <a href="#" @click.prevent="openInfoPage('dataDisclaimer')">{{ t("info.footer.dataDisclaimer") }}</a>
+        <a href="#" @click.prevent="openInfoPage('privacy')">{{ t("info.footer.privacy") }}</a>
+        <a href="#" @click.prevent="openInfoPage('contact')">{{ t("info.footer.contact") }}</a>
+        <a href="#" @click.prevent="openInfoPage('legal')">{{ t("info.footer.legal") }}</a>
       </nav>
     </footer>
   </main>
 </template>
+
 
