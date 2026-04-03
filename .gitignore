@@ -24,3 +24,5 @@ scripts/archive/specs/*.json
 .sonarqube/
 coverage/
 coverage*/
+
+/_WIP/
