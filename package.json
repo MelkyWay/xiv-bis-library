@@ -8,6 +8,7 @@
     "generate:roles": "node scripts/tools/generate-roles.mjs",
     "generate:jobs": "node scripts/tools/generate-jobs.mjs",
     "generate:encounters": "node scripts/tools/generate-encounters.mjs",
+    "generate:issue-templates": "node scripts/tools/generate-issue-templates.mjs",
     "generate:config": "npm run generate:categories && npm run generate:roles && npm run generate:jobs && npm run generate:encounters",
     "dev": "npm run generate:config && vite",
     "build": "npm run generate:config && vue-tsc --noEmit && vite build",

@@ -1,0 +1,63 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (fr)
+name: "Signaler un lien cassé"
+description: "Signaler un lien BiS cassé ou pointant vers le mauvais set"
+labels: ["broken-link"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vous pouvez remplir ce formulaire en anglais, français, allemand, japonais, coréen, chinois simplifié ou chinois traditionnel.
+
+  - type: input
+    id: job
+    attributes:
+      label: "Job"
+      description: "Le job concerné par ce signalement."
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Catégorie"
+      options:
+        - "Sadique"
+        - "Progression"
+        - "Fatal"
+        - "Critérium"
+        - "Irréel"
+        - "Île de Lunule"
+        - "Autre"
+    validations:
+      required: true
+  - type: input
+    id: encounter
+    attributes:
+      label: "Nom du combat ou du set"
+      description: "Par exemple Futures Rewritten ou 7.4."
+    validations:
+      required: true
+  - type: input
+    id: current-url
+    attributes:
+      label: "URL actuelle"
+      description: "L’URL cassée ou obsolète."
+    validations:
+      required: true
+  - type: input
+    id: replacement-url
+    attributes:
+      label: "URL de remplacement"
+      description: "Si vous connaissez la bonne URL, collez-la ici."
+  - type: textarea
+    id: source
+    attributes:
+      label: "Source"
+      description: "Lien vers la page Balance, un message Discord, une feuille de calcul ou une autre source."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notes"
+      description: "Tout contexte utile pour aider à examiner le signalement."

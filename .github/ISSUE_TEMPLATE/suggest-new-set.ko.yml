@@ -1,0 +1,58 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (ko)
+name: "새 세트 제안"
+description: "새로운 BiS, 진행용 또는 전투용 세트를 제안"
+labels: ["new-set"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        이 양식은 영어, 프랑스어, 독일어, 일본어, 한국어, 간체 중국어, 번체 중국어로 작성할 수 있습니다.
+
+  - type: input
+    id: job
+    attributes:
+      label: "직업"
+      description: "영향을 받는 직업."
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "카테고리"
+      options:
+        - "영식"
+        - "공략"
+        - "얼티밋 레이드"
+        - "이문"
+        - "환 토벌전"
+        - "신비한 초승달"
+        - "기타"
+    validations:
+      required: true
+  - type: input
+    id: encounter
+    attributes:
+      label: "전투 또는 세트 이름"
+      description: "예: Futures Rewritten 또는 7.4."
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: "세트 URL"
+      description: "XIVGear 또는 Etro 링크를 붙여넣어 주세요."
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: "출처"
+      description: "The Balance 페이지, Discord 메시지, 스프레드시트 또는 기타 출처의 링크를 적어 주세요."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "메모"
+      description: "검토에 도움이 되는 추가 정보."

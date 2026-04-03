@@ -1,0 +1,65 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (ja)
+name: "古い項目を報告"
+description: "パッチや調整後に更新が必要なセットを報告"
+labels: ["stale-data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        このフォームは英語、フランス語、ドイツ語、日本語、韓国語、簡体字中国語、繁体字中国語で記入できます。
+
+  - type: input
+    id: job
+    attributes:
+      label: "ジョブ"
+      description: "対象ジョブ。"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "カテゴリ"
+      options:
+        - "零式"
+        - "攻略"
+        - "絶"
+        - "異聞"
+        - "幻討滅戦"
+        - "蜃気楼の島 クレセントアイル"
+        - "その他"
+    validations:
+      required: true
+  - type: input
+    id: encounter
+    attributes:
+      label: "対象の戦闘名またはセット名"
+      description: "たとえば Futures Rewritten や 7.4。"
+    validations:
+      required: true
+  - type: input
+    id: current-url
+    attributes:
+      label: "現在の URL"
+      description: "壊れている、または古い URL。"
+    validations:
+      required: true
+  - type: textarea
+    id: update-needed
+    attributes:
+      label: "何を変更する必要がありますか？"
+      description: "何が古く、どのように更新すべきかを説明してください。"
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: "ソース"
+      description: "The Balance ページ、Discord メッセージ、表計算シートなどのソースを記載してください。"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "メモ"
+      description: "確認に役立つ追加情報。"

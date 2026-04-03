@@ -1,0 +1,55 @@
+name: Report Data Correction
+description: Report a wrong field, label, or metadata issue in the dataset
+labels: [data-correction]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to report a wrong field, label, or metadata issue in the dataset.
+  - type: input
+    id: job
+    attributes:
+      label: Job
+      description: The job affected by the correction.
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Savage
+        - Prog
+        - Ultimate
+        - Criterion
+        - Unreal
+        - Occult Crescent
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: encounter
+    attributes:
+      label: Encounter or Set Name
+      description: For example Futures Rewritten or 7.4.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Correction requested
+      description: Describe the wrong field and the correct value.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source
+      description: Link to the source that confirms the correction.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Any extra details that help review the correction.

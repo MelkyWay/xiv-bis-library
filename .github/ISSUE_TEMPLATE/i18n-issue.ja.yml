@@ -1,0 +1,70 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (ja)
+name: "i18n 問題を報告"
+description: "翻訳、ロケール書式、ローカライズ文言の問題を報告"
+labels: ["i18n"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        このフォームは英語、フランス語、ドイツ語、日本語、韓国語、簡体字中国語、繁体字中国語で記入できます。
+
+  - type: dropdown
+    id: locale
+    attributes:
+      label: "対象ロケール"
+      options:
+        - "英語"
+        - "フランス語"
+        - "ドイツ語"
+        - "日本語"
+        - "韓国語"
+        - "簡体字中国語"
+        - "繁体字中国語"
+        - "複数言語"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: "対象箇所"
+      options:
+        - "アプリUIテキスト"
+        - "Contactページ / CONTRIBUTING"
+        - "Issueテンプレートの文面"
+        - "表のラベル"
+        - "フィルターと操作"
+        - "その他"
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: "ページまたはセクション"
+      description: "たとえばホームページ、連絡先ページ、フッター、特定のラベル。"
+    validations:
+      required: true
+  - type: textarea
+    id: current-text
+    attributes:
+      label: "現在の文言"
+      description: "誤っている、または不自然な文言を貼り付けてください。"
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-text
+    attributes:
+      label: "提案文"
+      description: "修正版があればここに記入してください。"
+  - type: textarea
+    id: source
+    attributes:
+      label: "ソース"
+      description: "The Balance ページ、Discord メッセージ、表計算シートなどのソースを記載してください。"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "メモ"
+      description: "確認に役立つ追加情報。"

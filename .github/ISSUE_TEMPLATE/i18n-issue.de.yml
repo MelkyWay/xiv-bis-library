@@ -1,0 +1,70 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (de)
+name: "i18n-Problem melden"
+description: "Einen Übersetzungs-, Lokalisierungsformat- oder lokalisierten Textfehler melden"
+labels: ["i18n"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Sie können dieses Formular auf Englisch, Französisch, Deutsch, Japanisch, Koreanisch, vereinfachtem Chinesisch oder traditionellem Chinesisch ausfüllen.
+
+  - type: dropdown
+    id: locale
+    attributes:
+      label: "Betroffene Sprache"
+      options:
+        - "Englisch"
+        - "Französisch"
+        - "Deutsch"
+        - "Japanisch"
+        - "Koreanisch"
+        - "Vereinfachtes Chinesisch"
+        - "Traditionelles Chinesisch"
+        - "Mehrere Sprachen"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: "Bereich"
+      options:
+        - "UI-Text der App"
+        - "Kontaktseite / CONTRIBUTING"
+        - "Issue-Template-Text"
+        - "Tabellenbeschriftungen"
+        - "Filter und Steuerelemente"
+        - "Sonstiges"
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: "Seite oder Abschnitt"
+      description: "Zum Beispiel Startseite, Kontaktseite, Fußzeile oder ein bestimmtes Label."
+    validations:
+      required: true
+  - type: textarea
+    id: current-text
+    attributes:
+      label: "Aktueller Text"
+      description: "Fügen Sie den falschen oder unpassenden Text ein."
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-text
+    attributes:
+      label: "Vorgeschlagener Text"
+      description: "Wenn Sie einen korrigierten Text haben, fügen Sie ihn hier ein."
+  - type: textarea
+    id: source
+    attributes:
+      label: "Quelle"
+      description: "Link zur Balance-Seite, Discord-Nachricht, Tabelle oder einer anderen Quelle."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notizen"
+      description: "Zusätzlicher Kontext, der die Prüfung erleichtert."

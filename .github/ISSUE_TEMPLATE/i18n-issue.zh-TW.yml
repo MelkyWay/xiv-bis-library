@@ -1,0 +1,70 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (zh-TW)
+name: "回報 i18n 問題"
+description: "回報翻譯、地區格式或在地化文字問題"
+labels: ["i18n"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        您可以使用英語、法語、德語、日語、韓語、簡體中文或繁體中文填寫此表單。
+
+  - type: dropdown
+    id: locale
+    attributes:
+      label: "受影響的地區"
+      options:
+        - "英語"
+        - "法語"
+        - "德語"
+        - "日語"
+        - "韓語"
+        - "簡體中文"
+        - "繁體中文"
+        - "多語言"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: "區域"
+      options:
+        - "應用程式介面文字"
+        - "聯絡頁面 / CONTRIBUTING"
+        - "Issue 範本文字"
+        - "表格標籤"
+        - "篩選與控制"
+        - "其他"
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: "頁面或章節"
+      description: "例如首頁、聯絡頁面、頁尾或特定標籤。"
+    validations:
+      required: true
+  - type: textarea
+    id: current-text
+    attributes:
+      label: "目前文字"
+      description: "貼上有誤或不自然的文字。"
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-text
+    attributes:
+      label: "建議文字"
+      description: "如果有修正文字，請貼在這裡。"
+  - type: textarea
+    id: source
+    attributes:
+      label: "來源"
+      description: "請提供 The Balance 頁面、Discord 訊息、試算表或其他來源。"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "備註"
+      description: "有助於審查的補充資訊。"

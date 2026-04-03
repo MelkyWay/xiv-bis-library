@@ -12,6 +12,9 @@ This directory contains helper scripts for importing and transforming BiS data.
 - `tools/build-xivgear-set-json.mjs`
   - Builds native XivGear import JSON payloads from spec files.
 
+- `tools/generate-issue-templates.mjs`
+  - Generates localized GitHub issue forms from the shared template sources in `.github/ISSUE_TEMPLATE/`.
+
 ## Config files
 
 - `imports.example.json`

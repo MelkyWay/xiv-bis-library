@@ -1,0 +1,58 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (zh-TW)
+name: "提議新套裝"
+description: "提議新的 BiS、開荒或副本套裝"
+labels: ["new-set"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        您可以使用英語、法語、德語、日語、韓語、簡體中文或繁體中文填寫此表單。
+
+  - type: input
+    id: job
+    attributes:
+      label: "職業"
+      description: "受影響的職業。"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "分類"
+      options:
+        - "零式"
+        - "開荒"
+        - "絕境戰"
+        - "異聞零式"
+        - "幻巧戰"
+        - "隱月牙環"
+        - "其他"
+    validations:
+      required: true
+  - type: input
+    id: encounter
+    attributes:
+      label: "副本或套裝名稱"
+      description: "例如 Futures Rewritten 或 7.4。"
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: "套裝連結"
+      description: "請貼上 XIVGear 或 Etro 連結。"
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: "來源"
+      description: "請提供 The Balance 頁面、Discord 訊息、試算表或其他來源。"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "備註"
+      description: "有助於審查的補充資訊。"

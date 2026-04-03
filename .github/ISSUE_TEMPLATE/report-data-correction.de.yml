@@ -1,0 +1,58 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (de)
+name: "Datenkorrektur melden"
+description: "Einen falschen Feld-, Label- oder Metadatenwert melden"
+labels: ["data-correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Sie können dieses Formular auf Englisch, Französisch, Deutsch, Japanisch, Koreanisch, vereinfachtem Chinesisch oder traditionellem Chinesisch ausfüllen.
+
+  - type: input
+    id: job
+    attributes:
+      label: "Job"
+      description: "Die betroffene Klasse."
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Kategorie"
+      options:
+        - "Episch"
+        - "Progression"
+        - "Fatal"
+        - "Kriterium"
+        - "Unwirklich"
+        - "Kreszentia"
+        - "Sonstiges"
+    validations:
+      required: true
+  - type: input
+    id: encounter
+    attributes:
+      label: "Encounter- oder Set-Name"
+      description: "Zum Beispiel Futures Rewritten oder 7.4."
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: "Angeforderte Korrektur"
+      description: "Beschreiben Sie das falsche Feld und den richtigen Wert."
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: "Quelle"
+      description: "Link zur Balance-Seite, Discord-Nachricht, Tabelle oder einer anderen Quelle."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notizen"
+      description: "Zusätzlicher Kontext, der die Prüfung erleichtert."

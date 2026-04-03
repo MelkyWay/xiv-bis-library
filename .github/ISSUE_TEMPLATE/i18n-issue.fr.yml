@@ -1,0 +1,70 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (fr)
+name: "Signaler un problème i18n"
+description: "Signaler un problème de traduction, de format localisé ou de texte localisé"
+labels: ["i18n"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vous pouvez remplir ce formulaire en anglais, français, allemand, japonais, coréen, chinois simplifié ou chinois traditionnel.
+
+  - type: dropdown
+    id: locale
+    attributes:
+      label: "Langue concernée"
+      options:
+        - "Anglais"
+        - "Français"
+        - "Allemand"
+        - "Japonais"
+        - "Coréen"
+        - "Chinois simplifié"
+        - "Chinois traditionnel"
+        - "Plusieurs langues"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: "Zone"
+      options:
+        - "Texte de l'interface"
+        - "Page de contact / CONTRIBUTING"
+        - "Texte du modèle d'issue"
+        - "Libellés du tableau"
+        - "Filtres et contrôles"
+        - "Autre"
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: "Page ou section"
+      description: "Par exemple page d’accueil, page de contact, pied de page ou libellé précis."
+    validations:
+      required: true
+  - type: textarea
+    id: current-text
+    attributes:
+      label: "Texte actuel"
+      description: "Collez le texte incorrect ou maladroit."
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-text
+    attributes:
+      label: "Texte suggéré"
+      description: "Si vous avez une correction, collez-la ici."
+  - type: textarea
+    id: source
+    attributes:
+      label: "Source"
+      description: "Lien vers la page Balance, un message Discord, une feuille de calcul ou une autre source."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notes"
+      description: "Tout contexte utile pour aider à examiner le signalement."

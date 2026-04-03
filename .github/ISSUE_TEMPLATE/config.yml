@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Project Discord
+    url: https://discord.gg/saVEV7dKGp
+    about: Discuss contributions, ask questions, or coordinate with the community.
+  - name: Contribution Guide
+    url: https://github.com/MelkyWay/xiv-bis-library/blob/main/CONTRIBUTING.md#contribution-workflow
+    about: Read the suggested workflow before opening an issue or PR.

@@ -1,0 +1,58 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (zh-CN)
+name: "回报数据更正"
+description: "回报数据集中的错误字段、标签或元数据问题"
+labels: ["data-correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        您可以使用英语、法语、德语、日语、韩语、简体中文或繁体中文填写此表单。
+
+  - type: input
+    id: job
+    attributes:
+      label: "职业"
+      description: "受影响的职业。"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "分类"
+      options:
+        - "零式"
+        - "开荒"
+        - "绝境战"
+        - "异闻零式"
+        - "幻巧战"
+        - "隐月牙环"
+        - "其他"
+    validations:
+      required: true
+  - type: input
+    id: encounter
+    attributes:
+      label: "副本或套装名称"
+      description: "例如 Futures Rewritten 或 7.4。"
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: "请求更正"
+      description: "说明错误字段和正确值。"
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: "来源"
+      description: "请提供 The Balance 页面、Discord 消息、表格或其他来源。"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "备注"
+      description: "有助于审核的补充信息。"

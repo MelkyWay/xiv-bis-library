@@ -1,0 +1,67 @@
+name: Report I18n Issue
+description: Report a translation, locale formatting, or localized text issue
+labels: [i18n]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for translation mistakes, missing locale strings, formatting differences, or any other localization issue.
+  - type: dropdown
+    id: locale
+    attributes:
+      label: Affected locale
+      options:
+        - English
+        - French
+        - German
+        - Japanese
+        - Korean
+        - Simplified Chinese
+        - Traditional Chinese
+        - Multiple locales
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - App UI text
+        - Contact page / CONTRIBUTING
+        - Issue template text
+        - Table labels
+        - Filters and controls
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page or section
+      description: For example home page, contact page, footer, or a specific label.
+    validations:
+      required: true
+  - type: textarea
+    id: current-text
+    attributes:
+      label: Current text
+      description: Paste the text that is wrong or awkward.
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-text
+    attributes:
+      label: Suggested text
+      description: Provide the corrected text if you have one.
+  - type: textarea
+    id: source
+    attributes:
+      label: Source or context
+      description: Link to the source, screenshot, language reference, or translation rationale.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Extra context, edge cases, or locale-specific details.

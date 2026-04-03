@@ -1,0 +1,65 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (ko)
+name: "오래된 항목 제보"
+description: "패치나 밸런스 변경 후 업데이트가 필요한 세트를 제보"
+labels: ["stale-data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        이 양식은 영어, 프랑스어, 독일어, 일본어, 한국어, 간체 중국어, 번체 중국어로 작성할 수 있습니다.
+
+  - type: input
+    id: job
+    attributes:
+      label: "직업"
+      description: "영향을 받는 직업."
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "카테고리"
+      options:
+        - "영식"
+        - "공략"
+        - "얼티밋 레이드"
+        - "이문"
+        - "환 토벌전"
+        - "신비한 초승달"
+        - "기타"
+    validations:
+      required: true
+  - type: input
+    id: encounter
+    attributes:
+      label: "전투 또는 세트 이름"
+      description: "예: Futures Rewritten 또는 7.4."
+    validations:
+      required: true
+  - type: input
+    id: current-url
+    attributes:
+      label: "현재 URL"
+      description: "깨졌거나 오래된 URL."
+    validations:
+      required: true
+  - type: textarea
+    id: update-needed
+    attributes:
+      label: "무엇을 변경해야 하나요?"
+      description: "무엇이 오래되었고 어떤 업데이트가 필요한지 설명해 주세요."
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: "출처"
+      description: "The Balance 페이지, Discord 메시지, 스프레드시트 또는 기타 출처의 링크를 적어 주세요."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "메모"
+      description: "검토에 도움이 되는 추가 정보."

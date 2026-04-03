@@ -1,0 +1,70 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (zh-CN)
+name: "回报 i18n 问题"
+description: "回报翻译、区域格式或本地化文本问题"
+labels: ["i18n"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        您可以使用英语、法语、德语、日语、韩语、简体中文或繁体中文填写此表单。
+
+  - type: dropdown
+    id: locale
+    attributes:
+      label: "受影响的区域"
+      options:
+        - "英语"
+        - "法语"
+        - "德语"
+        - "日语"
+        - "韩语"
+        - "简体中文"
+        - "繁体中文"
+        - "多语言"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: "区域"
+      options:
+        - "应用界面文本"
+        - "联系页 / CONTRIBUTING"
+        - "Issue 模板文本"
+        - "表格标签"
+        - "筛选和控件"
+        - "其他"
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: "页面或章节"
+      description: "例如首页、联系页面、页脚或具体标签。"
+    validations:
+      required: true
+  - type: textarea
+    id: current-text
+    attributes:
+      label: "当前文本"
+      description: "粘贴有误或不自然的文本。"
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-text
+    attributes:
+      label: "建议文本"
+      description: "如果有修正文本，请贴在这里。"
+  - type: textarea
+    id: source
+    attributes:
+      label: "来源"
+      description: "请提供 The Balance 页面、Discord 消息、表格或其他来源。"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "备注"
+      description: "有助于审核的补充信息。"

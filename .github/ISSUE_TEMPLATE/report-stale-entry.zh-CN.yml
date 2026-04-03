@@ -1,0 +1,65 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (zh-CN)
+name: "回报过期条目"
+description: "回报需要在补丁或平衡调整后更新的套装"
+labels: ["stale-data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        您可以使用英语、法语、德语、日语、韩语、简体中文或繁体中文填写此表单。
+
+  - type: input
+    id: job
+    attributes:
+      label: "职业"
+      description: "受影响的职业。"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "分类"
+      options:
+        - "零式"
+        - "开荒"
+        - "绝境战"
+        - "异闻零式"
+        - "幻巧战"
+        - "隐月牙环"
+        - "其他"
+    validations:
+      required: true
+  - type: input
+    id: encounter
+    attributes:
+      label: "副本或套装名称"
+      description: "例如 Futures Rewritten 或 7.4。"
+    validations:
+      required: true
+  - type: input
+    id: current-url
+    attributes:
+      label: "当前 URL"
+      description: "失效或过时的链接。"
+    validations:
+      required: true
+  - type: textarea
+    id: update-needed
+    attributes:
+      label: "需要更改什么？"
+      description: "说明哪里过时，以及应如何更新。"
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: "来源"
+      description: "请提供 The Balance 页面、Discord 消息、表格或其他来源。"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "备注"
+      description: "有助于审核的补充信息。"

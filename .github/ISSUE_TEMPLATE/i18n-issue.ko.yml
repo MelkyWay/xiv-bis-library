@@ -1,0 +1,70 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (ko)
+name: "i18n 문제 제보"
+description: "번역, 로케일 형식 또는 현지화된 텍스트 문제를 제보"
+labels: ["i18n"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        이 양식은 영어, 프랑스어, 독일어, 일본어, 한국어, 간체 중국어, 번체 중국어로 작성할 수 있습니다.
+
+  - type: dropdown
+    id: locale
+    attributes:
+      label: "영향받는 로케일"
+      options:
+        - "영어"
+        - "프랑스어"
+        - "독일어"
+        - "일본어"
+        - "한국어"
+        - "간체 중국어"
+        - "번체 중국어"
+        - "여러 언어"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: "영역"
+      options:
+        - "앱 UI 텍스트"
+        - "연락처 페이지 / CONTRIBUTING"
+        - "이슈 템플릿 텍스트"
+        - "표 레이블"
+        - "필터와 컨트롤"
+        - "기타"
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: "페이지 또는 섹션"
+      description: "예: 홈 페이지, 연락처 페이지, 푸터 또는 특정 레이블."
+    validations:
+      required: true
+  - type: textarea
+    id: current-text
+    attributes:
+      label: "현재 텍스트"
+      description: "잘못되었거나 어색한 텍스트를 붙여넣어 주세요."
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-text
+    attributes:
+      label: "제안 문구"
+      description: "수정 문구가 있으면 여기에 적어 주세요."
+  - type: textarea
+    id: source
+    attributes:
+      label: "출처"
+      description: "The Balance 페이지, Discord 메시지, 스프레드시트 또는 기타 출처의 링크를 적어 주세요."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "메모"
+      description: "검토에 도움이 되는 추가 정보."

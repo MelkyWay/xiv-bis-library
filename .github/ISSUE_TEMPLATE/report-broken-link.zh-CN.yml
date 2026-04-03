@@ -1,0 +1,63 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (zh-CN)
+name: "回报失效链接"
+description: "回报失效或错误的 BiS 链接"
+labels: ["broken-link"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        您可以使用英语、法语、德语、日语、韩语、简体中文或繁体中文填写此表单。
+
+  - type: input
+    id: job
+    attributes:
+      label: "职业"
+      description: "受影响的职业。"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "分类"
+      options:
+        - "零式"
+        - "开荒"
+        - "绝境战"
+        - "异闻零式"
+        - "幻巧战"
+        - "隐月牙环"
+        - "其他"
+    validations:
+      required: true
+  - type: input
+    id: encounter
+    attributes:
+      label: "副本或套装名称"
+      description: "例如 Futures Rewritten 或 7.4。"
+    validations:
+      required: true
+  - type: input
+    id: current-url
+    attributes:
+      label: "当前 URL"
+      description: "失效或过时的链接。"
+    validations:
+      required: true
+  - type: input
+    id: replacement-url
+    attributes:
+      label: "替换链接"
+      description: "如果您知道正确的 URL，请贴在这里。"
+  - type: textarea
+    id: source
+    attributes:
+      label: "来源"
+      description: "请提供 The Balance 页面、Discord 消息、表格或其他来源。"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "备注"
+      description: "有助于审核的补充信息。"

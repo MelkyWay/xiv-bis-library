@@ -1,0 +1,58 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (fr)
+name: "Signaler une correction de données"
+description: "Signaler un champ, libellé ou métadonnée incorrect(e) dans les données"
+labels: ["data-correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vous pouvez remplir ce formulaire en anglais, français, allemand, japonais, coréen, chinois simplifié ou chinois traditionnel.
+
+  - type: input
+    id: job
+    attributes:
+      label: "Job"
+      description: "Le job concerné par ce signalement."
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Catégorie"
+      options:
+        - "Sadique"
+        - "Progression"
+        - "Fatal"
+        - "Critérium"
+        - "Irréel"
+        - "Île de Lunule"
+        - "Autre"
+    validations:
+      required: true
+  - type: input
+    id: encounter
+    attributes:
+      label: "Nom du combat ou du set"
+      description: "Par exemple Futures Rewritten ou 7.4."
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: "Correction demandée"
+      description: "Décrivez le champ incorrect et la valeur correcte."
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: "Source"
+      description: "Lien vers la page Balance, un message Discord, une feuille de calcul ou une autre source."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notes"
+      description: "Tout contexte utile pour aider à examiner le signalement."

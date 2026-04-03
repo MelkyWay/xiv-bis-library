@@ -23,6 +23,9 @@ A Vue 3 + TypeScript site that centralizes community BiS links for Final Fantasy
 - All displayed entries come from `public/data/bis-links.json`.
 - This project does not require a backend database.
 
+### Contributing
+- See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the suggested workflow for new sets, broken links, stale data reports, and i18n issues.
+
 ---
 
 ## Developer Guide
@@ -32,6 +35,12 @@ A Vue 3 + TypeScript site that centralizes community BiS links for Final Fantasy
 - TypeScript
 - Vite
 - JSON data (`public/data/bis-links.json`)
+
+### Contribution Templates
+- GitHub issue forms live in `.github/ISSUE_TEMPLATE/`.
+- The localized copies are generated from shared source templates by `npm run generate:issue-templates`.
+- Supported localized outputs are English, French, German, Japanese, Korean, Simplified Chinese, and Traditional Chinese.
+- `CONTRIBUTING.md` is the contributor-facing guide; the template generation details stay here for project development and maintenance notes.
 
 ### Local development
 ```bash
