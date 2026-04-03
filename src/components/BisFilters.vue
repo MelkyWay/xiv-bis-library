@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { CATEGORY_OPTIONS } from "../config/orders";
@@ -6,7 +6,7 @@ import { ROLE_OPTIONS } from "../config/roles";
 import type { BisFiltersState, Role } from "../types/bis";
 import { localizeJobName } from "../utils/jobLocalization";
 import { roleColorBorder, roleColorTextStyle } from "../utils/roleColors";
-import { localizeUltimateName } from "../utils/ultimateLocalization";
+import { localizeEncounterName } from "../utils/ultimateLocalization";
 const { t, locale } = useI18n();
 
 const props = defineProps<{
@@ -81,8 +81,8 @@ function categoryLabel(category: (typeof CATEGORY_OPTIONS)[number]): string {
 }
 
 function secondaryOptionLabel(value: string): string {
-  if (props.filters.category === "Ultimate") {
-    return localizeUltimateName(value, String(locale.value));
+  if (props.filters.category === "Ultimate" || props.filters.category === "Criterion" || props.filters.category === "Unreal") {
+    return localizeEncounterName(value, String(locale.value), props.filters.category);
   }
   return value;
 }
@@ -90,6 +90,7 @@ function secondaryOptionLabel(value: string): string {
 function jobLabel(job: string): string {
   return localizeJobName(job, String(locale.value));
 }
+
 
 function groupLabelStyle(_role: Role): Record<string, string> {
   return { color: "var(--color-text)" };
@@ -440,7 +441,6 @@ onBeforeUnmount(() => {
           @keydown="openJobFromKeyboard"
         >
           <span>{{ jobDisplayValue }}</span>
-          <span class="caret">⌄</span>
         </button>
         <div
           ref="jobMenu"
@@ -509,7 +509,6 @@ onBeforeUnmount(() => {
             @keydown="openSecondaryFromKeyboard"
           >
             <span>{{ secondaryDisplayValue }}</span>
-            <span class="caret">⌄</span>
           </button>
           <div
             ref="secondaryMenu"
@@ -569,9 +568,11 @@ onBeforeUnmount(() => {
             fill="currentColor"
           />
         </svg>
-        Favorites
+        {{ t("filters.favorites") }}
       </button>
       <button class="reset-filters" type="button" @click="resetFilters">{{ t("filters.reset") }}</button>
     </div>
   </section>
 </template>
+
+

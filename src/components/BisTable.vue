@@ -1,11 +1,11 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import type { BisEntry, BisFiltersState, Category, Role } from "../types/bis";
 import { getEntryKey } from "../utils/entryKey";
 import { localizeJobName } from "../utils/jobLocalization";
 import { roleColorTextStyle } from "../utils/roleColors";
-import { localizeUltimateName } from "../utils/ultimateLocalization";
+import { localizeEncounterName } from "../utils/ultimateLocalization";
 const { t, locale } = useI18n();
 
 const props = defineProps<{
@@ -40,7 +40,6 @@ const infoHeaderLabel = computed(() => {
   if (
     props.activeCategory === "Savage" ||
     props.activeCategory === "Occult Crescent" ||
-    props.activeCategory === "Eureka" ||
     props.activeCategory === "Prog"
   ) {
     return t("table.tier");
@@ -57,8 +56,8 @@ function roleStyle(role: Role): Record<string, string> {
 }
 
 function infoValue(row: BisEntry): string {
-  if (row.content.kind === "encounter" && row.content.category === "Ultimate") {
-    return row.content.value ? localizeUltimateName(row.content.value, String(locale.value)) : "-";
+  if (row.content.kind === "encounter") {
+    return row.content.value ? localizeEncounterName(row.content.value, String(locale.value), row.content.category) : "-";
   }
   return row.content.value;
 }
@@ -258,7 +257,7 @@ async function copyLink(url: string): Promise<void> {
           </th>
           <th>{{ t("table.link") }}</th>
           <th>{{ t("table.source") }}</th>
-          <th class="col-copy" aria-label="Actions"></th>
+          <th class="col-copy" :aria-label="t('table.actionsAria')"></th>
         </tr>
       </thead>
       <tbody>
@@ -304,8 +303,8 @@ async function copyLink(url: string): Promise<void> {
                 class="favorite-btn"
                 :class="{ active: isFavorite(row) }"
                 type="button"
-                :title="isFavorite(row) ? 'Unfavorite' : 'Favorite'"
-                :aria-label="isFavorite(row) ? 'Unfavorite' : 'Favorite'"
+                :title="isFavorite(row) ? t('table.favoriteRemove') : t('table.favoriteAdd')"
+                :aria-label="isFavorite(row) ? t('table.favoriteRemove') : t('table.favoriteAdd')"
                 @click="toggleFavorite(row)"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -372,3 +371,5 @@ async function copyLink(url: string): Promise<void> {
     </div>
   </section>
 </template>
+
+
