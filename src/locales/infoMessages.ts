@@ -52,7 +52,7 @@ const EN_PAGES: Record<InfoPageKey, InfoPageContent> = {
       {
         title: "Sources",
         bullets: [
-          "Links and references are sourced from community-maintained guides and gear planners.",
+          "Links and references are sourced from community-maintained guides, resources and gear planners.",
           "Each row includes a source field to show the original provider when available."
         ]
       },
@@ -61,7 +61,7 @@ const EN_PAGES: Record<InfoPageKey, InfoPageContent> = {
         bullets: [
           "Entries may become outdated after game patches, job changes, or guide revisions.",
           "Always verify details against the original source before finalizing your setup.",
-          "This site is an independent community project and is not affiliated with or endorsed by Square Enix."
+          "This site is an independent community project and is not affiliated with or endorsed by Square Enix or, indeed, anyone or anything else."
         ]
       }
     ]
@@ -73,9 +73,9 @@ const EN_PAGES: Record<InfoPageKey, InfoPageContent> = {
       {
         title: "Data Stored Locally",
         bullets: [
-          "Theme preference is stored in localStorage.",
-          "Language preference is stored in localStorage and URL parameters.",
-          "Favorite entries are stored in localStorage on your device."
+          "Theme preference is stored in localStorage, on your device.",
+          "Language preference is stored in localStorage and URL parameters, on your device.",
+          "Favorite entries are stored in localStorage, on your device."
         ]
       },
       {
@@ -153,7 +153,7 @@ const FR_PAGES: Record<InfoPageKey, InfoPageContent> = {
       {
         title: "Sources",
         bullets: [
-          "Les liens proviennent de guides et planificateurs communautaires.",
+          "Les liens proviennent de guides et plateformes communautaires.",
           "Chaque ligne affiche la source d’origine quand elle est disponible."
         ]
       },
@@ -161,8 +161,8 @@ const FR_PAGES: Record<InfoPageKey, InfoPageContent> = {
         title: "Avertissement important",
         bullets: [
           "Les entrées peuvent devenir obsolètes après un patch ou des ajustements de job.",
-          "Vérifiez toujours la source d’origine avant de finaliser votre set.",
-          "Ce site est un projet communautaire indépendant, non affilié à Square Enix."
+          "Vérifiez toujours la source d’origine avant de vous lancer.",
+          "Ce site est un projet communautaire indépendant, non affilié à Square Enix, ni qui ou quoi que ce soit d'autre."
         ]
       }
     ]
@@ -174,8 +174,8 @@ const FR_PAGES: Record<InfoPageKey, InfoPageContent> = {
       {
         title: "Données stockées localement",
         bullets: [
-          "Le thème est stocké dans localStorage.",
-          "La langue est stockée dans localStorage et dans l’URL.",
+          "Le thème est stocké dans localStorage, sur votre appareil.",
+          "La langue est stockée dans localStorage et dans l’URL, sur votre appareil.",
           "Les favoris sont stockés localement sur votre appareil."
         ]
       },

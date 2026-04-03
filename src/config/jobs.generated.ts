@@ -7,10 +7,6 @@ export const JOBS = [
     "role": "Tank"
   },
   {
-    "code": "WAR",
-    "role": "Tank"
-  },
-  {
     "code": "DRK",
     "role": "Tank"
   },
@@ -19,7 +15,11 @@ export const JOBS = [
     "role": "Tank"
   },
   {
-    "code": "WHM",
+    "code": "WAR",
+    "role": "Tank"
+  },
+  {
+    "code": "AST",
     "role": "Healer"
   },
   {
@@ -27,19 +27,19 @@ export const JOBS = [
     "role": "Healer"
   },
   {
-    "code": "AST",
-    "role": "Healer"
-  },
-  {
     "code": "SGE",
     "role": "Healer"
   },
   {
-    "code": "MNK",
-    "role": "Melee"
+    "code": "WHM",
+    "role": "Healer"
   },
   {
     "code": "DRG",
+    "role": "Melee"
+  },
+  {
+    "code": "MNK",
     "role": "Melee"
   },
   {
@@ -63,11 +63,11 @@ export const JOBS = [
     "role": "Physical Ranged"
   },
   {
-    "code": "MCH",
+    "code": "DNC",
     "role": "Physical Ranged"
   },
   {
-    "code": "DNC",
+    "code": "MCH",
     "role": "Physical Ranged"
   },
   {
@@ -75,7 +75,7 @@ export const JOBS = [
     "role": "Magical Ranged"
   },
   {
-    "code": "SMN",
+    "code": "PCT",
     "role": "Magical Ranged"
   },
   {
@@ -83,7 +83,7 @@ export const JOBS = [
     "role": "Magical Ranged"
   },
   {
-    "code": "PCT",
+    "code": "SMN",
     "role": "Magical Ranged"
   },
   {
