@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-29",
+  "lastUpdated": "2026-04-03",
   "entries": [
     {
       "job": "DRK",
@@ -1969,12 +1969,13 @@
       "importedAt": "2026-03-26",
       "updatedAt": "2026-03-26",
       "note": {
-        "text": "2.5"
+        "text": "2.5",
+        "tooltip": "7.4 Occult Crescent WAR BiS\nNew OC BIS as of 7.4. All accessories have been added which means 2.5 becomes bis. Also we got the new relic w det and crit beating neokingdom"
       },
       "content": {
         "category": "Occult Crescent",
         "kind": "tier",
-        "value": "7.4"
+        "value": "7.25"
       }
     },
     {
@@ -4380,12 +4381,12 @@
       "job": "WHM",
       "role": "Healer",
       "damage": {
-        "type": "sim",
-        "value": 7797.84
+        "type": "potency",
+        "value": 3929.3
       },
       "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl|6e3fd842-23c1-4ce0-8e56-8177f11fde87"
+        "name": "Etro",
+        "url": "https://etro.gg/gearset/0292a4ea-d045-4f59-8885-64c57eb4e18c"
       },
       "source": {
         "name": "The Balance",
@@ -7684,12 +7685,12 @@
       "job": "DRG",
       "role": "Melee",
       "damage": {
-        "type": "sim",
-        "value": 2500.59
+        "type": "potency",
+        "value": 893.79
       },
       "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl|56a41a01-6f9e-4bc3-8539-f31c01927699"
+        "name": "Etro",
+        "url": "https://etro.gg/gearset/8054bcc7-c8c2-4915-9394-41583d763247"
       },
       "source": {
         "name": "The Balance",
@@ -7711,12 +7712,12 @@
       "job": "DRG",
       "role": "Melee",
       "damage": {
-        "type": "sim",
-        "value": 2579.6
+        "type": "potency",
+        "value": 986.19
       },
       "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl|fd2c754f-7b05-484b-b98b-939e9e0ca4e4"
+        "name": "Etro",
+        "url": "https://etro.gg/gearset/ce9e422b-df7b-4147-93a5-ca35da2e510d"
       },
       "source": {
         "name": "The Balance",
@@ -7738,12 +7739,12 @@
       "job": "DRG",
       "role": "Melee",
       "damage": {
-        "type": "sim",
-        "value": 11253.98
+        "type": "potency",
+        "value": 2839.88
       },
       "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl|0422c339-3466-4605-9af4-c9a2d1d7423b"
+        "name": "Etro",
+        "url": "https://etro.gg/gearset/0ef3d6d5-4b29-4407-a415-ff238494a049"
       },
       "source": {
         "name": "The Balance",
@@ -7764,12 +7765,12 @@
       "job": "DRG",
       "role": "Melee",
       "damage": {
-        "type": "sim",
-        "value": 11352.58
+        "type": "potency",
+        "value": 2839.88
       },
       "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl|510a3c22-b2c2-4400-b5f8-6b408b216f22"
+        "name": "Etro",
+        "url": "https://etro.gg/gearset/0ef3d6d5-4b29-4407-a415-ff238494a049"
       },
       "source": {
         "name": "The Balance",
@@ -8149,110 +8150,6 @@
         "category": "Prog",
         "kind": "tier",
         "value": "7.4"
-      }
-    },
-    {
-      "job": "NIN",
-      "role": "Melee",
-      "damage": {
-        "type": "sim",
-        "value": 26838.74
-      },
-      "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl%7C98ff2fb7-2bb4-440c-90af-13e2107d595a&onlySetIndex=1"
-      },
-      "source": {
-        "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
-      },
-      "importedAt": "2026-03-26",
-      "updatedAt": "2026-03-26",
-      "note": {
-        "text": "Relic"
-      },
-      "content": {
-        "category": "Ultimate",
-        "kind": "encounter",
-        "value": "Futures Rewritten"
-      }
-    },
-    {
-      "job": "NIN",
-      "role": "Melee",
-      "damage": {
-        "type": "sim",
-        "value": 26893.76
-      },
-      "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl%7C98ff2fb7-2bb4-440c-90af-13e2107d595a&onlySetIndex=2"
-      },
-      "source": {
-        "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
-      },
-      "importedAt": "2026-03-26",
-      "updatedAt": "2026-03-26",
-      "note": {
-        "text": "FRU Weapon"
-      },
-      "content": {
-        "category": "Ultimate",
-        "kind": "encounter",
-        "value": "Futures Rewritten"
-      }
-    },
-    {
-      "job": "NIN",
-      "role": "Melee",
-      "damage": {
-        "type": "sim",
-        "value": 26812.89
-      },
-      "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl%7C98ff2fb7-2bb4-440c-90af-13e2107d595a&onlySetIndex=4"
-      },
-      "source": {
-        "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
-      },
-      "importedAt": "2026-03-26",
-      "updatedAt": "2026-03-26",
-      "note": {
-        "text": "Relic - No CAR"
-      },
-      "content": {
-        "category": "Ultimate",
-        "kind": "encounter",
-        "value": "Futures Rewritten"
-      }
-    },
-    {
-      "job": "NIN",
-      "role": "Melee",
-      "damage": {
-        "type": "sim",
-        "value": 26879.57
-      },
-      "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl%7C98ff2fb7-2bb4-440c-90af-13e2107d595a&onlySetIndex=5"
-      },
-      "source": {
-        "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
-      },
-      "importedAt": "2026-03-26",
-      "updatedAt": "2026-03-26",
-      "note": {
-        "text": "FRU Weapon - No CAR"
-      },
-      "content": {
-        "category": "Ultimate",
-        "kind": "encounter",
-        "value": "Futures Rewritten"
       }
     },
     {
@@ -10677,7 +10574,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-26",
       "updatedAt": "2026-03-26",
@@ -10704,7 +10601,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-26",
       "updatedAt": "2026-03-26",
@@ -10731,7 +10628,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-26",
       "updatedAt": "2026-03-26",
@@ -11139,7 +11036,7 @@
       "content": {
         "category": "Occult Crescent",
         "kind": "tier",
-        "value": "7.4"
+        "value": "7.25"
       }
     },
     {
@@ -11166,7 +11063,7 @@
       "content": {
         "category": "Occult Crescent",
         "kind": "tier",
-        "value": "7.4"
+        "value": "7.25"
       }
     },
     {
@@ -11193,7 +11090,7 @@
       "content": {
         "category": "Occult Crescent",
         "kind": "tier",
-        "value": "7.4"
+        "value": "7.25"
       }
     },
     {
@@ -11220,7 +11117,7 @@
       "content": {
         "category": "Occult Crescent",
         "kind": "tier",
-        "value": "7.4"
+        "value": "7.25"
       }
     },
     {
@@ -11737,7 +11634,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -11764,7 +11661,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -11791,7 +11688,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -11818,7 +11715,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -11845,7 +11742,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -11872,7 +11769,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -11899,7 +11796,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -11925,7 +11822,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -11951,7 +11848,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -11977,7 +11874,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -12055,7 +11952,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -12081,7 +11978,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -12107,7 +12004,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -12133,7 +12030,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -12367,7 +12264,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -12393,7 +12290,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -12419,7 +12316,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -12445,7 +12342,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -12471,7 +12368,7 @@
       },
       "source": {
         "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
+        "url": "https://docs.google.com/document/d/1aXJLZCs0t2jxeGO56RXKamUc4QJV35WER6IOt96ckao/edit?tab=t.0#heading=h.ia2i5tbrrhhc"
       },
       "importedAt": "2026-03-27",
       "updatedAt": "2026-03-27",
@@ -13331,84 +13228,6 @@
         "category": "Prog",
         "kind": "tier",
         "value": "7.4"
-      }
-    },
-    {
-      "job": "MCH",
-      "role": "Physical Ranged",
-      "damage": {
-        "type": "potency",
-        "value": 8453.67
-      },
-      "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl%7C43efa18c-a85c-4bca-ada3-8c34ec4d305b&onlySetIndex=0"
-      },
-      "source": {
-        "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
-      },
-      "importedAt": "2026-03-28",
-      "updatedAt": "2026-03-28",
-      "note": {
-        "text": "Ultimate Weapon - FRU BIS"
-      },
-      "content": {
-        "category": "Ultimate",
-        "kind": "encounter",
-        "value": "Futures Rewritten"
-      }
-    },
-    {
-      "job": "MCH",
-      "role": "Physical Ranged",
-      "damage": {
-        "type": "potency",
-        "value": 8420.39
-      },
-      "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl%7C43efa18c-a85c-4bca-ada3-8c34ec4d305b&onlySetIndex=1"
-      },
-      "source": {
-        "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
-      },
-      "importedAt": "2026-03-28",
-      "updatedAt": "2026-03-28",
-      "note": {
-        "text": "Relic Weapon - FRU BIS"
-      },
-      "content": {
-        "category": "Ultimate",
-        "kind": "encounter",
-        "value": "Futures Rewritten"
-      }
-    },
-    {
-      "job": "MCH",
-      "role": "Physical Ranged",
-      "damage": {
-        "type": "potency",
-        "value": 8432.04
-      },
-      "link": {
-        "name": "XivGear",
-        "url": "https://xivgear.app/?page=sl%7C43efa18c-a85c-4bca-ada3-8c34ec4d305b&onlySetIndex=2"
-      },
-      "source": {
-        "name": "The Balance",
-        "url": "https://www.thebalanceffxiv.com"
-      },
-      "importedAt": "2026-03-28",
-      "updatedAt": "2026-03-28",
-      "note": {
-        "text": "Savage Weapon - FRU BIS"
-      },
-      "content": {
-        "category": "Ultimate",
-        "kind": "encounter",
-        "value": "Futures Rewritten"
       }
     },
     {
@@ -21463,6 +21282,269 @@
         "category": "Other",
         "kind": "encounter",
         "value": "Community Sets"
+      }
+    },
+    {
+      "job": "MNK",
+      "role": "Melee",
+      "link": {
+        "name": "XivGear",
+        "url": "https://xivgear.app/?page=sl%7Cf0ab23e1-840d-464e-a6fa-34649ae11d02&onlySetIndex=0"
+      },
+      "source": {
+        "name": "The Balance",
+        "url": "https://www.thebalanceffxiv.com"
+      },
+      "importedAt": "2026-04-03",
+      "updatedAt": "2026-04-03",
+      "damage": {
+        "value": 23444.26,
+        "type": "sim"
+      },
+      "content": {
+        "category": "Occult Crescent",
+        "kind": "tier",
+        "value": "7.25"
+      },
+      "note": {
+        "text": "Occult 1.94 +2 Left Side",
+        "tooltip": "1 DET + 1 DH melds > 2 Crit melds"
+      }
+    },
+    {
+      "job": "MNK",
+      "role": "Melee",
+      "link": {
+        "name": "XivGear",
+        "url": "https://xivgear.app/?page=sl%7Cf0ab23e1-840d-464e-a6fa-34649ae11d02&onlySetIndex=1"
+      },
+      "source": {
+        "name": "The Balance",
+        "url": "https://www.thebalanceffxiv.com"
+      },
+      "importedAt": "2026-04-03",
+      "updatedAt": "2026-04-03",
+      "damage": {
+        "value": 22416.66,
+        "type": "sim"
+      },
+      "content": {
+        "category": "Occult Crescent",
+        "kind": "tier",
+        "value": "7.25"
+      },
+      "note": {
+        "text": "Occult 1.94 +1 Left Side",
+        "tooltip": "1 DET + 1 DH melds > 2 Crit melds"
+      }
+    },
+    {
+      "job": "MNK",
+      "role": "Melee",
+      "link": {
+        "name": "XivGear",
+        "url": "https://xivgear.app/?page=sl%7Cf0ab23e1-840d-464e-a6fa-34649ae11d02&onlySetIndex=2"
+      },
+      "source": {
+        "name": "The Balance",
+        "url": "https://www.thebalanceffxiv.com"
+      },
+      "importedAt": "2026-04-03",
+      "updatedAt": "2026-04-03",
+      "damage": {
+        "value": 21388.81,
+        "type": "sim"
+      },
+      "content": {
+        "category": "Occult Crescent",
+        "kind": "tier",
+        "value": "7.25"
+      },
+      "note": {
+        "text": "Occult 1.94 +0 Left Side",
+        "tooltip": "1 DET + 1 DH melds > 2 Crit melds"
+      }
+    },
+    {
+      "job": "NIN",
+      "role": "Melee",
+      "link": {
+        "name": "XivGear",
+        "url": "https://xivgear.app/?page=sl%7C98ff2fb7-2bb4-440c-90af-13e2107d595a&onlySetIndex=1"
+      },
+      "source": {
+        "name": "The Balance",
+        "url": "https://www.thebalanceffxiv.com"
+      },
+      "importedAt": "2026-04-03",
+      "updatedAt": "2026-04-03",
+      "damage": {
+        "value": 26838.74,
+        "type": "sim"
+      },
+      "content": {
+        "category": "Ultimate",
+        "kind": "encounter",
+        "value": "Futures Rewritten"
+      },
+      "note": {
+        "text": "Relic"
+      }
+    },
+    {
+      "job": "NIN",
+      "role": "Melee",
+      "link": {
+        "name": "XivGear",
+        "url": "https://xivgear.app/?page=sl%7C98ff2fb7-2bb4-440c-90af-13e2107d595a&onlySetIndex=2"
+      },
+      "source": {
+        "name": "The Balance",
+        "url": "https://www.thebalanceffxiv.com"
+      },
+      "importedAt": "2026-04-03",
+      "updatedAt": "2026-04-03",
+      "damage": {
+        "value": 26893.76,
+        "type": "sim"
+      },
+      "content": {
+        "category": "Ultimate",
+        "kind": "encounter",
+        "value": "Futures Rewritten"
+      },
+      "note": {
+        "text": "FRU Weapon"
+      }
+    },
+    {
+      "job": "NIN",
+      "role": "Melee",
+      "link": {
+        "name": "XivGear",
+        "url": "https://xivgear.app/?page=sl%7C98ff2fb7-2bb4-440c-90af-13e2107d595a&onlySetIndex=4"
+      },
+      "source": {
+        "name": "The Balance",
+        "url": "https://www.thebalanceffxiv.com"
+      },
+      "importedAt": "2026-04-03",
+      "updatedAt": "2026-04-03",
+      "damage": {
+        "value": 26812.89,
+        "type": "sim"
+      },
+      "content": {
+        "category": "Ultimate",
+        "kind": "encounter",
+        "value": "Futures Rewritten"
+      },
+      "note": {
+        "text": "Relic - No CAR"
+      }
+    },
+    {
+      "job": "NIN",
+      "role": "Melee",
+      "link": {
+        "name": "XivGear",
+        "url": "https://xivgear.app/?page=sl%7C98ff2fb7-2bb4-440c-90af-13e2107d595a&onlySetIndex=5"
+      },
+      "source": {
+        "name": "The Balance",
+        "url": "https://www.thebalanceffxiv.com"
+      },
+      "importedAt": "2026-04-03",
+      "updatedAt": "2026-04-03",
+      "damage": {
+        "value": 26879.57,
+        "type": "sim"
+      },
+      "content": {
+        "category": "Ultimate",
+        "kind": "encounter",
+        "value": "Futures Rewritten"
+      },
+      "note": {
+        "text": "FRU Weapon - No CAR"
+      }
+    },
+    {
+      "job": "MCH",
+      "role": "Physical Ranged",
+      "link": {
+        "name": "XivGear",
+        "url": "https://xivgear.app/?page=sl%7C29b58122-8c79-4c92-8569-2aac404fe861&selectedIndex=0&onlySetIndex=0"
+      },
+      "source": {
+        "name": "The Balance",
+        "url": "https://www.thebalanceffxiv.com"
+      },
+      "importedAt": "2026-04-03",
+      "updatedAt": "2026-04-03",
+      "damage": {
+        "value": 8453.67,
+        "type": "potency"
+      },
+      "content": {
+        "category": "Ultimate",
+        "kind": "encounter",
+        "value": "Futures Rewritten"
+      },
+      "note": {
+        "text": "Ultimate Weapon - FRU BIS"
+      }
+    },
+    {
+      "job": "MCH",
+      "role": "Physical Ranged",
+      "link": {
+        "name": "XivGear",
+        "url": "https://xivgear.app/?page=sl%7C29b58122-8c79-4c92-8569-2aac404fe861&selectedIndex=0&onlySetIndex=1"
+      },
+      "source": {
+        "name": "The Balance",
+        "url": "https://www.thebalanceffxiv.com"
+      },
+      "importedAt": "2026-04-03",
+      "updatedAt": "2026-04-03",
+      "damage": {
+        "value": 8420.39,
+        "type": "potency"
+      },
+      "content": {
+        "category": "Ultimate",
+        "kind": "encounter",
+        "value": "Futures Rewritten"
+      },
+      "note": {
+        "text": "Relic Weapon - FRU BIS"
+      }
+    },
+    {
+      "job": "MCH",
+      "role": "Physical Ranged",
+      "link": {
+        "name": "XivGear",
+        "url": "https://xivgear.app/?page=sl%7C29b58122-8c79-4c92-8569-2aac404fe861&selectedIndex=0&onlySetIndex=2"
+      },
+      "source": {
+        "name": "The Balance",
+        "url": "https://www.thebalanceffxiv.com"
+      },
+      "importedAt": "2026-04-03",
+      "updatedAt": "2026-04-03",
+      "damage": {
+        "value": 8432.04,
+        "type": "potency"
+      },
+      "content": {
+        "category": "Ultimate",
+        "kind": "encounter",
+        "value": "Futures Rewritten"
+      },
+      "note": {
+        "text": "Savage Weapon - FRU BIS"
       }
     }
   ],
