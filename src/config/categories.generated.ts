@@ -8,7 +8,6 @@ export const CATEGORY_ORDER = [
   "Criterion",
   "Unreal",
   "Occult Crescent",
-  "Eureka",
   "Other",
 ] as const;
 

@@ -110,7 +110,7 @@ Roles:
 - `Tank`, `Healer`, `Melee`, `Physical Ranged`, `Magical Ranged`, `Limited`
 
 Categories:
-- `Savage`, `Prog`, `Ultimate`, `Criterion`, `Unreal`, `Occult Crescent`, `Eureka`, `Other`
+- `Savage`, `Prog`, `Ultimate`, `Criterion`, `Unreal`, `Occult Crescent`, `Other`
 
 Category source of truth:
 - Edit `src/config/categories.json`.
