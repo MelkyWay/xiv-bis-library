@@ -7,6 +7,7 @@ import { CRITERION_ORDER, ULTIMATE_ORDER, UNREAL_ORDER } from "./config/encounte
 import { JOB_ORDER, JOB_TO_ROLE } from "./config/jobs";
 import { JOB_GROUPS_BY_ROLE } from "./config/options";
 import { CATEGORY_ORDER } from "./config/orders";
+import { COMMUNITY_LINKS } from "./config/communityLinks";
 import { ROLE_ORDER } from "./config/roles";
 import {
   DEFAULT_LOCALE,
@@ -525,6 +526,38 @@ watch(unreals, () => {
       <div class="header-meta-row">
         <p class="meta">{{ t("app.lastUpdated", { date: headerUpdatedValue }) }}</p>
         <div class="header-controls">
+          <a
+            class="social-link discord-link"
+            :href="COMMUNITY_LINKS.discordInviteUrl"
+            target="_blank"
+            rel="noreferrer"
+            :aria-label="t('app.discordButton')"
+            :title="t('app.discordButton')"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path
+                d="M19.5 5.4c-1.2-.55-2.5-.95-3.9-1.15l-.17.33c1.15.27 1.87.65 2.72 1.17a15 15 0 0 0-8.28 0c.85-.52 1.57-.9 2.72-1.17l-.17-.33c-1.4.2-2.7.6-3.9 1.15C4 8.4 3.46 11.35 3.7 14.25c1.47 1.1 2.89 1.77 4.29 2.2.35-.48.66-.99.92-1.54-.5-.19-.98-.42-1.45-.7l.36-.28c2.79 1.29 5.81 1.29 8.57 0l.36.28c-.47.28-.95.51-1.45.7.26.55.57 1.06.92 1.54 1.4-.43 2.82-1.1 4.29-2.2.31-3.38-.53-6.31-2.11-8.85Zm-10.15 7.1c-.72 0-1.31-.66-1.31-1.47 0-.82.58-1.48 1.31-1.48.74 0 1.33.67 1.31 1.48 0 .82-.58 1.47-1.31 1.47Zm5.3 0c-.72 0-1.31-.66-1.31-1.47 0-.82.58-1.48 1.31-1.48.74 0 1.33.67 1.31 1.48 0 .82-.57 1.47-1.31 1.47Z"
+                fill="currentColor"
+              />
+            </svg>
+            <span class="sr-only">{{ t("common.discord") }}</span>
+          </a>
+          <a
+            class="social-link contribute-link"
+            :href="COMMUNITY_LINKS.contributingGuideUrl"
+            target="_blank"
+            rel="noreferrer"
+            :aria-label="t('app.contributeButton')"
+            :title="t('app.contributeButton')"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path
+                fill="currentColor"
+                d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.86 8.17 6.84 9.49.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.71-2.78.61-3.37-1.34-3.37-1.34-.45-1.14-1.1-1.44-1.1-1.44-.9-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.26-.45-1.31.1-2.72 0 0 .84-.27 2.75 1.02a9.57 9.57 0 0 1 2.5-.34c.85 0 1.7.12 2.5.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.41.2 2.46.1 2.72.64.7 1.03 1.59 1.03 2.68 0 3.83-2.34 4.68-4.57 4.93.36.31.68.91.68 1.84 0 1.33-.01 2.4-.01 2.73 0 .26.18.57.69.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10Z"
+              />
+            </svg>
+            <span>{{ t("common.contribute") }}</span>
+          </a>
           <label class="locale-picker">
             <span class="sr-only">{{ t("common.locale") }}</span>
             <select :value="locale" @change="onLocaleChange(($event.target as HTMLSelectElement).value)">
@@ -592,6 +625,20 @@ watch(unreals, () => {
           <li v-for="bullet in section.bullets" :key="bullet">{{ bullet }}</li>
         </ul>
       </section>
+      <section v-if="activeInfoPage === 'contact'" class="info-panel-section">
+        <h3>{{ t("common.communityLinks") }}</h3>
+        <div class="info-panel-links">
+          <a :href="COMMUNITY_LINKS.discordInviteUrl" target="_blank" rel="noreferrer">
+            {{ t("common.discord") }}
+          </a>
+          <a :href="COMMUNITY_LINKS.githubRepoUrl" target="_blank" rel="noreferrer">
+            {{ t("common.github") }}
+          </a>
+          <a :href="COMMUNITY_LINKS.contributingGuideUrl" target="_blank" rel="noreferrer">
+            {{ t("common.contribute") }}
+          </a>
+        </div>
+      </section>
     </section>
 
     <footer class="site-footer" :aria-label="t('info.ariaFooter')">
@@ -601,6 +648,9 @@ watch(unreals, () => {
         <a href="#" @click.prevent="openInfoPage('dataDisclaimer')">{{ t("info.footer.dataDisclaimer") }}</a>
         <a href="#" @click.prevent="openInfoPage('privacy')">{{ t("info.footer.privacy") }}</a>
         <a href="#" @click.prevent="openInfoPage('contact')">{{ t("info.footer.contact") }}</a>
+        <a :href="COMMUNITY_LINKS.contributingGuideUrl" target="_blank" rel="noreferrer">
+          {{ t("common.contribute") }}
+        </a>
         <a href="#" @click.prevent="openInfoPage('legal')">{{ t("info.footer.legal") }}</a>
       </nav>
     </footer>

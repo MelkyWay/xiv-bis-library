@@ -81,13 +81,19 @@ const messages = {
       notAvailable: "-",
       loading: "Loading BiS data...",
       themeSwitch: "Switch to {theme} theme",
-      validationWarnings: "Validation warnings"
+      validationWarnings: "Validation warnings",
+      discordButton: "Join Discord",
+      contributeButton: "Contribute"
     },
     common: {
       all: "All",
       light: "light",
       dark: "dark",
-      locale: "Language"
+      locale: "Language",
+      discord: "Discord",
+      github: "GitHub",
+      contribute: "Contribute",
+      communityLinks: "Community links"
     },
     filters: {
       job: "Job",
