@@ -8,7 +8,13 @@ import { JOB_ORDER, JOB_TO_ROLE } from "./config/jobs";
 import { JOB_GROUPS_BY_ROLE } from "./config/options";
 import { CATEGORY_ORDER } from "./config/orders";
 import { ROLE_ORDER } from "./config/roles";
-import { DEFAULT_LOCALE, LOCALE_STORAGE_KEY, SUPPORTED_LOCALES, type SupportedLocale } from "./i18n";
+import {
+  DEFAULT_LOCALE,
+  formatHeaderUpdatedDateByLocale,
+  LOCALE_STORAGE_KEY,
+  SUPPORTED_LOCALES,
+  type SupportedLocale
+} from "./i18n";
 import type { InfoPageContent, InfoPageKey } from "./locales/infoMessages";
 import type { BisDataFile, BisFiltersState, Category, Role } from "./types/bis";
 import { getEntryKey } from "./utils/entryKey";
@@ -105,7 +111,19 @@ const LOCALE_LABEL: Record<SupportedLocale, string> = {
 const localeOptions = computed(() =>
   SUPPORTED_LOCALES.map((code) => ({ code, label: LOCALE_LABEL[code] }))
 );
-const headerUpdatedValue = computed(() => deployedAtRaw || data.value.lastUpdated || t("app.notAvailable"));
+
+function formatHeaderUpdatedDate(rawValue: string): string {
+  return formatHeaderUpdatedDateByLocale(rawValue, String(locale.value));
+}
+
+const headerUpdatedValue = computed(() => {
+  const rawValue = deployedAtRaw || data.value.lastUpdated;
+  if (!rawValue) {
+    return t("app.notAvailable");
+  }
+
+  return formatHeaderUpdatedDate(rawValue);
+});
 const activeInfoContent = computed<InfoPageContent | null>(() =>
   activeInfoPage.value ? (tm(`info.pages.${activeInfoPage.value}`) as InfoPageContent) : null
 );

@@ -8,6 +8,57 @@ export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 export const DEFAULT_LOCALE: SupportedLocale = "en";
 export const LOCALE_STORAGE_KEY = "locale";
 
+type DateParts = {
+  year: string;
+  month: string;
+  day: string;
+};
+
+type HeaderDateFormatRule = {
+  matches: RegExp;
+  format: (parts: DateParts) => string;
+};
+
+const HEADER_UPDATED_DATE_FORMAT_RULES: readonly HeaderDateFormatRule[] = [
+  {
+    matches: /^fr(?:-|$)/,
+    format: ({ day, month, year }) => `${day}-${month}-${year}`
+  },
+  {
+    matches: /^de(?:-|$)/,
+    format: ({ day, month, year }) => `${day}.${month}.${year}`
+  },
+  {
+    matches: /^zh-cn(?:-|$)/,
+    format: ({ year, month, day }) => `${year}-${month}-${day}`
+  },
+  {
+    matches: /^zh-tw(?:-|$)/,
+    format: ({ year, month, day }) => `${year}/${month}/${day}`
+  },
+  {
+    matches: /^ko(?:-|$)/,
+    format: ({ year, month, day }) => `${year}. ${Number(month)}. ${Number(day)}.`
+  }
+];
+
+export function formatHeaderUpdatedDateByLocale(rawValue: string, localeCode: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})(?:[T ].*)?$/.exec(rawValue);
+  if (!match) {
+    return rawValue;
+  }
+
+  const [, year, month, day] = match;
+  const normalizedLocale = localeCode.toLowerCase();
+  const matchedRule = HEADER_UPDATED_DATE_FORMAT_RULES.find((rule) => rule.matches.test(normalizedLocale));
+
+  if (!matchedRule) {
+    return rawValue;
+  }
+
+  return matchedRule.format({ year, month, day });
+}
+
 function buildCategoryLabels(
   overrides: Partial<Record<Category, string>> = {}
 ): Record<Category, string> {
@@ -115,7 +166,7 @@ const messages = {
   },
   fr: {
     app: {
-      title: "Bibliothèque BiS XIV",
+      title: "FFXIV BiS Library",
       subtitle:
         "Liens centralisés vers les sets BiS de la communauté par job, rôle et type de contenu.",
       lastUpdated: "Dernière mise à jour : {date}",
@@ -174,7 +225,7 @@ const messages = {
       role: "Rôle",
       category: "Catégorie",
       info: "Info",
-      encounter: "Rencontre",
+      encounter: "Combat",
       tier: "Tier",
       patch: "Patch",
       notes: "Notes",
@@ -213,7 +264,7 @@ const messages = {
   },
   de: {
     app: {
-      title: "XIV BiS Bibliothek",
+      title: "FFXIV BiS Library",
       subtitle: "Zentrale Links zu Community-BiS-Sets nach Job, Rolle und Inhaltstyp.",
       lastUpdated: "Zuletzt aktualisiert: {date}",
       notAvailable: "-",
@@ -310,7 +361,7 @@ const messages = {
   },
   ja: {
     app: {
-      title: "XIV BiS ライブラリ",
+      title: "FFXIV BiS Library",
       subtitle: "ジョブ、ロール、コンテンツ種別ごとにコミュニティBiSセットへのリンクを集約。",
       lastUpdated: "最終更新: {date}",
       notAvailable: "-",
@@ -407,7 +458,7 @@ const messages = {
   },
   ko: {
     app: {
-      title: "XIV BiS 라이브러리",
+      title: "FFXIV BiS Library",
       subtitle: "직업, 역할, 콘텐츠 유형별 커뮤니티 BiS 세트 링크를 한곳에 모았습니다.",
       lastUpdated: "최종 업데이트: {date}",
       notAvailable: "-",
@@ -708,9 +759,69 @@ const mergedMessages = Object.fromEntries(
   ])
 );
 
+const dateTimeFormats = {
+  en: {
+    headerUpdated: {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "UTC"
+    }
+  },
+  fr: {
+    headerUpdated: {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "UTC"
+    }
+  },
+  de: {
+    headerUpdated: {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "UTC"
+    }
+  },
+  ja: {
+    headerUpdated: {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "UTC"
+    }
+  },
+  ko: {
+    headerUpdated: {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "UTC"
+    }
+  },
+  "zh-CN": {
+    headerUpdated: {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "UTC"
+    }
+  },
+  "zh-TW": {
+    headerUpdated: {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "UTC"
+    }
+  }
+} as const;
+
 export const i18n = createI18n({
   legacy: false,
   locale: DEFAULT_LOCALE,
   fallbackLocale: DEFAULT_LOCALE,
-  messages: mergedMessages
+  messages: mergedMessages,
+  datetimeFormats: dateTimeFormats
 });
