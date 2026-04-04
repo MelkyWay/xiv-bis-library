@@ -42,6 +42,28 @@ function mountFilters(filters: BisFiltersState = buildFilters()) {
 }
 
 describe("BisFilters", () => {
+  it("emits role update from custom role menu", async () => {
+    const wrapper = mountFilters();
+
+    await wrapper.get(".role-select-trigger").trigger("click");
+    await wrapper.findAll(".role-select-option")[1].trigger("click");
+
+    const events = wrapper.emitted<{"update:filters": [BisFiltersState]}>()["update:filters"];
+    expect(events).toBeTruthy();
+    expect(events[0][0].role).toBe("Tank");
+  });
+
+  it("emits category update from custom category menu", async () => {
+    const wrapper = mountFilters();
+
+    await wrapper.get(".category-select-trigger").trigger("click");
+    await wrapper.findAll(".category-select-option")[1].trigger("click");
+
+    const events = wrapper.emitted<{"update:filters": [BisFiltersState]}>()["update:filters"];
+    expect(events).toBeTruthy();
+    expect(events[0][0].category).toBe("Savage");
+  });
+
   it("emits reset values when clicking reset", async () => {
     const wrapper = mountFilters(
       buildFilters({
@@ -64,8 +86,8 @@ describe("BisFilters", () => {
 
     expect(wrapper.find(".ultimate-select-wrap.is-hidden").exists()).toBe(false);
 
-    await wrapper.get(".secondary-select-trigger").trigger("click");
-    await wrapper.get(".secondary-select-option:nth-of-type(2)").trigger("click");
+    await wrapper.get(".ultimate-select-wrap .secondary-select-trigger").trigger("click");
+    await wrapper.findAll(".ultimate-select-wrap .secondary-select-option")[1].trigger("click");
 
     const events = wrapper.emitted<{"update:filters": [BisFiltersState]}>()["update:filters"];
     expect(events).toBeTruthy();

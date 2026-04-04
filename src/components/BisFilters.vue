@@ -138,6 +138,16 @@ const secondaryTrigger = ref<HTMLElement | null>(null);
 const secondaryMenu = ref<HTMLElement | null>(null);
 const secondaryOpen = ref(false);
 const secondaryMenuId = "secondary-filter-menu";
+const roleRoot = ref<HTMLElement | null>(null);
+const roleTrigger = ref<HTMLElement | null>(null);
+const roleMenu = ref<HTMLElement | null>(null);
+const roleOpen = ref(false);
+const roleMenuId = "role-filter-menu";
+const categoryRoot = ref<HTMLElement | null>(null);
+const categoryTrigger = ref<HTMLElement | null>(null);
+const categoryMenu = ref<HTMLElement | null>(null);
+const categoryOpen = ref(false);
+const categoryMenuId = "category-filter-menu";
 const jobRoot = ref<HTMLElement | null>(null);
 const jobTrigger = ref<HTMLElement | null>(null);
 const jobMenu = ref<HTMLElement | null>(null);
@@ -147,6 +157,13 @@ const isSecondaryActive = computed(
   () => props.filters.category === "Ultimate" || props.filters.category === "Criterion" || props.filters.category === "Unreal"
 );
 const viewportWidth = ref(globalThis.window === undefined ? 1280 : globalThis.window.innerWidth);
+
+function closeOtherMenus(except: "role" | "job" | "category" | "secondary"): void {
+  if (except !== "role") roleOpen.value = false;
+  if (except !== "job") jobOpen.value = false;
+  if (except !== "category") categoryOpen.value = false;
+  if (except !== "secondary") secondaryOpen.value = false;
+}
 
 const visibleGroupedJobs = computed(() => {
   if (props.filters.role === "All") {
@@ -183,6 +200,8 @@ const jobDisplayValue = computed(() => {
   }
   return jobLabel(props.filters.job);
 });
+const roleDisplayValue = computed(() => roleLabel(props.filters.role));
+const categoryDisplayValue = computed(() => categoryLabel(props.filters.category));
 
 const secondaryTypeLabel = computed(() => {
   if (props.filters.category === "Criterion") return t("filters.secondaryTypeCriterion");
@@ -210,6 +229,9 @@ function toggleSecondary(): void {
   if (!isSecondaryActive.value) {
     return;
   }
+  if (!secondaryOpen.value) {
+    closeOtherMenus("secondary");
+  }
   secondaryOpen.value = !secondaryOpen.value;
   if (secondaryOpen.value) {
     void focusSecondarySelectedOption();
@@ -217,9 +239,32 @@ function toggleSecondary(): void {
 }
 
 function toggleJob(): void {
+  if (!jobOpen.value) {
+    closeOtherMenus("job");
+  }
   jobOpen.value = !jobOpen.value;
   if (jobOpen.value) {
     void focusJobSelectedOption();
+  }
+}
+
+function toggleRole(): void {
+  if (!roleOpen.value) {
+    closeOtherMenus("role");
+  }
+  roleOpen.value = !roleOpen.value;
+  if (roleOpen.value) {
+    void focusRoleSelectedOption();
+  }
+}
+
+function toggleCategory(): void {
+  if (!categoryOpen.value) {
+    closeOtherMenus("category");
+  }
+  categoryOpen.value = !categoryOpen.value;
+  if (categoryOpen.value) {
+    void focusCategorySelectedOption();
   }
 }
 
@@ -235,6 +280,20 @@ async function chooseSecondary(value: string): Promise<void> {
   secondaryOpen.value = false;
   await nextTick();
   secondaryTrigger.value?.focus();
+}
+
+async function chooseRole(role: "All" | Role): Promise<void> {
+  patch({ role });
+  roleOpen.value = false;
+  await nextTick();
+  roleTrigger.value?.focus();
+}
+
+async function chooseCategory(category: (typeof CATEGORY_OPTIONS)[number]): Promise<void> {
+  patch({ category });
+  categoryOpen.value = false;
+  await nextTick();
+  categoryTrigger.value?.focus();
 }
 
 function optionIndexByChecked(options: HTMLButtonElement[]): number {
@@ -287,6 +346,7 @@ function openJobFromKeyboard(event: KeyboardEvent): void {
     return;
   }
   event.preventDefault();
+  closeOtherMenus("job");
   if (!jobOpen.value) {
     jobOpen.value = true;
   }
@@ -301,10 +361,35 @@ function openSecondaryFromKeyboard(event: KeyboardEvent): void {
     return;
   }
   event.preventDefault();
+  closeOtherMenus("secondary");
   if (!secondaryOpen.value) {
     secondaryOpen.value = true;
   }
   void focusSecondarySelectedOption();
+}
+
+function openRoleFromKeyboard(event: KeyboardEvent): void {
+  if (event.key !== "Enter" && event.key !== " " && event.key !== "ArrowDown") {
+    return;
+  }
+  event.preventDefault();
+  closeOtherMenus("role");
+  if (!roleOpen.value) {
+    roleOpen.value = true;
+  }
+  void focusRoleSelectedOption();
+}
+
+function openCategoryFromKeyboard(event: KeyboardEvent): void {
+  if (event.key !== "Enter" && event.key !== " " && event.key !== "ArrowDown") {
+    return;
+  }
+  event.preventDefault();
+  closeOtherMenus("category");
+  if (!categoryOpen.value) {
+    categoryOpen.value = true;
+  }
+  void focusCategorySelectedOption();
 }
 
 async function focusJobSelectedOption(): Promise<void> {
@@ -316,6 +401,18 @@ async function focusJobSelectedOption(): Promise<void> {
 async function focusSecondarySelectedOption(): Promise<void> {
   await nextTick();
   const options = Array.from(secondaryMenu.value?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]') ?? []);
+  focusOption(options, optionIndexByChecked(options));
+}
+
+async function focusRoleSelectedOption(): Promise<void> {
+  await nextTick();
+  const options = Array.from(roleMenu.value?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]') ?? []);
+  focusOption(options, optionIndexByChecked(options));
+}
+
+async function focusCategorySelectedOption(): Promise<void> {
+  await nextTick();
+  const options = Array.from(categoryMenu.value?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]') ?? []);
   focusOption(options, optionIndexByChecked(options));
 }
 
@@ -340,6 +437,30 @@ function onSecondaryMenuKeydown(event: KeyboardEvent): void {
     event.preventDefault();
     secondaryOpen.value = false;
     secondaryTrigger.value?.focus();
+  }
+}
+
+function onRoleMenuKeydown(event: KeyboardEvent): void {
+  const options = Array.from(roleMenu.value?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]') ?? []);
+  if (moveMenuFocus(event, options)) {
+    return;
+  }
+  if (event.key === "Escape") {
+    event.preventDefault();
+    roleOpen.value = false;
+    roleTrigger.value?.focus();
+  }
+}
+
+function onCategoryMenuKeydown(event: KeyboardEvent): void {
+  const options = Array.from(categoryMenu.value?.querySelectorAll<HTMLButtonElement>('[role="menuitemradio"]') ?? []);
+  if (moveMenuFocus(event, options)) {
+    return;
+  }
+  if (event.key === "Escape") {
+    event.preventDefault();
+    categoryOpen.value = false;
+    categoryTrigger.value?.focus();
   }
 }
 
@@ -380,6 +501,14 @@ function handleDocumentClick(event: MouseEvent): void {
     jobOpen.value = false;
   }
 
+  if (roleRoot.value && !roleRoot.value.contains(target)) {
+    roleOpen.value = false;
+  }
+
+  if (categoryRoot.value && !categoryRoot.value.contains(target)) {
+    categoryOpen.value = false;
+  }
+
   if (secondaryRoot.value && !secondaryRoot.value.contains(target)) {
     secondaryOpen.value = false;
   }
@@ -392,6 +521,7 @@ function handleWindowResize(): void {
 watch(
   () => props.filters.category,
   () => {
+    categoryOpen.value = false;
     secondaryOpen.value = false;
   }
 );
@@ -400,6 +530,13 @@ watch(
   () => props.filters.job,
   () => {
     jobOpen.value = false;
+  }
+);
+
+watch(
+  () => props.filters.role,
+  () => {
+    roleOpen.value = false;
   }
 );
 
@@ -416,16 +553,47 @@ onBeforeUnmount(() => {
 
 <template>
   <section class="panel filters">
-    <label>
-      {{ t("filters.role") }}
-      <select
-        :value="filters.role"
-        :style="selectedRoleStyle()"
-        @change="patch({ role: ($event.target as HTMLSelectElement).value as BisFiltersState['role'] })"
-      >
-        <option v-for="role in roles" :key="role" :value="role" :style="roleOptionStyle(role)">{{ roleLabel(role) }}</option>
-      </select>
-    </label>
+    <div class="filter-field">
+      <span class="field-label">{{ t("filters.role") }}</span>
+      <div ref="roleRoot" class="role-select job-select">
+        <button
+          ref="roleTrigger"
+          type="button"
+          class="job-select-trigger role-select-trigger"
+          :style="selectedRoleStyle()"
+          :aria-label="t('filters.secondaryAriaCurrent', { type: t('filters.role'), value: roleDisplayValue })"
+          :aria-expanded="roleOpen"
+          aria-haspopup="menu"
+          :aria-controls="roleMenuId"
+          @click.stop="toggleRole"
+          @keydown="openRoleFromKeyboard"
+        >
+          <span>{{ roleDisplayValue }}</span>
+        </button>
+        <div
+          ref="roleMenu"
+          v-if="roleOpen"
+          :id="roleMenuId"
+          class="job-select-menu role-select-menu"
+          role="menu"
+          :aria-label="t('filters.secondaryAriaOptions', { type: t('filters.role') })"
+          @keydown="onRoleMenuKeydown"
+        >
+          <button
+            v-for="role in roles"
+            :key="role"
+            type="button"
+            class="job-select-option role-select-option"
+            role="menuitemradio"
+            :aria-checked="filters.role === role"
+            :style="roleOptionStyle(role)"
+            @click="chooseRole(role)"
+          >
+            {{ roleLabel(role) }}
+          </button>
+        </div>
+      </div>
+    </div>
 
     <div class="filter-field">
       <span class="field-label">{{ t("filters.job") }}</span>
@@ -483,16 +651,46 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="stack">
-      <label>
-        {{ t("filters.category") }}
-        <select
-          :value="filters.category"
-          :style="selectedCategoryStyle()"
-          @change="patch({ category: ($event.target as HTMLSelectElement).value as BisFiltersState['category'] })"
-        >
-          <option v-for="category in categories" :key="category" :value="category">{{ categoryLabel(category) }}</option>
-        </select>
-      </label>
+      <div class="filter-field">
+        <span class="field-label">{{ t("filters.category") }}</span>
+        <div ref="categoryRoot" class="category-select job-select">
+          <button
+            ref="categoryTrigger"
+            type="button"
+            class="job-select-trigger category-select-trigger"
+            :style="selectedCategoryStyle()"
+            :aria-label="t('filters.secondaryAriaCurrent', { type: t('filters.category'), value: categoryDisplayValue })"
+            :aria-expanded="categoryOpen"
+            aria-haspopup="menu"
+            :aria-controls="categoryMenuId"
+            @click.stop="toggleCategory"
+            @keydown="openCategoryFromKeyboard"
+          >
+            <span>{{ categoryDisplayValue }}</span>
+          </button>
+          <div
+            ref="categoryMenu"
+            v-if="categoryOpen"
+            :id="categoryMenuId"
+            class="job-select-menu category-select-menu"
+            role="menu"
+            :aria-label="t('filters.secondaryAriaOptions', { type: t('filters.category') })"
+            @keydown="onCategoryMenuKeydown"
+          >
+            <button
+              v-for="category in categories"
+              :key="category"
+              type="button"
+              class="job-select-option category-select-option"
+              role="menuitemradio"
+              :aria-checked="filters.category === category"
+              @click="chooseCategory(category)"
+            >
+              {{ categoryLabel(category) }}
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div class="ultimate-select-wrap" :class="{ 'is-hidden': !isSecondaryActive }">
         <div class="dotted-separator" aria-hidden="true"></div>
