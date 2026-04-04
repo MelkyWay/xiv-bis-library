@@ -220,6 +220,30 @@ a {
   flex-wrap: wrap;
 }
 
+.discord-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-toggle-text);
+  text-decoration: none;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+.discord-link:hover,
+.discord-link:focus-visible {
+  opacity: 0.82;
+  text-decoration: none;
+}
+
+.discord-link svg {
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+}
+
 .social-link {
   border: 1px solid var(--color-toggle-border);
   border-radius: 8px;
@@ -229,7 +253,8 @@ a {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  padding: 0.4rem 0.65rem;
+  padding: 0 0.75rem;
+  height: 2.15rem;
   text-decoration: none;
   line-height: 1;
   white-space: nowrap;
@@ -247,17 +272,6 @@ a {
   flex: 0 0 auto;
 }
 
-.discord-link {
-  padding: 0.4rem;
-  width: 2.15rem;
-  height: 2.15rem;
-}
-
-.discord-link svg {
-  width: 1rem;
-  height: 1rem;
-}
-
 .locale-picker {
   display: inline-flex;
 }
@@ -267,8 +281,10 @@ a {
   border-radius: 8px;
   background: var(--bg-toggle);
   color: var(--color-toggle-text);
-  padding: 0.4rem 2rem 0.4rem 0.6rem;
+  height: 2.15rem;
+  padding: 0 2rem 0 0.6rem;
   font: inherit;
+  line-height: 1;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
