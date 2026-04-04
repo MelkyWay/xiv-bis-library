@@ -3,15 +3,15 @@
 
 export const JOBS = [
   {
-    "code": "PLD",
-    "role": "Tank"
-  },
-  {
     "code": "DRK",
     "role": "Tank"
   },
   {
     "code": "GNB",
+    "role": "Tank"
+  },
+  {
+    "code": "PLD",
     "role": "Tank"
   },
   {

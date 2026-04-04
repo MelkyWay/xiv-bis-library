@@ -1,8 +1,8 @@
 {
   "jobs": [
-    { "code": "PLD", "role": "Tank" },
     { "code": "DRK", "role": "Tank" },
     { "code": "GNB", "role": "Tank" },
+    { "code": "PLD", "role": "Tank" },
     { "code": "WAR", "role": "Tank" },
     { "code": "AST", "role": "Healer" },
     { "code": "SCH", "role": "Healer" },

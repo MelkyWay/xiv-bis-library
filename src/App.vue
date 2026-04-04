@@ -527,7 +527,7 @@ watch(unreals, () => {
         <p class="meta">{{ t("app.lastUpdated", { date: headerUpdatedValue }) }}</p>
         <div class="header-controls">
           <a
-            class="social-link discord-link"
+            class="discord-link"
             :href="COMMUNITY_LINKS.discordInviteUrl"
             target="_blank"
             rel="noreferrer"
