@@ -12,6 +12,7 @@ function buildCategoryLabels(
     ...overrides
   };
 }
+
 export const messages = {
   en: {
     app: {
@@ -163,7 +164,7 @@ export const messages = {
         Prog: "Progression",
         Criterion: "Critérium",
         Unreal: "Irréel",
-        "Occult Crescent": "�Zle de Lunule",
+        "Occult Crescent": "Île de Lunule",
         Other: "Autre"
       })
     },
@@ -309,390 +310,389 @@ export const messages = {
   ja: {
     app: {
       title: "FFXIV BiS Library",
-      subtitle: "�,��f��f-�?��f��f��f��?��,��f��f?�f��f"種�^��"とに�,��fY�f��f<�f?�,�BiS�,��ff�f^への�f��f��,��,'�>?�"�?,",
-      lastUpdated: "�o?�,�>��-�: {date}",
+      subtitle: "ジョブ、ロール、コンテンツ種別ごとにコミュニティBiSセットへのリンクを集約。",
+      lastUpdated: "最終更新: {date}",
       notAvailable: "-",
-      loading: "BiS�f?�f��,��,'読み込み中...",
-      themeSwitch: "{theme}�f?�f��fzに�^?�,S�>��^",
-      validationWarnings: "�o証警�'S"
+      loading: "BiSデータを読み込み中...",
+      themeSwitch: "{theme}テーマに切り替え",
+      validationWarnings: "検証警告"
     },
     common: {
-      all: "�Tべて",
-      light: "�f��,��f^",
-      dark: "�f?�f��,�",
-      locale: "�?�z"
+      all: "すべて",
+      light: "ライト",
+      dark: "ダーク",
+      locale: "言語"
     },
     filters: {
-      job: "�,��f��f-",
-      category: "�,��f?�,��f�",
-      role: "�f��f��f�",
-      search: "�o索",
-      searchPlaceholder: "�,��f��f-�?�層�?��,��f��,�...",
-      reset: "�f.�,��f��,��f��,'�f��,��ff�f^",
-      favorites: "�S�-に�.��,S",
+      job: "ジョブ",
+      category: "カテゴリ",
+      role: "ロール",
+      search: "検索",
+      searchPlaceholder: "ジョブ、層、ソース...",
+      reset: "フィルターをリセット",
+      favorites: "お気に入り",
       secondaryTypeUltimate: "絶",
-      secondaryTypeCriterion: "�.��z",
+      secondaryTypeCriterion: "異聞",
       secondaryTypeUnreal: "幻",
-      secondaryAriaCurrent: "{type}�f.�,��f��,��f��?�現�o��?�: {value}",
-      secondaryAriaOptions: "{type}の選�Sz�,�",
+      secondaryAriaCurrent: "{type}フィルター、現在値: {value}",
+      secondaryAriaOptions: "{type}の選択肢",
       roles: {
-        Tank: "�,��f��,�",
-        Healer: "�f'�f��f��f�",
-        Melee: "�'�Z�",
-        "Physical Ranged": "�?��?遠�s"",
-        "Magical Ranged": "�"�.遠�s"",
-        Limited: "�f��fY�f?�ff�f?"
+        Tank: "タンク",
+        Healer: "ヒーラー",
+        Melee: "近接",
+        "Physical Ranged": "物理遠隔",
+        "Magical Ranged": "魔法遠隔",
+        Limited: "リミテッド"
       },
       roleGroups: {
-        Tank: "�,��f��,�",
-        Healer: "�f'�f��f��f�",
-        Melee: "�'�Z�",
-        "Physical Ranged": "�?��?遠�s"",
-        "Magical Ranged": "�"�.遠�s"",
-        Limited: "�f��fY�f?�ff�f?"
+        Tank: "タンク",
+        Healer: "ヒーラー",
+        Melee: "近接",
+        "Physical Ranged": "物理遠隔",
+        "Magical Ranged": "魔法遠隔",
+        Limited: "リミテッド"
       },
       categories: buildCategoryLabels({
-        Savage: "�>�式",
+        Savage: "零式",
         Ultimate: "絶",
-        Prog: "�"��.�",
-        Criterion: "�.��z",
-        Unreal: "幻�Z�.�^�",
-        "Occult Crescent": "�of�-楼の島 �,��f��,��f��f^�,��,��f�",
-        Other: "その�-"
+        Prog: "攻略",
+        Criterion: "異聞",
+        Unreal: "幻討滅戦",
+        "Occult Crescent": "蜃気楼の島 クレセントアイル",
+        Other: "その他"
       })
     },
     table: {
-      job: "�,��f��f-",
-      role: "�f��f��f�",
-      category: "�,��f?�,��f�",
-      info: "�f.報",
-      encounter: "�,��f��f?�f��f"",
+      job: "ジョブ",
+      role: "ロール",
+      category: "カテゴリ",
+      info: "情報",
+      encounter: "コンテンツ",
       tier: "Tier",
       patch: "Patch",
-      notes: "�f��f�",
+      notes: "メモ",
       damage: "Sim DPS",
-      link: "�f��f��,�",
-      source: "�,��f��,�",
-      actionsAria: "�"��o",
-      favoriteAdd: "�S�-に�.��,Sに追�S�",
-      favoriteRemove: "�S�-に�.��,S解�T�",
-      noMatchingEntries: "�?�?��T�,<�,��f��f^�f��O�,�,Sま�>�,"�?,",
-      sortLabel: "{label}の並び�>��^�^{current}�?�?,{next}で並び�>��^�?,",
+      link: "リンク",
+      source: "ソース",
+      actionsAria: "操作",
+      favoriteAdd: "お気に入りに追加",
+      favoriteRemove: "お気に入り解除",
+      noMatchingEntries: "一致するエントリがありません。",
+      sortLabel: "{label}の並び替え（{current}）。{next}で並び替え。",
       sortCurrent: {
-        none: "な�-",
-        asc: "�~?�?",
-        desc: "�T��?"
+        none: "なし",
+        asc: "昇順",
+        desc: "降順"
       },
       sortNext: {
-        asc: "�~?�?",
-        desc: "�T��?"
+        asc: "昇順",
+        desc: "降順"
       },
-      copyLink: "�f��f��,��,'�,��f"�f�",
-      simUpdated: "�o?�,�>��-�: {date}",
+      copyLink: "リンクをコピー",
+      simUpdated: "最終更新: {date}",
       pagination: {
-        showing: "{total}件中 {from}-{to}件�,'表示",
-        page: "{current} / {total}�fs�f��,�",
-        first: "�.^頭",
-        prev: "�?�へ",
+        showing: "{total}件中 {from}-{to}件を表示",
+        page: "{current} / {total}ページ",
+        first: "先頭",
+        prev: "前へ",
         next: "次へ",
-        last: "�o�尾",
-        firstAria: "�o?�^�の�fs�f��,�",
-        prevAria: "�?�の�fs�f��,�",
-        nextAria: "次の�fs�f��,�",
-        lastAria: "�o?�Oの�fs�f��,�"
+        last: "末尾",
+        firstAria: "最初のページ",
+        prevAria: "前のページ",
+        nextAria: "次のページ",
+        lastAria: "最後のページ"
       }
     }
   },
   ko: {
     app: {
       title: "FFXIV BiS Library",
-      subtitle: "직�-., �-��.�, �~�.�츠 �o��~.�" 커뮤�<^�<� BiS �"��S� 링크를 �.o곳�-� 모�.~�S��<^�<�.",
-      lastUpdated: "�o�. �-.데이�S�: {date}",
+      subtitle: "직업, 역할, 콘텐츠 유형별 커뮤니티 BiS 세트 링크를 한곳에 모았습니다.",
+      lastUpdated: "최종 업데이트: {date}",
       notAvailable: "-",
-      loading: "BiS 데이�"�를 �^�Y��~��S" �'...",
-      themeSwitch: "{theme} �.O�^�o �"�T~",
-      validationWarnings: "�?증 경고"
+      loading: "BiS 데이터를 불러오는 중...",
+      themeSwitch: "{theme} 테마로 전환",
+      validationWarnings: "검증 경고"
     },
     common: {
-      all: "�"체",
-      light: "라이�S�",
-      dark: "�<�크",
-      locale: "�-��-�"
+      all: "전체",
+      light: "라이트",
+      dark: "다크",
+      locale: "언어"
     },
     filters: {
-      job: "직�-.",
-      category: "카�.O고리",
-      role: "�-��.�",
-      search: "�?�f?",
-      searchPlaceholder: "직�-., �<��-�, �o�~...",
-      reset: "�."�"� �^기�T"",
+      job: "직업",
+      category: "카테고리",
+      role: "역할",
+      search: "검색",
+      searchPlaceholder: "직업, 티어, 출처...",
+      reset: "필터 초기화",
       favorites: "즐겨찾기",
-      secondaryTypeUltimate: "�-��<��<",
+      secondaryTypeUltimate: "얼티밋",
       secondaryTypeCriterion: "이문",
-      secondaryTypeUnreal: "�T~ �?��O�"",
-      secondaryAriaCurrent: "{type} �."�"�, �~"�z� �': {value}",
-      secondaryAriaOptions: "{type} �~��.~",
+      secondaryTypeUnreal: "환 토벌전",
+      secondaryAriaCurrent: "{type} 필터, 현재 값: {value}",
+      secondaryAriaOptions: "{type} 옵션",
       roles: {
-        Tank: "방�-� �-��.�",
-        Healer: "�sO복 �-��.�",
-        Melee: "근거리 �"o�Y�",
-        "Physical Ranged": "�>�거리 물리 공격",
-        "Magical Ranged": "�>�거리 �^�. 공격",
-        Limited: "미�."
+        Tank: "방어 역할",
+        Healer: "회복 역할",
+        Melee: "근거리 딜러",
+        "Physical Ranged": "원거리 물리 공격",
+        "Magical Ranged": "원거리 마법 공격",
+        Limited: "미정"
       },
       roleGroups: {
-        Tank: "방�-� �-��.�",
-        Healer: "�sO복 �-��.�",
-        Melee: "근거리 �"o�Y�",
-        "Physical Ranged": "�>�거리 물리 공격",
-        "Magical Ranged": "�>�거리 �^�. 공격",
-        Limited: "미�."
+        Tank: "방어 역할",
+        Healer: "회복 역할",
+        Melee: "근거리 딜러",
+        "Physical Ranged": "원거리 물리 공격",
+        "Magical Ranged": "원거리 마법 공격",
+        Limited: "미정"
       },
       categories: buildCategoryLabels({
-        Savage: "�~��<�",
-        Ultimate: "�-��<��< �^이�"o",
-        Prog: "공�z�",
+        Savage: "영식",
+        Ultimate: "얼티밋 레이드",
+        Prog: "공략",
         Criterion: "이문",
-        Unreal: "�T~ �?��O�"",
-        "Occult Crescent": "�<��"�.o �^�S��<�",
-        Other: "기�f?"
+        Unreal: "환 토벌전",
+        "Occult Crescent": "신비한 초승달",
+        Other: "기타"
       })
     },
     table: {
-      job: "직�-.",
-      role: "�-��.�",
-      category: "카�.O고리",
-      info: "�.보",
-      encounter: "�"�^�",
-      tier: "�<��-�",
+      job: "직업",
+      role: "역할",
+      category: "카테고리",
+      info: "정보",
+      encounter: "전투",
+      tier: "티어",
       patch: "Patch",
-      notes: "�.��S�",
+      notes: "노트",
       damage: "Sim DPS",
       link: "링크",
-      source: "�o�~",
-      actionsAria: "�z'�-.",
-      favoriteAdd: "즐겨찾기�-� �"�?",
-      favoriteRemove: "즐겨찾기 �.��o",
-      noMatchingEntries: "일�~�.~�S" �.�목이 �-?�S��<^�<�.",
-      sortLabel: "{label} �.렬 ({current}). {next}(�o�)�o �"�T~.",
+      source: "출처",
+      actionsAria: "작업",
+      favoriteAdd: "즐겨찾기에 추가",
+      favoriteRemove: "즐겨찾기 해제",
+      noMatchingEntries: "일치하는 항목이 없습니다.",
+      sortLabel: "{label} 정렬 ({current}). {next}(으)로 전환.",
       sortCurrent: {
-        none: "�-?�O",
-        asc: "�~��"차�^o",
-        desc: "�,�림차�^o"
+        none: "없음",
+        asc: "오름차순",
+        desc: "내림차순"
       },
       sortNext: {
-        asc: "�~��"차�^o",
-        desc: "�,�림차�^o"
+        asc: "오름차순",
+        desc: "내림차순"
       },
-      copyLink: "링크 복�,�",
-      simUpdated: "�o�. �-.데이�S�: {date}",
+      copyLink: "링크 복사",
+      simUpdated: "최종 업데이트: {date}",
       pagination: {
-        showing: "{total}�o �' {from}-{to}�o �'o�<o",
-        page: "{current} / {total}�Z~이�?",
-        first: "�~�O",
-        prev: "이�"",
-        next: "�<��O",
-        last: "�^�?�?",
-        firstAria: "첫 �Z~이�?",
-        prevAria: "이�" �Z~이�?",
-        nextAria: "�<��O �Z~이�?",
-        lastAria: "�^�?�? �Z~이�?"
+        showing: "{total}개 중 {from}-{to}개 표시",
+        page: "{current} / {total}페이지",
+        first: "처음",
+        prev: "이전",
+        next: "다음",
+        last: "마지막",
+        firstAria: "첫 페이지",
+        prevAria: "이전 페이지",
+        nextAria: "다음 페이지",
+        lastAria: "마지막 페이지"
       }
     }
   },
   "zh-CN": {
     app: {
-      title: "XIV BiS �"�-T�"",
-      subtitle: "�O?�O�s�?��O责�Z�?.容类�z<�>?中�.��?社�O� BiS �.��.�"��Z��?,",
-      lastUpdated: "�o?�Z�>��-��s{date}",
+      title: "XIV BiS 资料库",
+      subtitle: "按职业、职责与内容类型集中整理社区 BiS 配装链接。",
+      lastUpdated: "最后更新：{date}",
       notAvailable: "-",
-      loading: "正�o��S�载 BiS �.�据...",
-      themeSwitch: "�^?换�^�{theme}主�~",
-      validationWarnings: "校�O警�'S"
+      loading: "正在加载 BiS 数据...",
+      themeSwitch: "切换到{theme}主题",
+      validationWarnings: "校验警告"
     },
     common: {
-      all: "�.��f�",
-      light: "�.�?�",
-      dark: "深�?�",
-      locale: "语�?"
+      all: "全部",
+      light: "浅色",
+      dark: "深色",
+      locale: "语言"
     },
     filters: {
-      job: "�O�s",
-      category: "�^?类",
-      role: "�O责",
-      search: "�o索",
-      searchPlaceholder: "�O�s�?��,级�?�来源...",
-      reset: "�?�置�>�??",
-      favorites: "�"��-�",
-      secondaryTypeUltimate: "绝�f�^~",
-      secondaryTypeCriterion: "�,�-�",
+      job: "职业",
+      category: "分类",
+      role: "职责",
+      search: "搜索",
+      searchPlaceholder: "职业、层级、来源...",
+      reset: "重置筛选",
+      favorites: "收藏",
+      secondaryTypeUltimate: "绝境战",
+      secondaryTypeCriterion: "异闻",
       secondaryTypeUnreal: "幻巧",
-      secondaryAriaCurrent: "{type}�>�??�O�"�?��?��s{value}",
-      secondaryAriaOptions: "{type}�??项",
+      secondaryAriaCurrent: "{type}筛选，当前值：{value}",
+      secondaryAriaOptions: "{type}选项",
       roles: {
-        Tank: "坦�.<",
-        Healer: "治�--",
-        Melee: "�'�^~",
-        "Physical Ranged": "�?��?�o�<",
-        "Magical Ranged": "�"�.�o�<",
-        Limited: "�T��s"
+        Tank: "坦克",
+        Healer: "治疗",
+        Melee: "近战",
+        "Physical Ranged": "物理远程",
+        "Magical Ranged": "魔法远程",
+        Limited: "限定"
       },
       roleGroups: {
-        Tank: "坦�.<",
-        Healer: "治�--",
-        Melee: "�'�^~",
-        "Physical Ranged": "�?��?�o�<",
-        "Magical Ranged": "�"�.�o�<",
-        Limited: "�T��s"
+        Tank: "坦克",
+        Healer: "治疗",
+        Melee: "近战",
+        "Physical Ranged": "物理远程",
+        "Magical Ranged": "魔法远程",
+        Limited: "限定"
       },
       categories: buildCategoryLabels({
-        Savage: "�>�式",
-        Ultimate: "绝�f�^~",
-        Prog: "�?�'",
-        Criterion: "�,�-��>�式",
-        Unreal: "幻巧�^~",
-        "Occult Crescent": "�s��o^�?T�Z�",
-        Other: "�.��-"
+        Savage: "零式",
+        Ultimate: "绝境战",
+        Prog: "开荒",
+        Criterion: "异闻零式",
+        Unreal: "幻巧战",
+        "Occult Crescent": "隐月牙环",
+        Other: "其他"
       })
     },
     table: {
-      job: "�O�s",
-      role: "�O责",
-      category: "�^?类",
+      job: "职业",
+      role: "职责",
+      category: "分类",
       info: "信息",
-      encounter: "�?��o�",
-      tier: "�,级",
+      encounter: "副本",
+      tier: "层级",
       patch: "Patch",
-      notes: "�?注",
-      damage: "模�<Y DPS",
-      link: "�"��Z�",
+      notes: "备注",
+      damage: "模拟 DPS",
+      link: "链接",
       source: "来源",
-      actionsAria: "�"��o",
-      favoriteAdd: "�S��.��"��-�",
-      favoriteRemove: "�-�^�"��-�",
-      noMatchingEntries: "没�o?�O��.��s"条�>��?,",
-      sortLabel: "{label}�Z'序�^{current}�?�?,�,��?��Z{next}�?,",
+      actionsAria: "操作",
+      favoriteAdd: "加入收藏",
+      favoriteRemove: "取消收藏",
+      noMatchingEntries: "没有匹配的条目。",
+      sortLabel: "{label}排序（{current}）。点击后{next}。",
       sortCurrent: {
-        none: "�-�",
-        asc: "�?序",
-        desc: "�T�序"
+        none: "无",
+        asc: "升序",
+        desc: "降序"
       },
       sortNext: {
-        asc: "�?序",
-        desc: "�T�序"
+        asc: "升序",
+        desc: "降序"
       },
-      copyLink: "复�^��"��Z�",
-      simUpdated: "�o?�Z�>��-��s{date}",
+      copyLink: "复制链接",
+      simUpdated: "最后更新：{date}",
       pagination: {
-        showing: "�~�示第 {from}-{to} 条�O�.� {total} 条",
+        showing: "显示第 {from}-{to} 条，共 {total} 条",
         page: "第 {current} / {total} 页",
-        first: "�-页",
-        prev: "�S�?页",
-        next: "�<�?页",
-        last: "�o�页",
-        firstAria: "第�?页",
-        prevAria: "�S�?页",
-        nextAria: "�<�?页",
-        lastAria: "�o?�Z�?页"
+        first: "首页",
+        prev: "上一页",
+        next: "下一页",
+        last: "末页",
+        firstAria: "第一页",
+        prevAria: "上一页",
+        nextAria: "下一页",
+        lastAria: "最后一页"
       }
     }
   },
   "zh-TW": {
     app: {
-      title: "XIV BiS �?�-T庫",
-      subtitle: "�O?職業�?�職責�^?�.�容�z�z<�>?中�.��?社群 BiS �.�裝�?�結�?,",
-      lastUpdated: "�o?�O�>��-��s{date}",
+      title: "XIV BiS 資料庫",
+      subtitle: "按職業、職責與內容類型集中整理社群 BiS 配裝連結。",
+      lastUpdated: "最後更新：{date}",
       notAvailable: "-",
-      loading: "正�o��?�.� BiS �?�-T...",
-      themeSwitch: "�^?�>�^�{theme}主�O",
-      validationWarnings: "校�-警�'S"
+      loading: "正在載入 BiS 資料...",
+      themeSwitch: "切換到{theme}主題",
+      validationWarnings: "校驗警告"
     },
     common: {
-      all: "�.��f�",
-      light: "淺�?�",
-      dark: "深�?�",
-      locale: "�z�?"
+      all: "全部",
+      light: "淺色",
+      dark: "深色",
+      locale: "語言"
     },
     filters: {
       job: "職業",
-      category: "�^?�z",
+      category: "分類",
       role: "職責",
-      search: "�o�<",
-      searchPlaceholder: "職業�?�層�s�?��?源...",
-      reset: "�?�置篩選",
-      favorites: "�"��-�",
-      secondaryTypeUltimate: "�.�f�^�",
-      secondaryTypeCriterion: "�.��z",
+      search: "搜尋",
+      searchPlaceholder: "職業、層級、來源...",
+      reset: "重置篩選",
+      favorites: "收藏",
+      secondaryTypeUltimate: "絕境戰",
+      secondaryTypeCriterion: "異聞",
       secondaryTypeUnreal: "幻巧",
-      secondaryAriaCurrent: "{type}篩選�O�.��?��?��s{value}",
-      secondaryAriaOptions: "{type}選�.",
+      secondaryAriaCurrent: "{type}篩選，當前值：{value}",
+      secondaryAriaOptions: "{type}選項",
       roles: {
-        Tank: "坦�.<",
-        Healer: "治�T,",
-        Melee: "�'�^�",
-        "Physical Ranged": "�?��?遠�<",
-        "Magical Ranged": "�"�.遠�<",
-        Limited: "�T��s"
+        Tank: "坦克",
+        Healer: "治療",
+        Melee: "近戰",
+        "Physical Ranged": "物理遠程",
+        "Magical Ranged": "魔法遠程",
+        Limited: "限定"
       },
       roleGroups: {
-        Tank: "坦�.<",
-        Healer: "治�T,",
-        Melee: "�'�^�",
-        "Physical Ranged": "�?��?遠�<",
-        "Magical Ranged": "�"�.遠�<",
-        Limited: "�T��s"
+        Tank: "坦克",
+        Healer: "治療",
+        Melee: "近戰",
+        "Physical Ranged": "物理遠程",
+        "Magical Ranged": "魔法遠程",
+        Limited: "限定"
       },
       categories: buildCategoryLabels({
-        Savage: "�>�式",
-        Ultimate: "�.�f�^�",
-        Prog: "�-<�'",
-        Criterion: "�.��z�>�式",
-        Unreal: "幻巧�^�",
-        "Occult Crescent": "�s��o^�?T�'�",
-        Other: "�.��-"
+        Savage: "零式",
+        Ultimate: "絕境戰",
+        Prog: "開荒",
+        Criterion: "異聞零式",
+        Unreal: "幻巧戰",
+        "Occult Crescent": "隱月牙環",
+        Other: "其他"
       })
     },
     table: {
       job: "職業",
       role: "職責",
-      category: "�^?�z",
-      info: "�?�S",
-      encounter: "�?��o�",
-      tier: "層�s",
+      category: "分類",
+      info: "資訊",
+      encounter: "副本",
+      tier: "層級",
       patch: "Patch",
-      notes: "�,T註",
-      damage: "模�"� DPS",
-      link: "�?�結",
-      source: "�?源",
-      actionsAria: "�"��o",
-      favoriteAdd: "�S��.��"��-�",
-      favoriteRemove: "�-�^�"��-�",
-      noMatchingEntries: "�'�o?�O��.��s"條�>��?,",
-      sortLabel: "{label}�Z'序�^{current}�?�?,�z�"S�O{next}�?,",
+      notes: "備註",
+      damage: "模擬 DPS",
+      link: "連結",
+      source: "來源",
+      actionsAria: "操作",
+      favoriteAdd: "加入收藏",
+      favoriteRemove: "取消收藏",
+      noMatchingEntries: "沒有匹配的條目。",
+      sortLabel: "{label}排序（{current}）。點擊後{next}。",
       sortCurrent: {
-        none: "�"�",
-        asc: "�?序",
-        desc: "�T�序"
+        none: "無",
+        asc: "升序",
+        desc: "降序"
       },
       sortNext: {
-        asc: "�?序",
-        desc: "�T�序"
+        asc: "升序",
+        desc: "降序"
       },
-      copyLink: "�?製�?�結",
-      simUpdated: "�o?�O�>��-��s{date}",
+      copyLink: "複製連結",
+      simUpdated: "最後更新：{date}",
       pagination: {
-        showing: "顯示第 {from}-{to} 條�O�.� {total} 條",
+        showing: "顯示第 {from}-{to} 條，共 {total} 條",
         page: "第 {current} / {total} 頁",
-        first: "�-頁",
-        prev: "�S�?頁",
-        next: "�<�?頁",
-        last: "�o�頁",
-        firstAria: "第�?頁",
-        prevAria: "�S�?頁",
-        nextAria: "�<�?頁",
-        lastAria: "�o?�O�?頁"
+        first: "首頁",
+        prev: "上一頁",
+        next: "下一頁",
+        last: "末頁",
+        firstAria: "第一頁",
+        prevAria: "上一頁",
+        nextAria: "下一頁",
+        lastAria: "最後一頁"
       }
     }
   }
 };
-
