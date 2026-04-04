@@ -121,13 +121,15 @@ export const messages = {
       notAvailable: "-",
       loading: "Chargement des données BiS...",
       themeSwitch: "Passer au thème {theme}",
-      validationWarnings: "Avertissements de validation"
+      validationWarnings: "Avertissements de validation",
+      contributeButton: "Contribuer"
     },
     common: {
       all: "Tous",
       light: "clair",
       dark: "sombre",
-      locale: "Langue"
+      locale: "Langue",
+      contribute: "Contribuer"
     },
     filters: {
       job: "Job",
@@ -218,13 +220,15 @@ export const messages = {
       notAvailable: "-",
       loading: "BiS-Daten werden geladen...",
       themeSwitch: "Zu {theme}-Theme wechseln",
-      validationWarnings: "Validierungswarnungen"
+      validationWarnings: "Validierungswarnungen",
+      contributeButton: "Mitwirken"
     },
     common: {
       all: "Alle",
       light: "hellen",
       dark: "dunklen",
-      locale: "Sprache"
+      locale: "Sprache",
+      contribute: "Mitwirken"
     },
     filters: {
       job: "Job",
@@ -315,13 +319,15 @@ export const messages = {
       notAvailable: "-",
       loading: "BiSデータを読み込み中...",
       themeSwitch: "{theme}テーマに切り替え",
-      validationWarnings: "検証警告"
+      validationWarnings: "検証警告",
+      contributeButton: "貢献する"
     },
     common: {
       all: "すべて",
       light: "ライト",
       dark: "ダーク",
-      locale: "言語"
+      locale: "言語",
+      contribute: "貢献する"
     },
     filters: {
       job: "ジョブ",
@@ -412,13 +418,15 @@ export const messages = {
       notAvailable: "-",
       loading: "BiS 데이터를 불러오는 중...",
       themeSwitch: "{theme} 테마로 전환",
-      validationWarnings: "검증 경고"
+      validationWarnings: "검증 경고",
+      contributeButton: "기여하기"
     },
     common: {
       all: "전체",
       light: "라이트",
       dark: "다크",
-      locale: "언어"
+      locale: "언어",
+      contribute: "기여하기"
     },
     filters: {
       job: "직업",
@@ -509,13 +517,15 @@ export const messages = {
       notAvailable: "-",
       loading: "正在加载 BiS 数据...",
       themeSwitch: "切换到{theme}主题",
-      validationWarnings: "校验警告"
+      validationWarnings: "校验警告",
+      contributeButton: "参与贡献"
     },
     common: {
       all: "全部",
       light: "浅色",
       dark: "深色",
-      locale: "语言"
+      locale: "语言",
+      contribute: "参与贡献"
     },
     filters: {
       job: "职业",
@@ -606,13 +616,15 @@ export const messages = {
       notAvailable: "-",
       loading: "正在載入 BiS 資料...",
       themeSwitch: "切換到{theme}主題",
-      validationWarnings: "校驗警告"
+      validationWarnings: "校驗警告",
+      contributeButton: "參與貢獻"
     },
     common: {
       all: "全部",
       light: "淺色",
       dark: "深色",
-      locale: "語言"
+      locale: "語言",
+      contribute: "參與貢獻"
     },
     filters: {
       job: "職業",

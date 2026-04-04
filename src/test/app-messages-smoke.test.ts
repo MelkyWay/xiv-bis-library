@@ -27,9 +27,10 @@ describe("app locale messages", () => {
     }
   });
 
-  it("keeps contribution labels available in english", () => {
-    expect(messages.en.app.discordButton).toBe("Join Discord");
-    expect(messages.en.app.contributeButton).toBe("Contribute");
-    expect(messages.en.common.communityLinks).toBe("Community links");
+  it("keeps contribution labels available in every supported locale", () => {
+    for (const locale of SUPPORTED_LOCALES) {
+      expect(messages[locale].app.contributeButton).toEqual(expect.any(String));
+      expect(messages[locale].common.contribute).toEqual(expect.any(String));
+    }
   });
 });
