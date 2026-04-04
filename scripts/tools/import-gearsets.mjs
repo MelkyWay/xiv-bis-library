@@ -3,6 +3,7 @@
 import fs from "node:fs/promises";
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const DATA_FILE_PATH = path.resolve("public/data/bis-links.json");
 const CATEGORIES_CONFIG_PATH = path.resolve("src/config/categories.json");
@@ -846,9 +847,25 @@ async function main() {
   console.log(`Data file: ${DATA_FILE_PATH}`);
 }
 
-try {
-  await main();
-} catch (error) {
-  console.error(`Import failed: ${error instanceof Error ? error.message : String(error)}`);
-  process.exitCode = 1;
+const isDirectExecution = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (isDirectExecution) {
+  try {
+    await main();
+  } catch (error) {
+    console.error(`Import failed: ${error instanceof Error ? error.message : String(error)}`);
+    process.exitCode = 1;
+  }
 }
+
+export {
+  classifyDamageTypeFromHeader,
+  extractDataUrlFromHtml,
+  getOnlySetIndexFromUrl,
+  guessDataUrlFromPage,
+  normalizeImportConfig,
+  normalizePageUrl,
+  parseArgs,
+  parseDamageNumber,
+  shouldIncludeSetIndex
+};
