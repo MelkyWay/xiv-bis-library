@@ -197,6 +197,7 @@ export const messages = {
         desc: "décroissant"
       },
       copyLink: "Copier le lien",
+      damageTypeSim: "Level 100 sim",
       simUpdated: "Dernière mise à jour : {date}",
       pagination: {
         showing: "Affichage {from}-{to} sur {total}",
@@ -296,6 +297,7 @@ export const messages = {
         desc: "absteigend"
       },
       copyLink: "Link kopieren",
+      damageTypeSim: "Level 100 sim",
       simUpdated: "Zuletzt aktualisiert: {date}",
       pagination: {
         showing: "{from}-{to} von {total}",
@@ -395,6 +397,7 @@ export const messages = {
         desc: "降順"
       },
       copyLink: "リンクをコピー",
+      damageTypeSim: "Level 100 sim",
       simUpdated: "最終更新: {date}",
       pagination: {
         showing: "{total}件中 {from}-{to}件を表示",
@@ -494,6 +497,7 @@ export const messages = {
         desc: "내림차순"
       },
       copyLink: "링크 복사",
+      damageTypeSim: "Level 100 sim",
       simUpdated: "최종 업데이트: {date}",
       pagination: {
         showing: "{total}개 중 {from}-{to}개 표시",
@@ -593,6 +597,7 @@ export const messages = {
         desc: "降序"
       },
       copyLink: "复制链接",
+      damageTypeSim: "Level 100 sim",
       simUpdated: "最后更新：{date}",
       pagination: {
         showing: "显示第 {from}-{to} 条，共 {total} 条",
@@ -692,6 +697,7 @@ export const messages = {
         desc: "降序"
       },
       copyLink: "複製連結",
+      damageTypeSim: "Level 100 sim",
       simUpdated: "最後更新：{date}",
       pagination: {
         showing: "顯示第 {from}-{to} 條，共 {total} 條",
