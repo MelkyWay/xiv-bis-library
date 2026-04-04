@@ -5,7 +5,7 @@ import type { BisEntry, BisFiltersState, Category, Role } from "../types/bis";
 import { getEntryKey } from "../utils/entryKey";
 import { localizeJobName } from "../utils/jobLocalization";
 import { roleColorTextStyle } from "../utils/roleColors";
-import { localizeEncounterName } from "../utils/ultimateLocalization";
+import { localizeEncounterName } from "../utils/encounterLocalization";
 const { t, locale } = useI18n();
 
 const props = defineProps<{

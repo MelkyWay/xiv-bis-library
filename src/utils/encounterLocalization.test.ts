@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { localizeEncounterName, localizeUltimateName } from "./ultimateLocalization";
+import { localizeEncounterName, localizeUltimateName } from "./encounterLocalization";
 
 describe("localizeUltimateName", () => {
   it("returns localized ultimate names for known encounters", () => {

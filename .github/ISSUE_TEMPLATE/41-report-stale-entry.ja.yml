@@ -9,11 +9,34 @@ body:
       value: |
         このフォームは英語、フランス語、ドイツ語、日本語、韓国語、簡体字中国語、繁体字中国語で記入できます。
 
-  - type: input
+  - type: dropdown
     id: job
     attributes:
       label: "ジョブ"
-      description: "対象ジョブ。"
+      options:
+        - "DRK"
+        - "GNB"
+        - "PLD"
+        - "WAR"
+        - "AST"
+        - "SCH"
+        - "SGE"
+        - "WHM"
+        - "DRG"
+        - "MNK"
+        - "NIN"
+        - "SAM"
+        - "RPR"
+        - "VPR"
+        - "BRD"
+        - "DNC"
+        - "MCH"
+        - "BLM"
+        - "PCT"
+        - "RDM"
+        - "SMN"
+        - "BLU"
+        - "BST"
     validations:
       required: true
   - type: dropdown
@@ -30,13 +53,33 @@ body:
         - "その他"
     validations:
       required: true
-  - type: input
+  - type: dropdown
     id: encounter
     attributes:
       label: "対象の戦闘名またはセット名"
-      description: "たとえば Futures Rewritten や 7.4。"
+      options:
+        - "7.4"
+        - "絶もうひとつの未来"
+        - "絶竜詩戦争"
+        - "絶オメガ検証戦"
+        - "絶アレキサンダー討滅戦"
+        - "絶バハムート討滅戦"
+        - "絶アルテマウェポン破壊作戦"
+        - "異聞アロアロ島"
+        - "異聞六根山"
+        - "異聞シラディハ水道"
+        - "7.25"
+        - "Placeholder"
+        - "Tsukuyomi's Pain"
+        - "Community Sets"
+        - "その他 / 下に自由記入"
     validations:
       required: true
+  - type: input
+    id: encounter-custom
+    attributes:
+      label: "カスタムの戦闘名またはセット名"
+      description: "正しい戦闘名またはセット名が一覧にない場合は、ここに入力してください。"
   - type: input
     id: current-url
     attributes:

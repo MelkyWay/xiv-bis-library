@@ -9,11 +9,34 @@ body:
       value: |
         您可以使用英语、法语、德语、日语、韩语、简体中文或繁体中文填写此表单。
 
-  - type: input
+  - type: dropdown
     id: job
     attributes:
       label: "职业"
-      description: "受影响的职业。"
+      options:
+        - "暗黑骑士"
+        - "绝枪战士"
+        - "骑士"
+        - "战士"
+        - "占星术士"
+        - "学者"
+        - "贤者"
+        - "白魔法师"
+        - "龙骑士"
+        - "武僧"
+        - "忍者"
+        - "武士"
+        - "钐镰客"
+        - "蝰蛇"
+        - "吟游诗人"
+        - "舞者"
+        - "机工士"
+        - "黑魔法师"
+        - "绘灵法师"
+        - "赤魔法师"
+        - "召唤师"
+        - "青魔法师"
+        - "BST"
     validations:
       required: true
   - type: dropdown
@@ -30,13 +53,33 @@ body:
         - "其他"
     validations:
       required: true
-  - type: input
+  - type: dropdown
     id: encounter
     attributes:
       label: "副本或套装名称"
-      description: "例如 Futures Rewritten 或 7.4。"
+      options:
+        - "7.4"
+        - "光暗未来绝境战"
+        - "幻想龙诗绝境战"
+        - "欧米茄绝境验证战"
+        - "亚历山大绝境战"
+        - "巴哈姆特绝境战"
+        - "究极神兵绝境战"
+        - "异闻阿罗阿罗岛"
+        - "异闻六根山"
+        - "异闻希拉狄哈水道"
+        - "7.25"
+        - "Placeholder"
+        - "月读幻巧战"
+        - "Community Sets"
+        - "其他 / 在下方自定义"
     validations:
       required: true
+  - type: input
+    id: encounter-custom
+    attributes:
+      label: "自定义副本或套装名称"
+      description: "如果正确的副本或套装名称不在列表中，请在这里填写。"
   - type: input
     id: current-url
     attributes:

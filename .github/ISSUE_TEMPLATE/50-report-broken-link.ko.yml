@@ -9,11 +9,34 @@ body:
       value: |
         이 양식은 영어, 프랑스어, 독일어, 일본어, 한국어, 간체 중국어, 번체 중국어로 작성할 수 있습니다.
 
-  - type: input
+  - type: dropdown
     id: job
     attributes:
       label: "직업"
-      description: "영향을 받는 직업."
+      options:
+        - "암흑기사"
+        - "건브레이커"
+        - "나이트"
+        - "전사"
+        - "점성술사"
+        - "학자"
+        - "현자"
+        - "백마도사"
+        - "용기사"
+        - "몽크"
+        - "닌자"
+        - "사무라이"
+        - "리퍼"
+        - "바이퍼"
+        - "음유시인"
+        - "무도가"
+        - "기공사"
+        - "흑마도사"
+        - "픽토맨서"
+        - "적마도사"
+        - "소환사"
+        - "청마도사"
+        - "비스트마스터"
     validations:
       required: true
   - type: dropdown
@@ -30,13 +53,33 @@ body:
         - "기타"
     validations:
       required: true
-  - type: input
+  - type: dropdown
     id: encounter
     attributes:
       label: "전투 또는 세트 이름"
-      description: "예: Futures Rewritten 또는 7.4."
+      options:
+        - "7.4"
+        - "또 하나의 미래"
+        - "용시전쟁"
+        - "오메가 검증전"
+        - "알렉산더 토벌전"
+        - "바하무트 토벌전"
+        - "알테마 웨폰 파괴 작전"
+        - "번외 아로아로 섬"
+        - "번외 육근산"
+        - "번외 실디하 지하수도"
+        - "7.25"
+        - "Placeholder"
+        - "환 츠쿠요미 토벌전"
+        - "Community Sets"
+        - "기타 / 아래에 직접 입력"
     validations:
       required: true
+  - type: input
+    id: encounter-custom
+    attributes:
+      label: "사용자 지정 전투 또는 세트 이름"
+      description: "올바른 전투 또는 세트 이름이 목록에 없으면 여기에 입력해 주세요."
   - type: input
     id: current-url
     attributes:

@@ -1,7 +1,181 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const LOCALES = ["en", "fr", "de", "ja", "ko", "zh-CN", "zh-TW"];
+const LOCALES = ["en", "fr", "de", "ja", "ko", "zh-TW", "zh-CN"];
+
+const LOCALE_ORDER_BASE = {
+  en: 10,
+  fr: 20,
+  de: 30,
+  ja: 40,
+  ko: 50,
+  "zh-TW": 60,
+  "zh-CN": 70
+};
+
+const TEMPLATE_ORDER_OFFSET = {
+  "report-broken-link.yml": 0,
+  "report-stale-entry.yml": 1,
+  "suggest-new-set.yml": 2,
+  "report-data-correction.yml": 3,
+  "i18n-issue.yml": 4
+};
+
+async function loadJsonFile(rootDir, relativePath) {
+  const filePath = path.resolve(rootDir, relativePath);
+  return JSON.parse(await fs.readFile(filePath, "utf8"));
+}
+
+async function loadJobLocalizer(rootDir) {
+  const ts = await import("typescript");
+  const sourcePath = path.resolve(rootDir, "src/utils/jobLocalization.ts");
+  const source = await fs.readFile(sourcePath, "utf8");
+  const transpiled = ts.transpileModule(source, {
+    compilerOptions: {
+      module: ts.ModuleKind.ESNext,
+      target: ts.ScriptTarget.ES2022
+    }
+  }).outputText;
+  const dataUrl = `data:text/javascript;base64,${Buffer.from(transpiled, "utf8").toString("base64")}`;
+  const module = await import(dataUrl);
+  if (typeof module.localizeJobName !== "function") {
+    throw new Error("localizeJobName export not found in src/utils/jobLocalization.ts");
+  }
+  return module.localizeJobName;
+}
+
+async function loadJobCodes(rootDir) {
+  const jobsConfig = await loadJsonFile(rootDir, "src/config/jobs.json");
+  const jobs = Array.isArray(jobsConfig?.jobs) ? jobsConfig.jobs : [];
+  return jobs
+    .map((job) => (typeof job?.code === "string" ? job.code.toUpperCase() : null))
+    .filter((jobCode) => typeof jobCode === "string");
+}
+
+function buildEncounterLookups(encountersConfig) {
+  const encounters = encountersConfig?.encounters ?? {};
+  const ultimate = Array.isArray(encounters.ultimate) ? encounters.ultimate : [];
+  const criterion = Array.isArray(encounters.criterion) ? encounters.criterion : [];
+  const unreal = Array.isArray(encounters.unreal) ? encounters.unreal : [];
+  const categoryByName = Object.fromEntries([
+    ...ultimate.map((name) => [name, "Ultimate"]),
+    ...criterion.map((name) => [name, "Criterion"]),
+    ...unreal.map((name) => [name, "Unreal"])
+  ]);
+  return {
+    ULTIMATE_ORDER: ultimate,
+    ENCOUNTER_CATEGORY_BY_NAME: categoryByName
+  };
+}
+
+async function loadEncounterLocalizer(rootDir) {
+  const ts = await import("typescript");
+  const sourcePath = path.resolve(rootDir, "src/utils/encounterLocalization.ts");
+  const source = await fs.readFile(sourcePath, "utf8");
+  const sourceWithoutImports = source.replace(/^import .*;\r?\n/gm, "");
+  const transpiled = ts.transpileModule(sourceWithoutImports, {
+    compilerOptions: {
+      module: ts.ModuleKind.CommonJS,
+      target: ts.ScriptTarget.ES2022
+    }
+  }).outputText;
+  const encountersConfig = await loadJsonFile(rootDir, "src/config/encounters.json");
+  const lookups = buildEncounterLookups(encountersConfig);
+  const moduleRef = { exports: {} };
+  const runner = new Function("module", "exports", "ENCOUNTER_CATEGORY_BY_NAME", "ULTIMATE_ORDER", transpiled);
+  runner(moduleRef, moduleRef.exports, lookups.ENCOUNTER_CATEGORY_BY_NAME, lookups.ULTIMATE_ORDER);
+  if (typeof moduleRef.exports.localizeEncounterName !== "function") {
+    throw new Error("localizeEncounterName export not found in src/utils/encounterLocalization.ts");
+  }
+  return moduleRef.exports.localizeEncounterName;
+}
+
+function getJobOptions(locale, jobCodes, localizeJobName) {
+  return jobCodes.map((job) => localizeJobName(job, locale));
+}
+
+function buildOutputName(fileName, locale) {
+  const base = LOCALE_ORDER_BASE[locale];
+  const offset = TEMPLATE_ORDER_OFFSET[fileName];
+  if (base === undefined || offset === undefined) {
+    throw new Error(`Unsupported template naming combination: ${fileName} (${locale})`);
+  }
+  const prefix = String(base + offset).padStart(2, "0");
+  const localeSuffix = locale.toLowerCase();
+  const stem = fileName.replace(/\.yml$/, "");
+  return `${prefix}-${stem}.${localeSuffix}.yml`;
+}
+
+const ENCOUNTER_CUSTOM_COPY = {
+  en: {
+    option: "Other / custom below",
+    label: "Custom encounter or set name",
+    description: "If the correct encounter or set name is not listed, type it here."
+  },
+  fr: {
+    option: "Autre / personnalisé ci-dessous",
+    label: "Nom personnalisé du combat ou du set",
+    description: "Si le bon nom de combat ou de set n'est pas listé, écrivez-le ici."
+  },
+  de: {
+    option: "Sonstiges / unten benutzerdefiniert",
+    label: "Benutzerdefinierter Encounter- oder Set-Name",
+    description: "Wenn der richtige Encounter- oder Set-Name nicht gelistet ist, tragen Sie ihn hier ein."
+  },
+  ja: {
+    option: "その他 / 下に自由記入",
+    label: "カスタムの戦闘名またはセット名",
+    description: "正しい戦闘名またはセット名が一覧にない場合は、ここに入力してください。"
+  },
+  ko: {
+    option: "기타 / 아래에 직접 입력",
+    label: "사용자 지정 전투 또는 세트 이름",
+    description: "올바른 전투 또는 세트 이름이 목록에 없으면 여기에 입력해 주세요."
+  },
+  "zh-CN": {
+    option: "其他 / 在下方自定义",
+    label: "自定义副本或套装名称",
+    description: "如果正确的副本或套装名称不在列表中，请在这里填写。"
+  },
+  "zh-TW": {
+    option: "其他 / 在下方自訂",
+    label: "自訂副本或套裝名稱",
+    description: "如果正確的副本或套裝名稱不在列表中，請在這裡填寫。"
+  }
+};
+
+function getEncounterCustomCopy(locale) {
+  return ENCOUNTER_CUSTOM_COPY[locale] ?? ENCOUNTER_CUSTOM_COPY.en;
+}
+
+async function buildEncounterOptions(rootDir, locale, localizeEncounterName) {
+  const dataPath = path.resolve(rootDir, "public/data/bis-links.json");
+  const raw = JSON.parse(await fs.readFile(dataPath, "utf8"));
+  const entries = Array.isArray(raw?.entries) ? raw.entries : [];
+  const seen = new Set();
+  const options = [];
+
+  for (const entry of entries) {
+    const content = entry?.content;
+    if (!content || typeof content !== "object") {
+      continue;
+    }
+    const category = typeof content.category === "string" ? content.category : null;
+    const value = typeof content.value === "string" ? content.value : null;
+    if (!category || !value) {
+      continue;
+    }
+    const key = value;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    options.push(localizeEncounterName(value, locale, category));
+  }
+
+  options.push(getEncounterCustomCopy(locale).option);
+  return options;
+}
 
 const OPTIONS = {
   category: {
@@ -419,7 +593,7 @@ function getLocalizedOptions(key, locale) {
 }
 
 function renderMarkdownIntro(locale) {
-  const text = locale === "en" ? shared.en.supportNote : shared[locale].supportNote;
+  const text = (shared[locale] ?? shared.en).supportNote;
   return `  - type: markdown
     attributes:
       value: |
@@ -448,8 +622,9 @@ function makeFieldLines({ type, id, label, description, options, required }) {
   return lines.join("\n");
 }
 
-function renderForm(locale, fileName, spec) {
-  const copy = shared[locale];
+function renderForm(locale, fileName, spec, { jobOptions, categoryOptions, encounterOptions }) {
+  const copy = shared[locale] ?? shared.en;
+  const encounterCustomCopy = getEncounterCustomCopy(locale);
   const title = getLocalizedValue(spec.title, locale);
   const description = getLocalizedValue(spec.description, locale);
   const lines = [
@@ -506,9 +681,18 @@ function renderForm(locale, fileName, spec) {
     return `${lines.join("\n")}\n`;
   }
 
-  addInput("job", "job", true);
-  addDropdown("category", "category", getLocalizedOptions("category", locale), true);
-  addInput("encounter", "encounter", true);
+  addDropdown("job", "job", jobOptions, true);
+  addDropdown("category", "category", categoryOptions, true);
+  addDropdown("encounter", "encounter", encounterOptions, true);
+  lines.push(
+    makeFieldLines({
+      type: "input",
+      id: "encounter-custom",
+      label: encounterCustomCopy.label,
+      description: encounterCustomCopy.description,
+      required: false
+    })
+  );
 
   if (fileName === "report-broken-link.yml") {
     addInput("current-url", "currentUrl", true);
@@ -534,17 +718,27 @@ function renderForm(locale, fileName, spec) {
 }
 
 export async function generateIssueTemplates({ rootDir, outputDir }) {
-  const sourceDir = path.resolve(rootDir, ".github/ISSUE_TEMPLATE");
   await fs.mkdir(outputDir, { recursive: true });
+  const localizeJobName = await loadJobLocalizer(rootDir);
+  const localizeEncounterName = await loadEncounterLocalizer(rootDir);
+  const jobCodes = await loadJobCodes(rootDir);
+
+  const encounterOptionsByLocale = new Map();
+  const categoryOptionsByLocale = new Map();
+  for (const locale of LOCALES) {
+    const categoryOptions = getLocalizedOptions("category", locale);
+    categoryOptionsByLocale.set(locale, categoryOptions);
+    encounterOptionsByLocale.set(locale, await buildEncounterOptions(rootDir, locale, localizeEncounterName));
+  }
 
   for (const [fileName, spec] of Object.entries(formSpecs)) {
-    const sourcePath = path.resolve(sourceDir, fileName);
-    const englishSource = await fs.readFile(sourcePath, "utf8");
-    await fs.writeFile(path.resolve(outputDir, fileName), englishSource, "utf8");
-
-    for (const locale of LOCALES.filter((value) => value !== "en")) {
-      const outputName = fileName.replace(/\.yml$/, `.${locale}.yml`);
-      const output = renderForm(locale, fileName, spec);
+    for (const locale of LOCALES) {
+      const outputName = buildOutputName(fileName, locale);
+      const output = renderForm(locale, fileName, spec, {
+        jobOptions: getJobOptions(locale, jobCodes, localizeJobName),
+        categoryOptions: categoryOptionsByLocale.get(locale) ?? [],
+        encounterOptions: encounterOptionsByLocale.get(locale) ?? []
+      });
       await fs.writeFile(path.resolve(outputDir, outputName), output, "utf8");
     }
   }

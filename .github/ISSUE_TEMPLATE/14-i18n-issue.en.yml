@@ -1,0 +1,70 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (en)
+name: "Report I18n Issue"
+description: "Report a translation, locale formatting, or localized text issue"
+labels: ["i18n"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        You can fill out this form in English, French, German, Japanese, Korean, Simplified Chinese, or Traditional Chinese.
+
+  - type: dropdown
+    id: locale
+    attributes:
+      label: "Affected locale"
+      options:
+        - "English"
+        - "French"
+        - "German"
+        - "Japanese"
+        - "Korean"
+        - "Simplified Chinese"
+        - "Traditional Chinese"
+        - "Multiple locales"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: "Area"
+      options:
+        - "App UI text"
+        - "Contact page / CONTRIBUTING"
+        - "Issue template text"
+        - "Table labels"
+        - "Filters and controls"
+        - "Other"
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: "Page or section"
+      description: "For example home page, contact page, footer, or a specific label."
+    validations:
+      required: true
+  - type: textarea
+    id: current-text
+    attributes:
+      label: "Current text"
+      description: "Paste the text that is wrong or awkward."
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-text
+    attributes:
+      label: "Suggested text"
+      description: "Provide the corrected text if you have one."
+  - type: textarea
+    id: source
+    attributes:
+      label: "Source"
+      description: "Link to the Balance page, Discord message, spreadsheet, or other source."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notes"
+      description: "Any extra context that helps the maintainer review the report."

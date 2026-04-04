@@ -1,0 +1,35 @@
+name: Generic Report
+description: Open a general report, question, or request that does not fit a specific template.
+title: "[Generic]: "
+labels:
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for anything that does not match the dedicated templates.
+
+        If this is urgent or easier to discuss first, you can also use Discord:
+        https://discord.gg/saVEV7dKGp
+  - type: dropdown
+    id: language
+    attributes:
+      label: Preferred language
+      description: Pick the language you want to use in this issue.
+      options:
+        - English
+        - Français
+        - Deutsch
+        - 한국어
+        - 中文（繁體）
+        - 中文（简体）
+    validations:
+      required: false
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Describe your report, request, or question.
+      placeholder: Write your message here.
+    validations:
+      required: true

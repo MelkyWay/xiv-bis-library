@@ -9,11 +9,34 @@ body:
       value: |
         Sie können dieses Formular auf Englisch, Französisch, Deutsch, Japanisch, Koreanisch, vereinfachtem Chinesisch oder traditionellem Chinesisch ausfüllen.
 
-  - type: input
+  - type: dropdown
     id: job
     attributes:
       label: "Job"
-      description: "Die betroffene Klasse."
+      options:
+        - "DKR"
+        - "REV"
+        - "PLD"
+        - "KRG"
+        - "AST"
+        - "GLT"
+        - "WEI"
+        - "WMA"
+        - "DRG"
+        - "MÖN"
+        - "NIN"
+        - "SAM"
+        - "SNT"
+        - "VPR"
+        - "BRD"
+        - "TÄN"
+        - "MCH"
+        - "SMA"
+        - "PKT"
+        - "RMA"
+        - "BSW"
+        - "BMA"
+        - "BST"
     validations:
       required: true
   - type: dropdown
@@ -30,13 +53,33 @@ body:
         - "Sonstiges"
     validations:
       required: true
-  - type: input
+  - type: dropdown
     id: encounter
     attributes:
       label: "Encounter- oder Set-Name"
-      description: "Zum Beispiel Futures Rewritten oder 7.4."
+      options:
+        - "7.4"
+        - "Eine zweite Zukunft"
+        - "Drachenkrieg"
+        - "Omega"
+        - "Alexander"
+        - "Endlose Schatten von Bahamut"
+        - "Heldenlied von Ultima"
+        - "Kurioses Aloalo"
+        - "Der kuriose Rokkon"
+        - "Die kuriose Unterstadt von Sil'dih"
+        - "7.25"
+        - "Placeholder"
+        - "Tsukuyomi"
+        - "Community Sets"
+        - "Sonstiges / unten benutzerdefiniert"
     validations:
       required: true
+  - type: input
+    id: encounter-custom
+    attributes:
+      label: "Benutzerdefinierter Encounter- oder Set-Name"
+      description: "Wenn der richtige Encounter- oder Set-Name nicht gelistet ist, tragen Sie ihn hier ein."
   - type: textarea
     id: correction
     attributes:

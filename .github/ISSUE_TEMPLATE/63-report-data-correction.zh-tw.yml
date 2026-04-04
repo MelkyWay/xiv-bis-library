@@ -9,11 +9,34 @@ body:
       value: |
         您可以使用英語、法語、德語、日語、韓語、簡體中文或繁體中文填寫此表單。
 
-  - type: input
+  - type: dropdown
     id: job
     attributes:
       label: "職業"
-      description: "受影響的職業。"
+      options:
+        - "暗黑騎士"
+        - "絕槍戰士"
+        - "騎士"
+        - "戰士"
+        - "占星術師"
+        - "學者"
+        - "賢者"
+        - "白魔道士"
+        - "龍騎士"
+        - "武僧"
+        - "忍者"
+        - "武士"
+        - "奪魂者"
+        - "毒蛇劍士"
+        - "吟遊詩人"
+        - "舞者"
+        - "機工士"
+        - "黑魔道士"
+        - "繪靈法師"
+        - "赤魔道士"
+        - "召喚士"
+        - "青魔道士"
+        - "BST"
     validations:
       required: true
   - type: dropdown
@@ -30,13 +53,33 @@ body:
         - "其他"
     validations:
       required: true
-  - type: input
+  - type: dropdown
     id: encounter
     attributes:
       label: "副本或套裝名稱"
-      description: "例如 Futures Rewritten 或 7.4。"
+      options:
+        - "7.4"
+        - "光暗未來絕境戰"
+        - "幻想龍詩絕境戰"
+        - "歐米茄絕境驗證戰"
+        - "亞歷山大絕境戰"
+        - "巴哈姆特絕境戰"
+        - "究極神兵絕境戰"
+        - "異聞阿羅阿羅島"
+        - "異聞六根山"
+        - "異聞希拉迪哈下水道"
+        - "7.25"
+        - "Placeholder"
+        - "月讀幻巧戰"
+        - "Community Sets"
+        - "其他 / 在下方自訂"
     validations:
       required: true
+  - type: input
+    id: encounter-custom
+    attributes:
+      label: "自訂副本或套裝名稱"
+      description: "如果正確的副本或套裝名稱不在列表中，請在這裡填寫。"
   - type: textarea
     id: correction
     attributes:

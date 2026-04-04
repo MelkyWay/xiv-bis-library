@@ -6,7 +6,7 @@ import { ROLE_OPTIONS } from "../config/roles";
 import type { BisFiltersState, Role } from "../types/bis";
 import { localizeJobName } from "../utils/jobLocalization";
 import { roleColorBorder, roleColorTextStyle } from "../utils/roleColors";
-import { localizeEncounterName } from "../utils/ultimateLocalization";
+import { localizeEncounterName } from "../utils/encounterLocalization";
 const { t, locale } = useI18n();
 
 const props = defineProps<{

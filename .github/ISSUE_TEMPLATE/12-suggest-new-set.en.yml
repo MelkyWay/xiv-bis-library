@@ -1,0 +1,101 @@
+# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
+# Source: scripts/tools/lib/generate-issue-templates.mjs (en)
+name: "Suggest New Set"
+description: "Suggest a new BiS, prog, or encounter set"
+labels: ["new-set"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        You can fill out this form in English, French, German, Japanese, Korean, Simplified Chinese, or Traditional Chinese.
+
+  - type: dropdown
+    id: job
+    attributes:
+      label: "Job"
+      options:
+        - "DRK"
+        - "GNB"
+        - "PLD"
+        - "WAR"
+        - "AST"
+        - "SCH"
+        - "SGE"
+        - "WHM"
+        - "DRG"
+        - "MNK"
+        - "NIN"
+        - "SAM"
+        - "RPR"
+        - "VPR"
+        - "BRD"
+        - "DNC"
+        - "MCH"
+        - "BLM"
+        - "PCT"
+        - "RDM"
+        - "SMN"
+        - "BLU"
+        - "BST"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Category"
+      options:
+        - "Savage"
+        - "Prog"
+        - "Ultimate"
+        - "Criterion"
+        - "Unreal"
+        - "Occult Crescent"
+        - "Other"
+    validations:
+      required: true
+  - type: dropdown
+    id: encounter
+    attributes:
+      label: "Encounter or Set Name"
+      options:
+        - "7.4"
+        - "Futures Rewritten"
+        - "Dragonsong's Reprise"
+        - "The Omega Protocol"
+        - "The Epic of Alexander"
+        - "The Unending Coil of Bahamut"
+        - "The Weapon's Refrain"
+        - "Another Aloalo Island"
+        - "Another Mount Rokkon"
+        - "Another Sil'dihn Subterrane"
+        - "7.25"
+        - "Placeholder"
+        - "Tsukuyomi's Pain"
+        - "Community Sets"
+        - "Other / custom below"
+    validations:
+      required: true
+  - type: input
+    id: encounter-custom
+    attributes:
+      label: "Custom encounter or set name"
+      description: "If the correct encounter or set name is not listed, type it here."
+  - type: input
+    id: url
+    attributes:
+      label: "Set URL"
+      description: "Paste the XIVGear or Etro link."
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: "Source"
+      description: "Link to the Balance page, Discord message, spreadsheet, or other source."
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: "Notes"
+      description: "Any extra context that helps the maintainer review the report."
