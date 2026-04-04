@@ -238,8 +238,10 @@ async function chooseSecondary(value: string): Promise<void> {
 }
 
 function optionIndexByChecked(options: HTMLButtonElement[]): number {
-  const checkedIndex = options.findIndex((option) => option.getAttribute("aria-checked") === "true");
-  return checkedIndex >= 0 ? checkedIndex : 0;
+  return Math.max(
+    0,
+    options.findIndex((option) => option.getAttribute("aria-checked") === "true")
+  );
 }
 
 function focusOption(options: HTMLButtonElement[], index: number): void {
@@ -254,7 +256,7 @@ function moveMenuFocus(event: KeyboardEvent, options: HTMLButtonElement[]): bool
   if (options.length === 0) {
     return false;
   }
-  const activeIndex = options.findIndex((option) => option === document.activeElement);
+  const activeIndex = options.indexOf(document.activeElement as HTMLButtonElement);
   const selectedIndex = optionIndexByChecked(options);
   const currentIndex = activeIndex >= 0 ? activeIndex : selectedIndex;
 

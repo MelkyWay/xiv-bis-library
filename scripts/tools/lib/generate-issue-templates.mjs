@@ -432,8 +432,7 @@ function makeFieldLines({ type, id, label, description, options, required }) {
   if (id) {
     lines.push(`    id: ${id}`);
   }
-  lines.push("    attributes:");
-  lines.push(`      label: ${JSON.stringify(label)}`);
+  lines.push("    attributes:", `      label: ${JSON.stringify(label)}`);
   if (description) {
     lines.push(`      description: ${JSON.stringify(description)}`);
   }
@@ -444,8 +443,7 @@ function makeFieldLines({ type, id, label, description, options, required }) {
     }
   }
   if (required) {
-    lines.push("    validations:");
-    lines.push("      required: true");
+    lines.push("    validations:", "      required: true");
   }
   return lines.join("\n");
 }
