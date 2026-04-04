@@ -941,7 +941,7 @@ th {
   justify-content: center;
   cursor: pointer;
   vertical-align: middle;
-  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  transition: transform 90ms ease, box-shadow 90ms ease, background-color 90ms ease;
   box-shadow: 0 1px 0 color-mix(in oklab, var(--color-input-border) 70%, transparent);
 }
 
@@ -952,6 +952,12 @@ th {
 .copy-link-btn:active {
   transform: translateY(1px) scale(0.94);
   box-shadow: 0 0 0 transparent;
+}
+
+.copy-link-btn.copied {
+  color: #facc15;
+  border-color: #eab308;
+  background: color-mix(in oklab, #facc15 16%, var(--bg-input));
 }
 
 .copy-link-btn svg {
@@ -1009,6 +1015,32 @@ td.col-copy {
   align-items: center;
   justify-content: center;
   gap: 0.16rem;
+}
+
+.copy-link-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.copy-feedback {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 0.35rem);
+  transform: translateY(-50%);
+  z-index: var(--z-tooltip);
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.45rem;
+  border: 1px solid color-mix(in oklab, #eab308 55%, var(--color-input-border));
+  border-radius: 8px;
+  color: #facc15;
+  background: color-mix(in oklab, #facc15 10%, var(--bg-input));
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .pagination {

@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import type { BisEntry, BisFiltersState, Category, Role } from "../types/bis";
 import { getEntryKey } from "../utils/entryKey";
@@ -30,7 +30,10 @@ const sortState = ref<{ key: SortKey | null; direction: SortDirection | null }>(
   direction: null
 });
 const PAGE_SIZE = 100;
+const COPY_FEEDBACK_DURATION_MS = 1400;
 const currentPage = ref(1);
+const copiedEntryKey = ref<string | null>(null);
+let copyFeedbackTimer: ReturnType<typeof setTimeout> | null = null;
 
 const infoHeaderLabel = computed(() => {
   if (props.activeCategory === "Ultimate" || props.activeCategory === "Criterion" || props.activeCategory === "Unreal") {
@@ -228,13 +231,32 @@ function toggleFavorite(row: BisEntry): void {
   emit("toggle-favorite", row);
 }
 
-async function copyLink(url: string): Promise<void> {
+function isCopied(row: BisEntry): boolean {
+  return copiedEntryKey.value === getEntryKey(row);
+}
+
+async function copyLink(row: BisEntry): Promise<void> {
   try {
-    await navigator.clipboard.writeText(url);
+    await navigator.clipboard.writeText(row.link.url);
+    copiedEntryKey.value = getEntryKey(row);
+    if (copyFeedbackTimer !== null) {
+      clearTimeout(copyFeedbackTimer);
+    }
+    copyFeedbackTimer = setTimeout(() => {
+      copiedEntryKey.value = null;
+      copyFeedbackTimer = null;
+    }, COPY_FEEDBACK_DURATION_MS);
   } catch {
     // Keep this silent; clipboard API availability depends on browser/context.
   }
 }
+
+onBeforeUnmount(() => {
+  if (copyFeedbackTimer !== null) {
+    clearTimeout(copyFeedbackTimer);
+    copyFeedbackTimer = null;
+  }
+});
 </script>
 
 <template>
@@ -318,20 +340,22 @@ async function copyLink(url: string): Promise<void> {
                     />
                   </svg>
                 </button>
-                <button
-                  class="copy-link-btn"
-                  type="button"
-                  :title="t('table.copyLink')"
-                  :aria-label="t('table.copyLink')"
-                  @click="copyLink(row.link.url)"
-                >
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path
-                      d="M9 9h10v11H9zM5 4h10v3h-2V6H7v7H6a1 1 0 0 0-1 1V4z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </button>
+                <span class="copy-link-wrap">
+                  <button
+                    class="copy-link-btn"
+                    :class="{ copied: isCopied(row) }"
+                    type="button"
+                    :title="isCopied(row) ? t('table.copyLinkSuccess') : t('table.copyLink')"
+                    :aria-label="isCopied(row) ? t('table.copyLinkSuccess') : t('table.copyLink')"
+                    @click="copyLink(row)"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path v-if="isCopied(row)" d="M9 16.2 5.5 12.7 4.1 14.1 9 19 20.3 7.7 18.9 6.3z" fill="currentColor" />
+                      <path v-else d="M9 9h10v11H9zM5 4h10v3h-2V6H7v7H6a1 1 0 0 0-1 1V4z" fill="currentColor" />
+                    </svg>
+                  </button>
+                  <span v-if="isCopied(row)" class="copy-feedback" role="status" aria-live="polite">{{ t("table.copyLinkSuccess") }}</span>
+                </span>
               </div>
             </td>
           </tr>

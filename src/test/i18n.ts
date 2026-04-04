@@ -76,6 +76,7 @@ export function createTestI18n() {
           link: "Link",
           source: "Source",
           copyLink: "Copy link",
+          copyLinkSuccess: "Link copied",
           noMatchingEntries: "No matching entries.",
           sortLabel: "{label} sort ({current}). Activate for {next}.",
           sortCurrent: {

@@ -141,7 +141,8 @@ describe("BisTable", () => {
     expect(wrapper.text()).toContain("Showing 101-101 of 101");
   });
 
-  it("emits favorite toggle and copies link", async () => {
+  it("emits favorite toggle and shows copy success feedback briefly", async () => {
+    vi.useFakeTimers();
     const wrapper = mountTable([makeEntry()]);
     const copySpy = vi.spyOn(navigator.clipboard, "writeText");
 
@@ -151,6 +152,15 @@ describe("BisTable", () => {
     const favoriteEvents = wrapper.emitted("toggle-favorite");
     expect(favoriteEvents).toHaveLength(1);
     expect(copySpy).toHaveBeenCalledWith("https://xivgear.app/base");
+    expect(wrapper.get(".copy-link-btn").classes()).toContain("copied");
+    expect(wrapper.find(".copy-feedback").exists()).toBe(true);
+    expect(wrapper.find(".copy-feedback").text()).toBe("Link copied");
+
+    vi.advanceTimersByTime(1400);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.get(".copy-link-btn").classes()).not.toContain("copied");
+    expect(wrapper.find(".copy-feedback").exists()).toBe(false);
+    vi.useRealTimers();
   });
 
   it("hides Category column when a specific category is selected", () => {
