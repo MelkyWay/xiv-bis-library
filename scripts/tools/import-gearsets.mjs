@@ -16,7 +16,13 @@ const jobsConfigRaw = JSON.parse(readFileSync(JOBS_CONFIG_PATH, "utf8"));
 const jobsConfigList = Array.isArray(jobsConfigRaw?.jobs) ? jobsConfigRaw.jobs : [];
 const JOB_TO_ROLE = Object.fromEntries(
   jobsConfigList
-    .filter((job) => job && typeof job === "object" && typeof job.code === "string" && typeof job.role === "string")
+    .filter(
+      (job) =>
+        job &&
+        typeof job === "object" &&
+        typeof job.code === "string" &&
+        typeof job.role === "string"
+    )
     .map((job) => [job.code.toUpperCase(), job.role])
 );
 const REQUIRED_INFO_BY_CATEGORY = {
@@ -144,9 +150,7 @@ function extractDataUrlFromHtml(html) {
   }
 
   const preferred = candidates.find(
-    (href) =>
-      href.includes("staticbis.xivgear.app/") ||
-      href.includes("api.xivgear.app/shortlink/")
+    (href) => href.includes("staticbis.xivgear.app/") || href.includes("api.xivgear.app/shortlink/")
   );
 
   if (preferred) {
@@ -235,17 +239,23 @@ async function extractSimDpsFromRenderedPage(pageUrl) {
       const cleanText = (value) => (value || "").replaceAll(/\s+/g, " ").trim();
 
       const getHeaders = (table) => {
-        const theadHeaders = Array.from(table.querySelectorAll("thead th")).map((th) => cleanText(th.textContent));
+        const theadHeaders = Array.from(table.querySelectorAll("thead th")).map((th) =>
+          cleanText(th.textContent)
+        );
         if (theadHeaders.length > 0) {
           return theadHeaders;
         }
 
-        const firstHeaderRow = Array.from(table.querySelectorAll("tr")).find((tr) => tr.querySelectorAll("th").length >= 3);
+        const firstHeaderRow = Array.from(table.querySelectorAll("tr")).find(
+          (tr) => tr.querySelectorAll("th").length >= 3
+        );
         if (!firstHeaderRow) {
           return [];
         }
 
-        return Array.from(firstHeaderRow.querySelectorAll("th")).map((th) => cleanText(th.textContent));
+        return Array.from(firstHeaderRow.querySelectorAll("th")).map((th) =>
+          cleanText(th.textContent)
+        );
       };
 
       const findMetricColumnIndex = (headers) =>
@@ -259,7 +269,9 @@ async function extractSimDpsFromRenderedPage(pageUrl) {
 
       const inferMetricType = (headerText) => {
         const lowered = headerText.toLowerCase();
-        return lowered.includes("dmg/100p") || lowered.includes("100 potency") || lowered.includes("potency")
+        return lowered.includes("dmg/100p") ||
+          lowered.includes("100 potency") ||
+          lowered.includes("potency")
           ? "potency"
           : "sim";
       };
@@ -273,7 +285,9 @@ async function extractSimDpsFromRenderedPage(pageUrl) {
 
         const type = inferMetricType(headers[metricColIndex]);
         const out = [];
-        const trs = Array.from(table.querySelectorAll("tr")).filter((tr) => tr.querySelectorAll("td").length > 0);
+        const trs = Array.from(table.querySelectorAll("tr")).filter(
+          (tr) => tr.querySelectorAll("td").length > 0
+        );
 
         for (const tr of trs) {
           const tds = Array.from(tr.querySelectorAll("td"));
@@ -345,7 +359,10 @@ function setOnlySetIndex(urlInput, index) {
 }
 
 function pickSourceBaseUrl(importConfig, resolvedPageUrl) {
-  if (typeof importConfig.sourceBaseUrl === "string" && importConfig.sourceBaseUrl.trim().length > 0) {
+  if (
+    typeof importConfig.sourceBaseUrl === "string" &&
+    importConfig.sourceBaseUrl.trim().length > 0
+  ) {
     return normalizePageUrl(importConfig.sourceBaseUrl);
   }
   if (resolvedPageUrl) {
@@ -393,8 +410,12 @@ function normalizePayloadSets(sheetPayload) {
 }
 
 function shouldIncludeSetIndex(index, importConfig) {
-  const include = Array.isArray(importConfig.includeSetIndexes) ? importConfig.includeSetIndexes : null;
-  const exclude = Array.isArray(importConfig.excludeSetIndexes) ? importConfig.excludeSetIndexes : null;
+  const include = Array.isArray(importConfig.includeSetIndexes)
+    ? importConfig.includeSetIndexes
+    : null;
+  const exclude = Array.isArray(importConfig.excludeSetIndexes)
+    ? importConfig.excludeSetIndexes
+    : null;
   if (include && !include.includes(index)) {
     return false;
   }
@@ -423,24 +444,32 @@ function normalizeImportConfig(rawConfig, globalDefaults) {
   }
 
   if (typeof merged.tier !== "string" || !/^\d+\.\d+$/.test(merged.tier)) {
-    throw new Error(`Import URL ${merged.url} has invalid tier "${merged.tier}". Expected format like 7.4.`);
+    throw new Error(
+      `Import URL ${merged.url} has invalid tier "${merged.tier}". Expected format like 7.4.`
+    );
   }
 
   const upperJob = merged.job.toUpperCase();
   const roleFromJob = JOB_TO_ROLE[upperJob];
   const role = merged.role ?? roleFromJob;
   if (!role || typeof role !== "string") {
-    throw new Error(`Import URL ${merged.url} is missing role and role could not be derived from job ${upperJob}.`);
+    throw new Error(
+      `Import URL ${merged.url} is missing role and role could not be derived from job ${upperJob}.`
+    );
   }
 
   const updatedAt = merged.updatedAt ?? todayIsoDate();
   if (!DATE_RE.test(updatedAt)) {
-    throw new Error(`Import URL ${merged.url} has invalid updatedAt "${updatedAt}". Expected YYYY-MM-DD.`);
+    throw new Error(
+      `Import URL ${merged.url} has invalid updatedAt "${updatedAt}". Expected YYYY-MM-DD.`
+    );
   }
 
   const importedAt = merged.importedAt ?? updatedAt;
   if (!DATE_RE.test(importedAt)) {
-    throw new Error(`Import URL ${merged.url} has invalid importedAt "${importedAt}". Expected YYYY-MM-DD.`);
+    throw new Error(
+      `Import URL ${merged.url} has invalid importedAt "${importedAt}". Expected YYYY-MM-DD.`
+    );
   }
 
   return {
@@ -461,7 +490,7 @@ function normalizeImportConfig(rawConfig, globalDefaults) {
     setOverrides: toSetOverrides(merged.setOverrides),
     includeSetIndexes: Array.isArray(merged.includeSetIndexes)
       ? merged.includeSetIndexes
-          .map((value) => Number(value))
+          .map(Number)
           .filter((value) => Number.isInteger(value) && value >= 0)
       : (() => {
           const fromUrl = getOnlySetIndexFromUrl(merged.url);
@@ -469,7 +498,7 @@ function normalizeImportConfig(rawConfig, globalDefaults) {
         })(),
     excludeSetIndexes: Array.isArray(merged.excludeSetIndexes)
       ? merged.excludeSetIndexes
-          .map((value) => Number(value))
+          .map(Number)
           .filter((value) => Number.isInteger(value) && value >= 0)
       : undefined
   };
@@ -519,14 +548,16 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
     const split = splitSetName(rawName);
 
     const mappedName = importConfig.setNameMap[rawName];
-    const notes = typeof mappedName === "string" && mappedName.trim().length > 0
-      ? mappedName.trim()
-      : split.notes;
+    const notes =
+      typeof mappedName === "string" && mappedName.trim().length > 0
+        ? mappedName.trim()
+        : split.notes;
 
     const mapTooltip = importConfig.setTooltipMap[rawName];
-    let notesTooltip = typeof set.description === "string" && set.description.trim().length > 0
-      ? set.description.trim()
-      : split.tooltip || undefined;
+    let notesTooltip =
+      typeof set.description === "string" && set.description.trim().length > 0
+        ? set.description.trim()
+        : split.tooltip || undefined;
     if (typeof mapTooltip === "string" && mapTooltip.trim().length > 0) {
       notesTooltip = mapTooltip.trim();
     }
@@ -540,12 +571,19 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
     if (override && typeof override.notesTooltip === "string") {
       notesTooltip = override.notesTooltip.trim() || undefined;
     }
-    if (override && typeof override.appendTooltip === "string" && override.appendTooltip.trim().length > 0) {
+    if (
+      override &&
+      typeof override.appendTooltip === "string" &&
+      override.appendTooltip.trim().length > 0
+    ) {
       notesTooltip = notesTooltip
         ? `${notesTooltip}\n\n${override.appendTooltip.trim()}`
         : override.appendTooltip.trim();
     }
-    if (typeof importConfig.appendToAllTooltips === "string" && importConfig.appendToAllTooltips.trim().length > 0) {
+    if (
+      typeof importConfig.appendToAllTooltips === "string" &&
+      importConfig.appendToAllTooltips.trim().length > 0
+    ) {
       notesTooltip = notesTooltip
         ? `${notesTooltip}\n\n${importConfig.appendToAllTooltips.trim()}`
         : importConfig.appendToAllTooltips.trim();
@@ -585,12 +623,15 @@ function buildEntriesFromSheet(sheetPayload, importConfig) {
 
     const sourceBaseUrl = pickSourceBaseUrl(importConfig, importConfig._resolvedPageUrl);
     const linkUrl = setOnlySetIndex(sourceBaseUrl, i);
-    const sourceUrl = typeof importConfig.sourceUrl === "string" && importConfig.sourceUrl.trim().length > 0
-      ? importConfig.sourceUrl.trim()
-      : linkUrl;
-    const sourceName = typeof importConfig.sourceNameForSource === "string" && importConfig.sourceNameForSource.trim().length > 0
-      ? importConfig.sourceNameForSource.trim()
-      : inferSourceNameFromUrl(sourceUrl);
+    const sourceUrl =
+      typeof importConfig.sourceUrl === "string" && importConfig.sourceUrl.trim().length > 0
+        ? importConfig.sourceUrl.trim()
+        : linkUrl;
+    const sourceName =
+      typeof importConfig.sourceNameForSource === "string" &&
+      importConfig.sourceNameForSource.trim().length > 0
+        ? importConfig.sourceNameForSource.trim()
+        : inferSourceNameFromUrl(sourceUrl);
 
     const row = {
       job: importConfig.job,
@@ -702,7 +743,7 @@ async function main() {
     dataFile.schemaVersion = 1;
   }
   if (!Array.isArray(dataFile.entries)) {
-    throw new Error(`Data file ${DATA_FILE_PATH} has no entries array.`);
+    throw new TypeError(`Data file ${DATA_FILE_PATH} has no entries array.`);
   }
 
   let imports;
@@ -714,9 +755,10 @@ async function main() {
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
       throw new Error("Config root must be an object.");
     }
-    defaults = parsed.defaults && typeof parsed.defaults === "object" && !Array.isArray(parsed.defaults)
-      ? parsed.defaults
-      : {};
+    defaults =
+      parsed.defaults && typeof parsed.defaults === "object" && !Array.isArray(parsed.defaults)
+        ? parsed.defaults
+        : {};
     if (!Array.isArray(parsed.imports) || parsed.imports.length === 0) {
       throw new Error("Config requires a non-empty imports array.");
     }
@@ -792,8 +834,8 @@ async function main() {
   for (const row of perImportSummary) {
     console.log(
       `- ${row.url}\n` +
-      `  data: ${row.sourceDataUrl}\n` +
-      `  rows: ${row.generatedRows} | added: ${row.added} | replaced: ${row.replaced} | skipped: ${row.skipped}`
+        `  data: ${row.sourceDataUrl}\n` +
+        `  rows: ${row.generatedRows} | added: ${row.added} | replaced: ${row.replaced} | skipped: ${row.skipped}`
     );
   }
 
@@ -804,7 +846,9 @@ async function main() {
   console.log(`Data file: ${DATA_FILE_PATH}`);
 }
 
-main().catch((error) => {
+try {
+  await main();
+} catch (error) {
   console.error(`Import failed: ${error instanceof Error ? error.message : String(error)}`);
   process.exitCode = 1;
-});
+}

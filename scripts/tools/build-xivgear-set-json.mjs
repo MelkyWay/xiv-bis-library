@@ -120,7 +120,7 @@ async function buildMateriaIdMap(targetValue) {
     if (!row) {
       throw new Error(`Could not find materia row for stat ${stat}`);
     }
-    const index = row.value.findIndex((v) => v === targetValue);
+    const index = row.value.indexOf(targetValue);
     if (index === -1 || !row.item[index]?.rowId) {
       throw new Error(`Could not find ${targetValue} materia for stat ${stat}`);
     }
@@ -141,7 +141,9 @@ function resolveSlotKey(inputSlot) {
 }
 
 function nameKey(input) {
-  return String(input ?? "").trim().toLowerCase();
+  return String(input ?? "")
+    .trim()
+    .toLowerCase();
 }
 
 function relaxedNameKey(input) {
@@ -187,7 +189,9 @@ async function main() {
   const materiaValue = args["materia-value"] ? Number(args["materia-value"]) : 54;
 
   if (!specPath) {
-    throw new Error("Usage: node scripts/build-xivgear-set-json.mjs --spec <path> [--out <path>] [--template <path>] [--materia-value 54]");
+    throw new Error(
+      "Usage: node scripts/build-xivgear-set-json.mjs --spec <path> [--out <path>] [--template <path>] [--materia-value 54]"
+    );
   }
   if (!Number.isFinite(materiaValue) || materiaValue <= 0) {
     throw new Error("--materia-value must be a positive number.");
@@ -225,7 +229,9 @@ async function main() {
   }
 
   const job = String(spec.job).trim().toUpperCase();
-  const itemsPayload = await fetchJson(`https://data.xivgear.app/Items?job=${encodeURIComponent(job)}`);
+  const itemsPayload = await fetchJson(
+    `https://data.xivgear.app/Items?job=${encodeURIComponent(job)}`
+  );
   const foodPayload = await fetchJson("https://data.xivgear.app/Food");
   const materiaIdMap = await buildMateriaIdMap(materiaValue);
 
@@ -271,7 +277,9 @@ async function main() {
   }
 }
 
-main().catch((error) => {
+try {
+  await main();
+} catch (error) {
   console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
-});
+}
