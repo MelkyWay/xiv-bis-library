@@ -239,106 +239,108 @@ async function copyLink(url: string): Promise<void> {
 
 <template>
   <section class="panel table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th class="col-job">{{ t("table.job") }}</th>
-          <th class="col-role">{{ t("table.role") }}</th>
-          <th v-if="showCategoryColumn">{{ t("table.category") }}</th>
-          <th>{{ infoHeaderLabel }}</th>
-          <th class="col-notes">{{ t("table.notes") }}</th>
-          <th class="col-damage" :aria-sort="sortAriaSort('damage')">
-            <button
-              class="sortable-header"
-              type="button"
-              @click="toggleSort('damage')"
-              :aria-label="sortAriaLabel('damage', t('table.damage'))"
-            >
-              <span>{{ t("table.damage") }}</span>
-              <span class="sort-indicator" aria-hidden="true">{{ sortIndicator('damage') }}</span>
-            </button>
-          </th>
-          <th>{{ t("table.link") }}</th>
-          <th>{{ t("table.source") }}</th>
-          <th class="col-copy" :aria-label="t('table.actionsAria')"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="row in paginatedRows" :key="getEntryKey(row)">
-          <td class="col-job"><strong :style="roleStyle(row.role)">{{ jobLabel(row.job) }}</strong></td>
-          <td class="col-role" :style="roleStyle(row.role)">{{ roleLabel(row.role) }}</td>
-          <td v-if="showCategoryColumn">{{ categoryLabel(row.content.category) }}</td>
-          <td>{{ infoValue(row) }}</td>
-          <td class="col-notes">
-            <span
-              class="notes-tooltip-anchor notes-main-tooltip"
-              :class="{ 'has-tooltip': !!row.note?.tooltip }"
-              :data-tooltip="row.note?.tooltip || ''"
-              :tabindex="row.note?.tooltip ? 0 : undefined"
-            >
-              {{ row.note?.text ?? "-" }}
-            </span>
-          </td>
-          <td>
-            <span class="damage-cell">
-              <span>{{ damageDisplayValue(row) }}</span>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="col-job">{{ t("table.job") }}</th>
+            <th class="col-role">{{ t("table.role") }}</th>
+            <th v-if="showCategoryColumn">{{ t("table.category") }}</th>
+            <th>{{ infoHeaderLabel }}</th>
+            <th class="col-notes">{{ t("table.notes") }}</th>
+            <th class="col-damage" :aria-sort="sortAriaSort('damage')">
               <button
-                v-if="damageType(row)"
-                class="damage-kind-badge notes-tooltip-anchor has-tooltip"
-                :class="damageType(row)"
-                :data-tooltip="damageSubscriptTooltip(row)"
+                class="sortable-header"
                 type="button"
-                :aria-label="damageSubscriptTooltip(row)"
+                @click="toggleSort('damage')"
+                :aria-label="sortAriaLabel('damage', t('table.damage'))"
               >
-                {{ damageSubscriptLabel(row) }}
+                <span>{{ t("table.damage") }}</span>
+                <span class="sort-indicator" aria-hidden="true">{{ sortIndicator('damage') }}</span>
               </button>
-            </span>
-          </td>
-          <td>
-            <a :href="row.link.url" target="_blank" rel="noreferrer noopener">{{ row.link.name }}</a>
-          </td>
-          <td>
-            <a :href="row.source.url" target="_blank" rel="noreferrer noopener">{{ row.source.name }}</a>
-          </td>
-          <td class="col-copy">
-            <div class="row-actions">
-              <button
-                class="favorite-btn"
-                :class="{ active: isFavorite(row) }"
-                type="button"
-                :title="isFavorite(row) ? t('table.favoriteRemove') : t('table.favoriteAdd')"
-                :aria-label="isFavorite(row) ? t('table.favoriteRemove') : t('table.favoriteAdd')"
-                @click="toggleFavorite(row)"
+            </th>
+            <th>{{ t("table.link") }}</th>
+            <th>{{ t("table.source") }}</th>
+            <th class="col-copy" :aria-label="t('table.actionsAria')"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="row in paginatedRows" :key="getEntryKey(row)">
+            <td class="col-job"><strong :style="roleStyle(row.role)">{{ jobLabel(row.job) }}</strong></td>
+            <td class="col-role" :style="roleStyle(row.role)">{{ roleLabel(row.role) }}</td>
+            <td v-if="showCategoryColumn">{{ categoryLabel(row.content.category) }}</td>
+            <td>{{ infoValue(row) }}</td>
+            <td class="col-notes">
+              <span
+                class="notes-tooltip-anchor notes-main-tooltip"
+                :class="{ 'has-tooltip': !!row.note?.tooltip }"
+                :data-tooltip="row.note?.tooltip || ''"
+                :tabindex="row.note?.tooltip ? 0 : undefined"
               >
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path
-                    d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </button>
-              <button
-                class="copy-link-btn"
-                type="button"
-                :title="t('table.copyLink')"
-                :aria-label="t('table.copyLink')"
-                @click="copyLink(row.link.url)"
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path
-                    d="M9 9h10v11H9zM5 4h10v3h-2V6H7v7H6a1 1 0 0 0-1 1V4z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </button>
-            </div>
-          </td>
-        </tr>
-        <tr v-if="displayRows.length === 0">
-          <td :colspan="emptyStateColspan">{{ t("table.noMatchingEntries") }}</td>
-        </tr>
-      </tbody>
-    </table>
+                {{ row.note?.text ?? "-" }}
+              </span>
+            </td>
+            <td>
+              <span class="damage-cell">
+                <span>{{ damageDisplayValue(row) }}</span>
+                <button
+                  v-if="damageType(row)"
+                  class="damage-kind-badge notes-tooltip-anchor has-tooltip"
+                  :class="damageType(row)"
+                  :data-tooltip="damageSubscriptTooltip(row)"
+                  type="button"
+                  :aria-label="damageSubscriptTooltip(row)"
+                >
+                  {{ damageSubscriptLabel(row) }}
+                </button>
+              </span>
+            </td>
+            <td>
+              <a :href="row.link.url" target="_blank" rel="noreferrer noopener">{{ row.link.name }}</a>
+            </td>
+            <td>
+              <a :href="row.source.url" target="_blank" rel="noreferrer noopener">{{ row.source.name }}</a>
+            </td>
+            <td class="col-copy">
+              <div class="row-actions">
+                <button
+                  class="favorite-btn"
+                  :class="{ active: isFavorite(row) }"
+                  type="button"
+                  :title="isFavorite(row) ? t('table.favoriteRemove') : t('table.favoriteAdd')"
+                  :aria-label="isFavorite(row) ? t('table.favoriteRemove') : t('table.favoriteAdd')"
+                  @click="toggleFavorite(row)"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path
+                      d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </button>
+                <button
+                  class="copy-link-btn"
+                  type="button"
+                  :title="t('table.copyLink')"
+                  :aria-label="t('table.copyLink')"
+                  @click="copyLink(row.link.url)"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path
+                      d="M9 9h10v11H9zM5 4h10v3h-2V6H7v7H6a1 1 0 0 0-1 1V4z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr v-if="displayRows.length === 0">
+            <td :colspan="emptyStateColspan">{{ t("table.noMatchingEntries") }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div v-if="totalRows > 0" class="pagination">
       <p class="pagination-summary">{{ t("table.pagination.showing", { from: pageFrom, to: pageTo, total: totalRows }) }}</p>
       <div class="pagination-controls">

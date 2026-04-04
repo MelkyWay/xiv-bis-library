@@ -36,6 +36,24 @@ function mountTable(rows: BisEntry[], activeCategory: "All" | BisEntry["content"
 }
 
 describe("BisTable", () => {
+  it("renders table inside .table-scroll while keeping pagination outside", () => {
+    const rows = Array.from({ length: 101 }, (_, index) =>
+      makeEntry({
+        link: { name: "XivGear", url: `https://xivgear.app/${index}` },
+        note: { text: `row-${index}` }
+      })
+    );
+    const wrapper = mountTable(rows);
+
+    const tableScroll = wrapper.get(".table-scroll");
+    const table = wrapper.get("table");
+    const pagination = wrapper.get(".pagination");
+
+    expect(tableScroll.find("table").exists()).toBe(true);
+    expect(table.element.parentElement).toBe(tableScroll.element);
+    expect(tableScroll.element.contains(pagination.element)).toBe(false);
+  });
+
   it("shows damage superscript type and tooltip content", () => {
     const wrapper = mountTable([
       makeEntry({

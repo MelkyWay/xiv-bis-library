@@ -682,6 +682,10 @@ a {
   position: relative;
 }
 
+.table-scroll {
+  position: relative;
+}
+
 .table-wrap:has(.notes-tooltip-anchor.has-tooltip:hover),
 .table-wrap:has(.notes-tooltip-anchor.has-tooltip:focus-visible) {
   z-index: var(--z-tooltip-scope);
@@ -1176,6 +1180,79 @@ td.col-copy {
   background: var(--bg-toggle-hover);
 }
 
+/* -- <= 1100px and >= 901px: Stabilize filter grid on large tablet widths -- */
+@media (max-width: 1100px) and (min-width: 901px) {
+  .filters {
+    grid-template-columns: repeat(4, minmax(160px, 1fr));
+  }
+
+  .filters .actions {
+    grid-column: 4;
+    justify-self: end;
+    align-self: end;
+  }
+}
+
+/* -- <= 900px and >= 641px: Stabilize filter grid on small tablet widths -- */
+@media (max-width: 900px) and (min-width: 641px) {
+  .filters {
+    grid-template-columns: repeat(3, minmax(160px, 1fr));
+  }
+
+  .filters .actions {
+    grid-column: 3;
+    justify-self: end;
+    align-self: end;
+  }
+}
+
+/* -- <= 1023px: Tablet landscape / small desktop transition -- */
+@media (max-width: 1023px) {
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-scroll::after {
+    content: "";
+    position: sticky;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    float: right;
+    width: 1.15rem;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent 0%, color-mix(in oklab, var(--bg-panel) 96%, transparent) 100%);
+  }
+
+  .table-scroll table {
+    min-width: 62rem;
+  }
+
+  .table-wrap thead th.col-job {
+    position: sticky;
+    left: 0;
+    z-index: 40;
+    background: var(--bg-th);
+  }
+
+  .table-wrap tbody td.col-job {
+    position: sticky;
+    left: 0;
+    z-index: 39;
+    box-shadow: 1px 0 0 var(--color-table-border);
+  }
+}
+
+/* -- <= 768px: Tablet portrait -- */
+@media (max-width: 768px) {
+  .table-wrap th,
+  .table-wrap td {
+    padding: 0.55rem;
+    font-size: 0.92rem;
+  }
+}
+
 @media (max-width: 640px) {
   .brand-logo {
     width: 5.75rem;
@@ -1211,6 +1288,9 @@ td.col-copy {
   }
 
   .filters .actions {
+    grid-column: auto;
+    justify-self: auto;
+    align-self: auto;
     justify-content: flex-end;
     flex-wrap: nowrap;
   }
