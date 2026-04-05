@@ -93,6 +93,18 @@ const filtered = computed(() => {
 
   return base.filter((entry) => favoriteEntryKeys.value.has(getEntryKey(entry)));
 });
+const activeEncounterFilter = computed(() => {
+  if (filters.value.category === "Ultimate") {
+    return filters.value.ultimate;
+  }
+  if (filters.value.category === "Criterion") {
+    return filters.value.criterion;
+  }
+  if (filters.value.category === "Unreal") {
+    return filters.value.unreal;
+  }
+  return "All";
+});
 const hasHydratedFiltersFromUrl = ref(false);
 const brandLogoSrc = `${import.meta.env.BASE_URL}brand-logo.png`;
 const themeSunIconSrc = `${import.meta.env.BASE_URL}icon-sun.svg`;
@@ -600,6 +612,7 @@ watch(unreals, () => {
       <BisTable
         :rows="filtered"
         :active-category="filters.category"
+        :active-encounter="activeEncounterFilter"
         :favorite-entry-keys="favoriteEntryKeys"
         @toggle-favorite="toggleFavorite"
       />

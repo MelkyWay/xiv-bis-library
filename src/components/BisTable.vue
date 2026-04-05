@@ -11,6 +11,7 @@ const { t, locale } = useI18n();
 const props = defineProps<{
   rows: BisEntry[];
   activeCategory: BisFiltersState["category"];
+  activeEncounter: string;
   favoriteEntryKeys: Set<string>;
 }>();
 const emit = defineEmits<(event: "toggle-favorite", entry: BisEntry) => void>();
@@ -56,7 +57,16 @@ const infoHeaderLabel = computed(() => {
 });
 
 const showCategoryColumn = computed(() => props.activeCategory === "All");
-const emptyStateColspan = computed(() => (showCategoryColumn.value ? 7 : 6));
+const showInfoColumn = computed(() => {
+  if (props.activeCategory === "Ultimate" || props.activeCategory === "Criterion" || props.activeCategory === "Unreal") {
+    return props.activeEncounter === "All";
+  }
+  return true;
+});
+const emptyStateColspan = computed(() => {
+  const baseColumns = showCategoryColumn.value ? 7 : 6;
+  return showInfoColumn.value ? baseColumns : baseColumns - 1;
+});
 
 function roleStyle(role: Role): Record<string, string> {
   return roleColorTextStyle(role);
@@ -308,7 +318,7 @@ onBeforeUnmount(() => {
           <tr>
             <th class="col-job">{{ t("table.job") }}</th>
             <th v-if="showCategoryColumn">{{ t("table.category") }}</th>
-            <th>{{ infoHeaderLabel }}</th>
+            <th v-if="showInfoColumn">{{ infoHeaderLabel }}</th>
             <th class="col-notes">Set/Link</th>
             <th class="col-damage" :aria-sort="sortAriaSort('damage')">
               <button
@@ -329,7 +339,7 @@ onBeforeUnmount(() => {
           <tr v-for="row in paginatedRows" :key="getEntryKey(row)">
             <td class="col-job"><strong :style="roleStyle(row.role)">{{ jobLabel(row.job) }}</strong></td>
             <td v-if="showCategoryColumn">{{ categoryLabel(row.content.category) }}</td>
-            <td>{{ infoValue(row) }}</td>
+            <td v-if="showInfoColumn">{{ infoValue(row) }}</td>
             <td class="col-notes">
               <span
                 class="notes-tooltip-anchor notes-main-tooltip"

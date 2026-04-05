@@ -22,11 +22,16 @@ function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
   };
 }
 
-function mountTable(rows: BisEntry[], activeCategory: "All" | BisEntry["content"]["category"] = "All") {
+function mountTable(
+  rows: BisEntry[],
+  activeCategory: "All" | BisEntry["content"]["category"] = "All",
+  activeEncounter = "All"
+) {
   return mount(BisTable, {
     props: {
       rows,
       activeCategory,
+      activeEncounter,
       favoriteEntryKeys: new Set<string>()
     },
     global: {
@@ -217,6 +222,25 @@ describe("BisTable", () => {
     expect(wrapper.findAll("tbody tr td").some((cell) => cell.text() === "Ultimate")).toBe(false);
   });
 
+  it("hides Encounter column when a specific sub-encounter is selected", () => {
+    const wrapper = mountTable(
+      [
+        makeEntry({
+          content: {
+            category: "Ultimate",
+            kind: "encounter",
+            value: "Futures Rewritten"
+          }
+        })
+      ],
+      "Ultimate",
+      "Futures Rewritten"
+    );
+
+    expect(wrapper.findAll("thead th").some((cell) => cell.text() === "Encounter")).toBe(false);
+    expect(wrapper.findAll("tbody tr td").some((cell) => cell.text() === "Futures Rewritten")).toBe(false);
+  });
+
   it("uses correct empty-state colspan depending on category filter", () => {
     const allWrapper = mountTable([], "All");
     const allColspan = allWrapper.get("tbody tr td").attributes("colspan");
@@ -225,5 +249,9 @@ describe("BisTable", () => {
     const ultimateWrapper = mountTable([], "Ultimate");
     const ultimateColspan = ultimateWrapper.get("tbody tr td").attributes("colspan");
     expect(ultimateColspan).toBe("6");
+
+    const ultimateEncounterWrapper = mountTable([], "Ultimate", "Futures Rewritten");
+    const ultimateEncounterColspan = ultimateEncounterWrapper.get("tbody tr td").attributes("colspan");
+    expect(ultimateEncounterColspan).toBe("5");
   });
 });
