@@ -31,7 +31,7 @@ const sortState = ref<{ key: SortKey | null; direction: SortDirection | null }>(
 });
 const PAGE_SIZE = 100;
 const COPY_FEEDBACK_DURATION_MS = 1400;
-const NOTE_SINGLE_LINE_TARGET_CHARS = 44;
+const NOTE_SINGLE_LINE_TARGET_CHARS = 39;
 const currentPage = ref(1);
 const copiedEntryKey = ref<string | null>(null);
 let copyFeedbackTimer: ReturnType<typeof setTimeout> | null = null;

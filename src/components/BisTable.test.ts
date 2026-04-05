@@ -115,9 +115,25 @@ describe("BisTable", () => {
     ]);
 
     const anchor = wrapper.get(".notes-main-tooltip");
-    expect(anchor.find(".note-preview-text").text()).toBe("This note should truncate after a complete...");
+    expect(anchor.find(".note-preview-text").text()).toBe("This note should truncate after a...");
     expect(anchor.find(".note-rich-tooltip-title").text()).toBe(fullNote);
     expect(anchor.classes()).toContain("has-tooltip");
+  });
+
+  it("shows a tooltip with full note text when note is truncated without extra tooltip details", () => {
+    const fullNote = "This entry title is long enough to be truncated";
+    const wrapper = mountTable([
+      makeEntry({
+        note: {
+          text: fullNote
+        }
+      })
+    ]);
+
+    const anchor = wrapper.get(".notes-main-tooltip");
+    expect(anchor.classes()).toContain("has-tooltip");
+    expect(anchor.find(".note-rich-tooltip-title").text()).toBe(fullNote);
+    expect(anchor.find(".note-rich-tooltip-body").exists()).toBe(false);
   });
 
   it("sorts by damage descending on first click", async () => {

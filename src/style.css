@@ -936,7 +936,7 @@ th {
 
 .note-preview-text {
   display: inline-block;
-  max-width: 24ch;
+  max-width: 39ch;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
