@@ -91,11 +91,6 @@ function jobLabel(job: string): string {
   return localizeJobName(job, String(locale.value));
 }
 
-
-function groupLabelStyle(_role: Role): Record<string, string> {
-  return { color: "var(--color-text)" };
-}
-
 function selectedJobStyle(): Record<string, string> {
   if (props.filters.job === "All") {
     return { color: "var(--color-text)", borderColor: "var(--color-input-border)" };
@@ -632,7 +627,7 @@ onBeforeUnmount(() => {
             {{ t("common.all") }}
           </button>
           <div v-for="group in visibleGroupedJobs" :key="group.role" class="job-select-group">
-            <div class="job-select-group-label" :style="groupLabelStyle(group.role)">{{ group.label }}</div>
+            <div class="job-select-group-label">{{ group.label }}</div>
             <button
               v-for="job in group.jobs"
               :key="job"

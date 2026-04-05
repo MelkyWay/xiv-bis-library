@@ -319,7 +319,7 @@ onBeforeUnmount(() => {
             <th class="col-job">{{ t("table.job") }}</th>
             <th v-if="showCategoryColumn">{{ t("table.category") }}</th>
             <th v-if="showInfoColumn">{{ infoHeaderLabel }}</th>
-            <th class="col-notes">Set/Link</th>
+            <th class="col-notes">{{ t("table.setLink") }}</th>
             <th class="col-damage" :aria-sort="sortAriaSort('damage')">
               <button
                 class="sortable-header"
@@ -417,7 +417,7 @@ onBeforeUnmount(() => {
                       <path v-else d="M9 9h10v11H9zM5 4h10v3h-2V6H7v7H6a1 1 0 0 0-1 1V4z" fill="currentColor" />
                     </svg>
                   </button>
-                  <span v-if="isCopied(row)" class="copy-feedback" role="status" aria-live="polite">{{ t("table.copyLinkSuccess") }}</span>
+                  <output v-if="isCopied(row)" class="copy-feedback" aria-live="polite" aria-atomic="true">{{ t("table.copyLinkSuccess") }}</output>
                 </span>
               </div>
             </td>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { localizeEncounterName, localizeUltimateName } from "./encounterLocalization";
+import { localizeEncounterName, localizeUltimateName } from "../../utils/encounterLocalization";
 
 describe("localizeUltimateName", () => {
   it("returns localized ultimate names for known encounters", () => {
@@ -24,7 +24,7 @@ describe("localizeEncounterName", () => {
 
   it("falls back to english when locale translations are not configured", () => {
     expect(localizeEncounterName("Unknown Encounter", "ko", "Criterion")).toBe("Unknown Encounter");
-    expect(localizeEncounterName("Tsukuyomi's Pain", "ja", "Unreal")).toBe("Tsukuyomi's Pain");
+    expect(localizeEncounterName("Tsukuyomi's Pain", "es", "Unreal")).toBe("Tsukuyomi's Pain");
   });
 
   it("can infer category from configured encounter name", () => {

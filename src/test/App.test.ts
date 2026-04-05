@@ -1,7 +1,7 @@
 import { flushPromises, mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import App from "./App.vue";
-import { createTestI18n } from "./test/createTest18n";
+import App from "../App.vue";
+import { createTestI18n } from "./createTest18n";
 
 const mockData = {
   schemaVersion: 1,

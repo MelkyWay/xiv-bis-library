@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { localizeJobName } from "./jobLocalization";
+import { localizeJobName } from "../../utils/jobLocalization";
 
 describe("localizeJobName", () => {
   it("returns French job abbreviations when locale is fr", () => {

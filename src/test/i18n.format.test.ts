@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatHeaderUpdatedDateByLocale } from "./i18n";
+import { formatHeaderUpdatedDateByLocale } from "../i18n";
 
 describe("formatHeaderUpdatedDateByLocale", () => {
   it("formats French and German with day first", () => {

@@ -506,10 +506,6 @@ watch(
   { deep: true }
 );
 
-watch(locale, (nextLocale) => {
-  document.documentElement.lang = String(nextLocale);
-});
-
 watch(unreals, () => {
   if (filters.value.category !== "Unreal") {
     return;

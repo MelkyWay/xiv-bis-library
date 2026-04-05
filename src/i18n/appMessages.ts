@@ -70,13 +70,12 @@ export const messages = {
     },
     table: {
       job: "Job",
-      role: "Role",
       category: "Category",
       info: "Info",
       encounter: "Encounter",
       tier: "Tier",
       patch: "Patch",
-      notes: "Notes",
+      setLink: "Set/Link",
       damage: "Damage",
       link: "Link",
       source: "Source",
@@ -98,7 +97,6 @@ export const messages = {
       copyLinkSuccess: "Link copied",
       damageTypeSim: "Level 100 sim",
       damageTypePotency: "dmg/100 potency",
-      simUpdated: "Last updated: {date}",
       pagination: {
         showing: "Showing {from}-{to} of {total}",
         page: "Page {current} / {total}",
@@ -123,6 +121,7 @@ export const messages = {
       loading: "Chargement des données BiS...",
       themeSwitch: "Passer au thème {theme}",
       validationWarnings: "Avertissements de validation",
+      discordButton: "Rejoindre Discord",
       contributeButton: "Contribuer"
     },
     common: {
@@ -130,7 +129,10 @@ export const messages = {
       light: "clair",
       dark: "sombre",
       locale: "Langue",
-      contribute: "Contribuer"
+      discord: "Discord",
+      github: "GitHub",
+      contribute: "Contribuer",
+      communityLinks: "Liens communautaires",
     },
     filters: {
       job: "Job",
@@ -173,13 +175,12 @@ export const messages = {
     },
     table: {
       job: "Job",
-      role: "Rôle",
       category: "Catégorie",
       info: "Info",
       encounter: "Combat",
       tier: "Tier",
       patch: "Patch",
-      notes: "Notes",
+      setLink: "Set/Lien",
       damage: "DPS Sim",
       link: "Lien",
       source: "Source",
@@ -200,7 +201,6 @@ export const messages = {
       copyLink: "Copier le lien",
       copyLinkSuccess: "Lien copié",
       damageTypeSim: "Level 100 sim",
-      simUpdated: "Dernière mise à jour : {date}",
       pagination: {
         showing: "Affichage {from}-{to} sur {total}",
         page: "Page {current} / {total}",
@@ -224,6 +224,7 @@ export const messages = {
       loading: "BiS-Daten werden geladen...",
       themeSwitch: "Zu {theme}-Theme wechseln",
       validationWarnings: "Validierungswarnungen",
+      discordButton: "Discord beitreten",
       contributeButton: "Mitwirken"
     },
     common: {
@@ -231,7 +232,10 @@ export const messages = {
       light: "hellen",
       dark: "dunklen",
       locale: "Sprache",
-      contribute: "Mitwirken"
+      discord: "Discord",
+      github: "GitHub",
+      contribute: "Mitwirken",
+      communityLinks: "Community-Links",
     },
     filters: {
       job: "Job",
@@ -274,13 +278,12 @@ export const messages = {
     },
     table: {
       job: "Job",
-      role: "Rolle",
       category: "Kategorie",
       info: "Info",
       encounter: "Begegnung",
       tier: "Tier",
       patch: "Patch",
-      notes: "Notizen",
+      setLink: "Set/Link",
       damage: "Sim DPS",
       link: "Link",
       source: "Quelle",
@@ -301,7 +304,6 @@ export const messages = {
       copyLink: "Link kopieren",
       copyLinkSuccess: "Link kopiert",
       damageTypeSim: "Level 100 sim",
-      simUpdated: "Zuletzt aktualisiert: {date}",
       pagination: {
         showing: "{from}-{to} von {total}",
         page: "Seite {current} / {total}",
@@ -325,6 +327,7 @@ export const messages = {
       loading: "BiSデータを読み込み中...",
       themeSwitch: "{theme}テーマに切り替え",
       validationWarnings: "検証警告",
+      discordButton: "Discord???",
       contributeButton: "貢献する"
     },
     common: {
@@ -332,7 +335,10 @@ export const messages = {
       light: "ライト",
       dark: "ダーク",
       locale: "言語",
-      contribute: "貢献する"
+      discord: "Discord",
+      github: "GitHub",
+      contribute: "貢献する",
+      communityLinks: "?????????",
     },
     filters: {
       job: "ジョブ",
@@ -375,13 +381,12 @@ export const messages = {
     },
     table: {
       job: "ジョブ",
-      role: "ロール",
       category: "カテゴリ",
       info: "情報",
       encounter: "コンテンツ",
       tier: "Tier",
       patch: "Patch",
-      notes: "メモ",
+      setLink: "???/???",
       damage: "Sim DPS",
       link: "リンク",
       source: "ソース",
@@ -402,7 +407,6 @@ export const messages = {
       copyLink: "リンクをコピー",
       copyLinkSuccess: "リンクをコピーしました",
       damageTypeSim: "Level 100 sim",
-      simUpdated: "最終更新: {date}",
       pagination: {
         showing: "{total}件中 {from}-{to}件を表示",
         page: "{current} / {total}ページ",
@@ -426,6 +430,7 @@ export const messages = {
       loading: "BiS 데이터를 불러오는 중...",
       themeSwitch: "{theme} 테마로 전환",
       validationWarnings: "검증 경고",
+      discordButton: "Discord ??",
       contributeButton: "기여하기"
     },
     common: {
@@ -433,7 +438,10 @@ export const messages = {
       light: "라이트",
       dark: "다크",
       locale: "언어",
-      contribute: "기여하기"
+      discord: "Discord",
+      github: "GitHub",
+      contribute: "기여하기",
+      communityLinks: "???? ??",
     },
     filters: {
       job: "직업",
@@ -476,13 +484,12 @@ export const messages = {
     },
     table: {
       job: "직업",
-      role: "역할",
       category: "카테고리",
       info: "정보",
       encounter: "전투",
       tier: "티어",
       patch: "Patch",
-      notes: "노트",
+      setLink: "??/??",
       damage: "Sim DPS",
       link: "링크",
       source: "출처",
@@ -503,7 +510,6 @@ export const messages = {
       copyLink: "링크 복사",
       copyLinkSuccess: "링크가 복사되었습니다",
       damageTypeSim: "Level 100 sim",
-      simUpdated: "최종 업데이트: {date}",
       pagination: {
         showing: "{total}개 중 {from}-{to}개 표시",
         page: "{current} / {total}페이지",
@@ -527,6 +533,7 @@ export const messages = {
       loading: "正在加载 BiS 数据...",
       themeSwitch: "切换到{theme}主题",
       validationWarnings: "校验警告",
+      discordButton: "?? Discord",
       contributeButton: "参与贡献"
     },
     common: {
@@ -534,7 +541,10 @@ export const messages = {
       light: "浅色",
       dark: "深色",
       locale: "语言",
-      contribute: "参与贡献"
+      discord: "Discord",
+      github: "GitHub",
+      contribute: "参与贡献",
+      communityLinks: "????",
     },
     filters: {
       job: "职业",
@@ -577,13 +587,12 @@ export const messages = {
     },
     table: {
       job: "职业",
-      role: "职责",
       category: "分类",
       info: "信息",
       encounter: "副本",
       tier: "层级",
       patch: "Patch",
-      notes: "备注",
+      setLink: "??/??",
       damage: "模拟 DPS",
       link: "链接",
       source: "来源",
@@ -604,7 +613,6 @@ export const messages = {
       copyLink: "复制链接",
       copyLinkSuccess: "链接已复制",
       damageTypeSim: "Level 100 sim",
-      simUpdated: "最后更新：{date}",
       pagination: {
         showing: "显示第 {from}-{to} 条，共 {total} 条",
         page: "第 {current} / {total} 页",
@@ -628,6 +636,7 @@ export const messages = {
       loading: "正在載入 BiS 資料...",
       themeSwitch: "切換到{theme}主題",
       validationWarnings: "校驗警告",
+      discordButton: "?? Discord",
       contributeButton: "參與貢獻"
     },
     common: {
@@ -635,7 +644,10 @@ export const messages = {
       light: "淺色",
       dark: "深色",
       locale: "語言",
-      contribute: "參與貢獻"
+      discord: "Discord",
+      github: "GitHub",
+      contribute: "參與貢獻",
+      communityLinks: "????",
     },
     filters: {
       job: "職業",
@@ -678,13 +690,12 @@ export const messages = {
     },
     table: {
       job: "職業",
-      role: "職責",
       category: "分類",
       info: "資訊",
       encounter: "副本",
       tier: "層級",
       patch: "Patch",
-      notes: "備註",
+      setLink: "??/??",
       damage: "模擬 DPS",
       link: "連結",
       source: "來源",
@@ -705,7 +716,6 @@ export const messages = {
       copyLink: "複製連結",
       copyLinkSuccess: "連結已複製",
       damageTypeSim: "Level 100 sim",
-      simUpdated: "最後更新：{date}",
       pagination: {
         showing: "顯示第 {from}-{to} 條，共 {total} 條",
         page: "第 {current} / {total} 頁",

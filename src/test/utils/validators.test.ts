@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type { BisDataFile, BisEntry } from "../types/bis";
-import { validateBisData } from "./validators";
+import type { BisDataFile, BisEntry } from "../../types/bis";
+import { validateBisData } from "../../utils/validators";
 
 function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
   return {

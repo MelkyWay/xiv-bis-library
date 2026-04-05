@@ -146,8 +146,7 @@ function buildComparator(
       return 0;
     },
     compareSimDpsDesc,
-    compareByRoleOrder,
-    (a, b) => a.job.localeCompare(b.job)
+    compareByRoleOrder
   );
 }
 

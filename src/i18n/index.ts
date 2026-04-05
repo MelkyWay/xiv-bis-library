@@ -68,69 +68,9 @@ const mergedMessages = Object.fromEntries(
   ])
 );
 
-const dateTimeFormats = {
-  en: {
-    headerUpdated: {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "UTC"
-    }
-  },
-  fr: {
-    headerUpdated: {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "UTC"
-    }
-  },
-  de: {
-    headerUpdated: {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "UTC"
-    }
-  },
-  ja: {
-    headerUpdated: {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "UTC"
-    }
-  },
-  ko: {
-    headerUpdated: {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "UTC"
-    }
-  },
-  "zh-CN": {
-    headerUpdated: {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "UTC"
-    }
-  },
-  "zh-TW": {
-    headerUpdated: {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "UTC"
-    }
-  }
-} as const;
-
 export const i18n = createI18n({
   legacy: false,
   locale: DEFAULT_LOCALE,
   fallbackLocale: DEFAULT_LOCALE,
-  messages: mergedMessages,
-  datetimeFormats: dateTimeFormats
+  messages: mergedMessages
 });

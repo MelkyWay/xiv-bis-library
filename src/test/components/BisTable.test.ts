@@ -1,8 +1,8 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it, vi } from "vitest";
-import { createTestI18n } from "../test/createTest18n";
-import type { BisEntry } from "../types/bis";
-import BisTable from "./BisTable.vue";
+import { createTestI18n } from "../createTest18n";
+import type { BisEntry } from "../../types/bis";
+import BisTable from "../../components/BisTable.vue";
 
 function makeEntry(overrides: Partial<BisEntry> = {}): BisEntry {
   return {
