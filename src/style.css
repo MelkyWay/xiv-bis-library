@@ -929,6 +929,69 @@ th {
   opacity: 1;
 }
 
+.notes-main-tooltip.has-tooltip::after,
+.notes-main-tooltip.has-tooltip::before {
+  display: none;
+}
+
+.note-preview-text {
+  display: inline-block;
+  max-width: 24ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+
+.notes-main-tooltip.has-tooltip .note-preview-text {
+  text-decoration: underline dotted;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
+}
+
+.note-rich-tooltip {
+  position: absolute;
+  z-index: var(--z-tooltip);
+  left: 50%;
+  bottom: calc(100% + 0.7rem);
+  transform: translateX(-50%);
+  width: min(36rem, 70vw);
+  padding: 0.9rem 0.95rem 0.9rem 1.25rem;
+  border-radius: 14px;
+  border: 1px solid var(--color-input-border);
+  border-left: 3px solid var(--color-input-border);
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--color-input-border) 12%, transparent) 0 0.55rem, transparent 0.55rem),
+    var(--bg-input);
+  color: var(--color-text);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+  text-align: left;
+  line-height: 1.35;
+  font-size: 0.88rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  white-space: normal;
+}
+
+.note-rich-tooltip-title {
+  font-weight: 700;
+}
+
+.note-rich-tooltip-body {
+  white-space: pre-line;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+.notes-main-tooltip.has-tooltip:hover .note-rich-tooltip,
+.notes-main-tooltip.has-tooltip:focus-visible .note-rich-tooltip {
+  opacity: 1;
+}
+
 .copy-link-btn {
   border: 1px solid var(--color-input-border);
   border-radius: 6px;

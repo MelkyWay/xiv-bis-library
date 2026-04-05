@@ -96,8 +96,25 @@ describe("BisTable", () => {
     ]);
 
     const anchor = wrapper.get(".notes-main-tooltip");
-    expect(anchor.text()).toContain("2.50 GCD");
-    expect(anchor.attributes("data-tooltip")).toBe("Sample tooltip");
+    expect(anchor.find(".note-preview-text").text()).toBe("2.50 GCD");
+    expect(anchor.find(".note-rich-tooltip-title").text()).toBe("2.50 GCD");
+    expect(anchor.find(".note-rich-tooltip-body").text()).toBe("Sample tooltip");
+  });
+
+  it("truncates long notes at word boundaries and keeps full note first in tooltip", () => {
+    const fullNote = "This note should truncate after a complete word boundary in the table cell";
+    const wrapper = mountTable([
+      makeEntry({
+        note: {
+          text: fullNote
+        }
+      })
+    ]);
+
+    const anchor = wrapper.get(".notes-main-tooltip");
+    expect(anchor.find(".note-preview-text").text()).toBe("This note should truncate after a complete...");
+    expect(anchor.find(".note-rich-tooltip-title").text()).toBe(fullNote);
+    expect(anchor.classes()).toContain("has-tooltip");
   });
 
   it("sorts by damage descending on first click", async () => {

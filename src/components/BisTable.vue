@@ -31,6 +31,7 @@ const sortState = ref<{ key: SortKey | null; direction: SortDirection | null }>(
 });
 const PAGE_SIZE = 100;
 const COPY_FEEDBACK_DURATION_MS = 1400;
+const NOTE_SINGLE_LINE_TARGET_CHARS = 44;
 const currentPage = ref(1);
 const copiedEntryKey = ref<string | null>(null);
 let copyFeedbackTimer: ReturnType<typeof setTimeout> | null = null;
@@ -171,6 +172,50 @@ function jobLabel(job: string): string {
   return localizeJobName(job, String(locale.value));
 }
 
+function truncateAfterWord(text: string, maxLength: number): string {
+  const normalized = text.trim();
+  if (normalized.length <= maxLength) {
+    return normalized;
+  }
+
+  const candidate = normalized.slice(0, maxLength + 1);
+  const lastWhitespace = candidate.search(/\s+[^\s]*$/);
+  const endIndex = lastWhitespace === -1 ? maxLength : lastWhitespace;
+  return `${normalized.slice(0, endIndex).trimEnd()}...`;
+}
+
+function noteText(row: BisEntry): string {
+  return row.note?.text?.trim() ?? "";
+}
+
+function noteDetails(row: BisEntry): string {
+  return row.note?.tooltip?.trim() ?? "";
+}
+
+function isNoteLikelyToWrap(note: string): boolean {
+  return note.length > NOTE_SINGLE_LINE_TARGET_CHARS;
+}
+
+function isNoteTruncated(row: BisEntry): boolean {
+  const text = noteText(row);
+  return text.length > 0 && isNoteLikelyToWrap(text);
+}
+
+function notePreviewText(row: BisEntry): string {
+  const text = noteText(row);
+  if (!text) {
+    return "-";
+  }
+  if (!isNoteLikelyToWrap(text)) {
+    return text;
+  }
+  return truncateAfterWord(text, NOTE_SINGLE_LINE_TARGET_CHARS);
+}
+
+function hasNoteTooltip(row: BisEntry): boolean {
+  return isNoteTruncated(row) || noteDetails(row).length > 0;
+}
+
 function compareSortValues(a: SortValue, b: SortValue, nullsLast: boolean): number {
   if (a === null && b === null) return 0;
   if (a === null) return nullsLast ? 1 : -1;
@@ -295,11 +340,14 @@ onBeforeUnmount(() => {
             <td class="col-notes">
               <span
                 class="notes-tooltip-anchor notes-main-tooltip"
-                :class="{ 'has-tooltip': !!row.note?.tooltip }"
-                :data-tooltip="row.note?.tooltip || ''"
-                :tabindex="row.note?.tooltip ? 0 : undefined"
+                :class="{ 'has-tooltip': hasNoteTooltip(row) }"
+                :tabindex="hasNoteTooltip(row) ? 0 : undefined"
               >
-                {{ row.note?.text ?? "-" }}
+                <span class="note-preview-text">{{ notePreviewText(row) }}</span>
+                <span v-if="hasNoteTooltip(row)" class="note-rich-tooltip" role="tooltip">
+                  <strong class="note-rich-tooltip-title">{{ noteText(row) }}</strong>
+                  <span v-if="noteDetails(row)" class="note-rich-tooltip-body">{{ noteDetails(row) }}</span>
+                </span>
               </span>
             </td>
             <td>
