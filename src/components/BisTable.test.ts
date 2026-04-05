@@ -96,6 +96,9 @@ describe("BisTable", () => {
     ]);
 
     const anchor = wrapper.get(".notes-main-tooltip");
+    const noteLink = anchor.get(".note-link");
+    expect(noteLink.attributes("href")).toBe("https://xivgear.app/base");
+    expect(anchor.find(".note-link-icon").exists()).toBe(true);
     expect(anchor.find(".note-preview-text").text()).toBe("2.50 GCD");
     expect(anchor.find(".note-rich-tooltip-title").text()).toBe("2.50 GCD");
     expect(anchor.find(".note-rich-tooltip-body").text()).toBe("Sample tooltip");
@@ -201,10 +204,10 @@ describe("BisTable", () => {
   it("uses correct empty-state colspan depending on category filter", () => {
     const allWrapper = mountTable([], "All");
     const allColspan = allWrapper.get("tbody tr td").attributes("colspan");
-    expect(allColspan).toBe("8");
+    expect(allColspan).toBe("7");
 
     const ultimateWrapper = mountTable([], "Ultimate");
     const ultimateColspan = ultimateWrapper.get("tbody tr td").attributes("colspan");
-    expect(ultimateColspan).toBe("7");
+    expect(ultimateColspan).toBe("6");
   });
 });

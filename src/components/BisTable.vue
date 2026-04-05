@@ -56,7 +56,7 @@ const infoHeaderLabel = computed(() => {
 });
 
 const showCategoryColumn = computed(() => props.activeCategory === "All");
-const emptyStateColspan = computed(() => (showCategoryColumn.value ? 8 : 7));
+const emptyStateColspan = computed(() => (showCategoryColumn.value ? 7 : 6));
 
 function roleStyle(role: Role): Record<string, string> {
   return roleColorTextStyle(role);
@@ -309,7 +309,7 @@ onBeforeUnmount(() => {
             <th class="col-job">{{ t("table.job") }}</th>
             <th v-if="showCategoryColumn">{{ t("table.category") }}</th>
             <th>{{ infoHeaderLabel }}</th>
-            <th class="col-notes">{{ t("table.notes") }}</th>
+            <th class="col-notes">Set/Link</th>
             <th class="col-damage" :aria-sort="sortAriaSort('damage')">
               <button
                 class="sortable-header"
@@ -321,7 +321,6 @@ onBeforeUnmount(() => {
                 <span class="sort-indicator" aria-hidden="true">{{ sortIndicator('damage') }}</span>
               </button>
             </th>
-            <th>{{ t("table.link") }}</th>
             <th>{{ t("table.source") }}</th>
             <th class="col-copy" :aria-label="t('table.actionsAria')"></th>
           </tr>
@@ -337,7 +336,22 @@ onBeforeUnmount(() => {
                 :class="{ 'has-tooltip': hasNoteTooltip(row) }"
                 :tabindex="hasNoteTooltip(row) ? 0 : undefined"
               >
-                <span class="note-preview-text">{{ notePreviewText(row) }}</span>
+                <a
+                  v-if="notePreviewText(row) !== '-'"
+                  class="note-link"
+                  :href="row.link.url"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <span class="note-preview-text">{{ notePreviewText(row) }}</span>
+                  <svg class="note-link-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path
+                      d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3zm5 16v-7h2v9H3V3h9v2H5v14h14z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </a>
+                <span v-else class="note-preview-text">-</span>
                 <span v-if="hasNoteTooltip(row)" class="note-rich-tooltip" role="tooltip">
                   <strong class="note-rich-tooltip-title">{{ noteText(row) }}</strong>
                   <span v-if="noteDetails(row)" class="note-rich-tooltip-body">{{ noteDetails(row) }}</span>
@@ -358,9 +372,6 @@ onBeforeUnmount(() => {
                   {{ damageSubscriptLabel(row) }}
                 </button>
               </span>
-            </td>
-            <td>
-              <a :href="row.link.url" target="_blank" rel="noreferrer noopener">{{ row.link.name }}</a>
             </td>
             <td>
               <a :href="row.source.url" target="_blank" rel="noreferrer noopener">{{ row.source.name }}</a>

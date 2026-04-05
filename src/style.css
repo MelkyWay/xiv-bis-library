@@ -943,6 +943,27 @@ th {
   vertical-align: bottom;
 }
 
+.note-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  max-width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.note-link:hover,
+.note-link:focus-visible {
+  text-decoration: none;
+}
+
+.note-link-icon {
+  width: 0.78rem;
+  height: 0.78rem;
+  flex: 0 0 auto;
+  opacity: 0.82;
+}
+
 .notes-main-tooltip.has-tooltip .note-preview-text {
   text-decoration: underline dotted;
   text-underline-offset: 0.15em;
