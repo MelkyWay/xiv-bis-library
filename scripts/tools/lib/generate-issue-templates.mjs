@@ -39,7 +39,7 @@ async function loadJobLocalizer(rootDir) {
   const dataUrl = `data:text/javascript;base64,${Buffer.from(transpiled, "utf8").toString("base64")}`;
   const module = await import(dataUrl);
   if (typeof module.localizeJobName !== "function") {
-    throw new Error("localizeJobName export not found in src/utils/jobLocalization.ts");
+    throw new TypeError("localizeJobName export not found in src/utils/jobLocalization.ts");
   }
   return module.localizeJobName;
 }
@@ -72,7 +72,7 @@ async function loadEncounterLocalizer(rootDir) {
   const ts = await import("typescript");
   const sourcePath = path.resolve(rootDir, "src/utils/encounterLocalization.ts");
   const source = await fs.readFile(sourcePath, "utf8");
-  const sourceWithoutImports = source.replace(/^import .*;\r?\n/gm, "");
+  const sourceWithoutImports = source.replaceAll(/^import .*;\r?\n/gm, "");
   const transpiled = ts.transpileModule(sourceWithoutImports, {
     compilerOptions: {
       module: ts.ModuleKind.CommonJS,
@@ -85,7 +85,7 @@ async function loadEncounterLocalizer(rootDir) {
   const runner = new Function("module", "exports", "ENCOUNTER_CATEGORY_BY_NAME", "ULTIMATE_ORDER", transpiled);
   runner(moduleRef, moduleRef.exports, lookups.ENCOUNTER_CATEGORY_BY_NAME, lookups.ULTIMATE_ORDER);
   if (typeof moduleRef.exports.localizeEncounterName !== "function") {
-    throw new Error("localizeEncounterName export not found in src/utils/encounterLocalization.ts");
+    throw new TypeError("localizeEncounterName export not found in src/utils/encounterLocalization.ts");
   }
   return moduleRef.exports.localizeEncounterName;
 }
