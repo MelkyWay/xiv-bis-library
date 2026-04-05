@@ -4,9 +4,8 @@ import { useI18n } from "vue-i18n";
 import BisFilters from "./components/BisFilters.vue";
 import BisTable from "./components/BisTable.vue";
 import { CRITERION_ORDER, ULTIMATE_ORDER, UNREAL_ORDER } from "./config/encounters";
-import { JOB_ORDER, JOB_TO_ROLE } from "./config/jobs";
-import { JOB_GROUPS_BY_ROLE } from "./config/options";
-import { CATEGORY_ORDER } from "./config/orders";
+import { JOB_GROUPS_BY_ROLE, JOB_ORDER, JOB_TO_ROLE } from "./config/jobs";
+import { CATEGORY_ORDER } from "./config/categories";
 import { COMMUNITY_LINKS } from "./config/communityLinks";
 import { ROLE_ORDER } from "./config/roles";
 import {
@@ -16,7 +15,7 @@ import {
   SUPPORTED_LOCALES,
   type SupportedLocale
 } from "./i18n";
-import type { InfoPageContent, InfoPageKey } from "./locales/infoMessages";
+import type { InfoPageContent, InfoPageKey } from "./i18n/infoMessages";
 import type { BisDataFile, BisFiltersState, Category, Role } from "./types/bis";
 import { getEntryKey } from "./utils/entryKey";
 import { filterEntries } from "./utils/filters";

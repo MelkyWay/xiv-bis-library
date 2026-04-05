@@ -1,8 +1,6 @@
 import { createI18n } from "vue-i18n";
-import { CATEGORY_ORDER } from "./config/orders";
-import { infoMessages } from "./locales/infoMessages";
-import { messages } from "./locales/appMessages";
-import type { Category } from "./types/bis";
+import { infoMessages } from "./infoMessages";
+import { messages } from "./appMessages";
 
 export const SUPPORTED_LOCALES = ["en", "fr", "de", "ja", "ko", "zh-CN", "zh-TW"] as const;
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
@@ -58,18 +56,6 @@ export function formatHeaderUpdatedDateByLocale(rawValue: string, localeCode: st
   }
 
   return matchedRule.format({ year, month, day });
-}
-
-function buildCategoryLabels(
-  overrides: Partial<Record<Category, string>> = {}
-): Record<Category, string> {
-  const defaults = Object.fromEntries(
-    CATEGORY_ORDER.map((category) => [category, category])
-  ) as Record<Category, string>;
-  return {
-    ...defaults,
-    ...overrides
-  };
 }
 
 const mergedMessages = Object.fromEntries(

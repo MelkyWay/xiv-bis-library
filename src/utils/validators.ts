@@ -1,6 +1,6 @@
 import { CRITERION_ORDER, ENCOUNTER_CATEGORY_BY_NAME, ULTIMATE_ORDER, UNREAL_ORDER } from "../config/encounters";
 import { JOB_ORDER, JOB_TO_ROLE } from "../config/jobs";
-import { CATEGORY_ORDER } from "../config/orders";
+import { CATEGORY_ORDER } from "../config/categories";
 import { ROLE_ORDER } from "../config/roles";
 import type { BisDataFile, BisEntry, Category, Role } from "../types/bis";
 

@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import type { BisFiltersState } from "../types/bis";
-import { createTestI18n } from "../test/i18n";
+import { createTestI18n } from "../test/createTest18n";
 import BisFilters from "./BisFilters.vue";
 
 function buildFilters(overrides: Partial<BisFiltersState> = {}): BisFiltersState {

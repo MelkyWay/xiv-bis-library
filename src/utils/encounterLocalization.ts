@@ -112,7 +112,9 @@ const UNREAL_TRANSLATIONS: Record<SupportedLocale, Partial<Record<EncounterName,
   de: {
     "Tsukuyomi's Pain": "Tsukuyomi"
   },
-  ja: {},
+  ja: {
+    "Tsukuyomi's Pain": "ツクヨミ討滅戦"
+  },
   ko: {
     "Tsukuyomi's Pain": "환 츠쿠요미 토벌전"
   },

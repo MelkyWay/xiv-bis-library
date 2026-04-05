@@ -1,4 +1,4 @@
-import { CATEGORY_ORDER } from "../config/orders";
+import { CATEGORY_ORDER } from "../config/categories";
 import type { Category } from "../types/bis";
 
 function buildCategoryLabels(

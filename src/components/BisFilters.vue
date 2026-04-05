@@ -1,7 +1,7 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { CATEGORY_OPTIONS } from "../config/orders";
+import { CATEGORY_OPTIONS } from "../config/categories";
 import { ROLE_OPTIONS } from "../config/roles";
 import type { BisFiltersState, Role } from "../types/bis";
 import { localizeJobName } from "../utils/jobLocalization";

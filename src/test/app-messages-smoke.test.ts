@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORY_ORDER } from "../config/orders";
+import { CATEGORY_ORDER } from "../config/categories";
 import { SUPPORTED_LOCALES } from "../i18n";
-import { messages } from "../locales/appMessages";
+import { messages } from "../i18n/appMessages";
 
 describe("app locale messages", () => {
   it("contains all supported locales", () => {

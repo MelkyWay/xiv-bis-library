@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it, vi } from "vitest";
-import { createTestI18n } from "../test/i18n";
+import { createTestI18n } from "../test/createTest18n";
 import type { BisEntry } from "../types/bis";
 import BisTable from "./BisTable.vue";
 
