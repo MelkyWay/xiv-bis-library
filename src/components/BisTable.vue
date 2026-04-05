@@ -56,7 +56,7 @@ const infoHeaderLabel = computed(() => {
 });
 
 const showCategoryColumn = computed(() => props.activeCategory === "All");
-const emptyStateColspan = computed(() => (showCategoryColumn.value ? 9 : 8));
+const emptyStateColspan = computed(() => (showCategoryColumn.value ? 8 : 7));
 
 function roleStyle(role: Role): Record<string, string> {
   return roleColorTextStyle(role);
@@ -158,10 +158,6 @@ function damageDisplayValue(row: BisEntry): string {
     return "-";
   }
   return row.damage!.value!.toFixed(2);
-}
-
-function roleLabel(role: Role): string {
-  return t(`filters.roles.${role}`);
 }
 
 function categoryLabel(category: Category): string {
@@ -311,7 +307,6 @@ onBeforeUnmount(() => {
         <thead>
           <tr>
             <th class="col-job">{{ t("table.job") }}</th>
-            <th class="col-role">{{ t("table.role") }}</th>
             <th v-if="showCategoryColumn">{{ t("table.category") }}</th>
             <th>{{ infoHeaderLabel }}</th>
             <th class="col-notes">{{ t("table.notes") }}</th>
@@ -334,7 +329,6 @@ onBeforeUnmount(() => {
         <tbody>
           <tr v-for="row in paginatedRows" :key="getEntryKey(row)">
             <td class="col-job"><strong :style="roleStyle(row.role)">{{ jobLabel(row.job) }}</strong></td>
-            <td class="col-role" :style="roleStyle(row.role)">{{ roleLabel(row.role) }}</td>
             <td v-if="showCategoryColumn">{{ categoryLabel(row.content.category) }}</td>
             <td>{{ infoValue(row) }}</td>
             <td class="col-notes">
