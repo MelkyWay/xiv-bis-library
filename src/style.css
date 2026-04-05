@@ -1394,6 +1394,10 @@ td.col-copy {
     flex-direction: column;
   }
 
+  .brand-title {
+    align-self: center;
+  }
+
   .header-meta-row {
     align-items: flex-start;
     flex-direction: column;
