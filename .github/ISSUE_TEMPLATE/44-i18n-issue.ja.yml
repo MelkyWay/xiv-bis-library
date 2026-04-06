@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (ja)
-name: "i18n 問題を報告"
+name: "[JA] i18n 問題を報告"
 description: "翻訳、ロケール書式、ローカライズ文言の問題を報告"
 labels: ["i18n"]
 body:

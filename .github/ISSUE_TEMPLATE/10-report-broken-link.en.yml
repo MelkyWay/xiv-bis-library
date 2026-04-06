@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (en)
-name: "Report Broken Link"
+name: "[EN] Report Broken Link"
 description: "Report a BiS link that is broken or points to the wrong set"
 labels: ["broken-link"]
 body:

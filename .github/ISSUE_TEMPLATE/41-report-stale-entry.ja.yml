@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (ja)
-name: "古い項目を報告"
+name: "[JA] 古い項目を報告"
 description: "パッチや調整後に更新が必要なセットを報告"
 labels: ["stale-data"]
 body:
@@ -70,7 +70,7 @@ body:
         - "異聞シラディハ水道"
         - "7.25"
         - "Placeholder"
-        - "Tsukuyomi's Pain"
+        - "ツクヨミ討滅戦"
         - "Community Sets"
         - "その他 / 下に自由記入"
     validations:

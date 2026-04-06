@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (zh-TW)
-name: "回報 i18n 問題"
+name: "[ZH-TW] 回報 i18n 問題"
 description: "回報翻譯、地區格式或在地化文字問題"
 labels: ["i18n"]
 body:

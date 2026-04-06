@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (fr)
-name: "Signaler une entrée obsolète"
+name: "[FR] Signaler une entrée obsolète"
 description: "Signaler un set à mettre à jour après un patch ou un changement d’équilibrage"
 labels: ["stale-data"]
 body:

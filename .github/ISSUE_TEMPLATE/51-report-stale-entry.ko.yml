@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (ko)
-name: "오래된 항목 제보"
+name: "[KO] 오래된 항목 제보"
 description: "패치나 밸런스 변경 후 업데이트가 필요한 세트를 제보"
 labels: ["stale-data"]
 body:

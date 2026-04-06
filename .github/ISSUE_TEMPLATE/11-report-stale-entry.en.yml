@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (en)
-name: "Report Stale Entry"
+name: "[EN] Report Stale Entry"
 description: "Report a set that needs to be updated after a patch or balance change"
 labels: ["stale-data"]
 body:

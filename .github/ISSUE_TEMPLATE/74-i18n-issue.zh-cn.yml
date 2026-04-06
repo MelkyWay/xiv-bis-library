@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (zh-CN)
-name: "回报 i18n 问题"
+name: "[ZH-CN] 回报 i18n 问题"
 description: "回报翻译、区域格式或本地化文本问题"
 labels: ["i18n"]
 body:

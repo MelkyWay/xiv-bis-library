@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (ko)
-name: "새 세트 제안"
+name: "[KO] 새 세트 제안"
 description: "새로운 BiS, 진행용 또는 전투용 세트를 제안"
 labels: ["new-set"]
 body:

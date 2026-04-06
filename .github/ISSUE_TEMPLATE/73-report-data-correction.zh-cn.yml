@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (zh-CN)
-name: "回报数据更正"
+name: "[ZH-CN] 回报数据更正"
 description: "回报数据集中的错误字段、标签或元数据问题"
 labels: ["data-correction"]
 body:

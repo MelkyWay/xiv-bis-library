@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (de)
-name: "i18n-Problem melden"
+name: "[DE] i18n-Problem melden"
 description: "Einen Übersetzungs-, Lokalisierungsformat- oder lokalisierten Textfehler melden"
 labels: ["i18n"]
 body:

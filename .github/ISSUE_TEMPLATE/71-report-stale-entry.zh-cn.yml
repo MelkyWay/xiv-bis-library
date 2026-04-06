@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (zh-CN)
-name: "回报过期条目"
+name: "[ZH-CN] 回报过期条目"
 description: "回报需要在补丁或平衡调整后更新的套装"
 labels: ["stale-data"]
 body:

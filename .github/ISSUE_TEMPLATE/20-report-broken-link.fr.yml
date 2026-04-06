@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (fr)
-name: "Signaler un lien cassé"
+name: "[FR] Signaler un lien cassé"
 description: "Signaler un lien BiS cassé ou pointant vers le mauvais set"
 labels: ["broken-link"]
 body:

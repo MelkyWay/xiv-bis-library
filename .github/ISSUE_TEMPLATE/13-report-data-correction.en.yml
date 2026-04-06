@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (en)
-name: "Report Data Correction"
+name: "[EN] Report Data Correction"
 description: "Report a wrong field, label, or metadata issue in the dataset"
 labels: ["data-correction"]
 body:

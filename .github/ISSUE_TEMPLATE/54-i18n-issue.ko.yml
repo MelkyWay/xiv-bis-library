@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (ko)
-name: "i18n 문제 제보"
+name: "[KO] i18n 문제 제보"
 description: "번역, 로케일 형식 또는 현지화된 텍스트 문제를 제보"
 labels: ["i18n"]
 body:

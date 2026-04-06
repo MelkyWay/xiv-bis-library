@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (fr)
-name: "Proposer un nouveau set"
+name: "[FR] Proposer un nouveau set"
 description: "Proposer un nouveau set BiS, prog ou encounter"
 labels: ["new-set"]
 body:

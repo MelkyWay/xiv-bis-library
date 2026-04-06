@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (zh-TW)
-name: "回報過期條目"
+name: "[ZH-TW] 回報過期條目"
 description: "回報需要在補丁或平衡調整後更新的套裝"
 labels: ["stale-data"]
 body:

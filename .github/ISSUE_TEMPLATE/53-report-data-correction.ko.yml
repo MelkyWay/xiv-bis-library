@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (ko)
-name: "데이터 수정 제보"
+name: "[KO] 데이터 수정 제보"
 description: "잘못된 필드, 레이블 또는 메타데이터 문제를 제보"
 labels: ["data-correction"]
 body:

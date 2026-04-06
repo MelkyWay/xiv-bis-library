@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (de)
-name: "Veralteten Eintrag melden"
+name: "[DE] Veralteten Eintrag melden"
 description: "Ein Set melden, das nach einem Patch oder einer Balance-Änderung aktualisiert werden muss"
 labels: ["stale-data"]
 body:

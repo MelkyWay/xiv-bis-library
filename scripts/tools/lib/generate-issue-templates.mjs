@@ -13,6 +13,16 @@ const LOCALE_ORDER_BASE = {
   "zh-CN": 70
 };
 
+const LOCALE_NAME_PREFIX = {
+  en: "EN",
+  fr: "FR",
+  de: "DE",
+  ja: "JA",
+  ko: "KO",
+  "zh-TW": "ZH-TW",
+  "zh-CN": "ZH-CN"
+};
+
 const TEMPLATE_ORDER_OFFSET = {
   "report-broken-link.yml": 0,
   "report-stale-entry.yml": 1,
@@ -625,7 +635,8 @@ function makeFieldLines({ type, id, label, description, options, required }) {
 function renderForm(locale, fileName, spec, { jobOptions, categoryOptions, encounterOptions }) {
   const copy = shared[locale] ?? shared.en;
   const encounterCustomCopy = getEncounterCustomCopy(locale);
-  const title = getLocalizedValue(spec.title, locale);
+  const titlePrefix = LOCALE_NAME_PREFIX[locale] ?? locale.toUpperCase();
+  const title = `[${titlePrefix}] ${getLocalizedValue(spec.title, locale)}`;
   const description = getLocalizedValue(spec.description, locale);
   const lines = [
     "# AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.",

@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (de)
-name: "Datenkorrektur melden"
+name: "[DE] Datenkorrektur melden"
 description: "Einen falschen Feld-, Label- oder Metadatenwert melden"
 labels: ["data-correction"]
 body:

@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (zh-TW)
-name: "提議新套裝"
+name: "[ZH-TW] 提議新套裝"
 description: "提議新的 BiS、開荒或副本套裝"
 labels: ["new-set"]
 body:

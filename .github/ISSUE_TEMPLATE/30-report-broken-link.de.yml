@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (de)
-name: "Kaputten Link melden"
+name: "[DE] Kaputten Link melden"
 description: "Einen kaputten oder falschen BiS-Link melden"
 labels: ["broken-link"]
 body:

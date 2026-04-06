@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (fr)
-name: "Signaler une correction de données"
+name: "[FR] Signaler une correction de données"
 description: "Signaler un champ, libellé ou métadonnée incorrect(e) dans les données"
 labels: ["data-correction"]
 body:

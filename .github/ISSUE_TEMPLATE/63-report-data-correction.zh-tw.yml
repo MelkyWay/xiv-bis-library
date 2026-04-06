@@ -1,6 +1,6 @@
 # AUTO-GENERATED FILE. DO NOT EDIT DIRECTLY.
 # Source: scripts/tools/lib/generate-issue-templates.mjs (zh-TW)
-name: "回報資料更正"
+name: "[ZH-TW] 回報資料更正"
 description: "回報資料集中的錯誤欄位、標籤或中繼資料問題"
 labels: ["data-correction"]
 body:
