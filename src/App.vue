@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import BisFilters from "./components/BisFilters.vue";
 import BisTable from "./components/BisTable.vue";
@@ -110,6 +110,7 @@ const themeSunIconSrc = `${import.meta.env.BASE_URL}icon-sun.svg`;
 const themeMoonIconSrc = `${import.meta.env.BASE_URL}icon-moon.svg`;
 const deployedAtRaw = String(import.meta.env.VITE_DEPLOYED_AT ?? "").trim();
 const activeInfoPage = ref<InfoPageKey | null>(null);
+const infoPanelRef = ref<HTMLElement | null>(null);
 const LOCALE_LABEL: Record<SupportedLocale, string> = {
   en: "English",
   fr: "Français",
@@ -450,10 +451,18 @@ function onLocaleChange(value: string): void {
 
 function openInfoPage(page: InfoPageKey): void {
   activeInfoPage.value = page;
+  nextTick(() => {
+    infoPanelRef.value?.scrollIntoView({ behavior: "auto", block: "start" });
+  });
 }
 
 function closeInfoPage(): void {
   activeInfoPage.value = null;
+}
+
+function goHome(): void {
+  closeInfoPage();
+  globalThis.window.scrollTo({ top: 0, behavior: "auto" });
 }
 
 function handlePopState(): void {
@@ -620,7 +629,7 @@ watch(unreals, () => {
       </section>
     </template>
 
-    <section v-if="activeInfoContent" class="panel info-panel" :aria-label="t('info.ariaPanel')">
+    <section v-if="activeInfoContent" ref="infoPanelRef" class="panel info-panel" :aria-label="t('info.ariaPanel')">
       <div class="info-panel-header">
         <h2>{{ activeInfoContent.title }}</h2>
         <button type="button" class="info-panel-close" @click="closeInfoPage">{{ t("info.close") }}</button>
@@ -651,15 +660,15 @@ watch(unreals, () => {
 
     <footer class="site-footer" :aria-label="t('info.ariaFooter')">
       <nav class="footer-nav">
-        <a href="#" @click.prevent="closeInfoPage">{{ t("info.footer.home") }}</a>
+        <a href="#" @click.prevent="goHome">{{ t("info.footer.home") }}</a>
         <a href="#" @click.prevent="openInfoPage('about')">{{ t("info.footer.about") }}</a>
         <a href="#" @click.prevent="openInfoPage('dataDisclaimer')">{{ t("info.footer.dataDisclaimer") }}</a>
         <a href="#" @click.prevent="openInfoPage('privacy')">{{ t("info.footer.privacy") }}</a>
         <a href="#" @click.prevent="openInfoPage('contact')">{{ t("info.footer.contact") }}</a>
+        <a href="#" @click.prevent="openInfoPage('legal')">{{ t("info.footer.legal") }}</a>
         <a :href="COMMUNITY_LINKS.contributingGuideUrl" target="_blank" rel="noreferrer">
           {{ t("common.contribute") }}
         </a>
-        <a href="#" @click.prevent="openInfoPage('legal')">{{ t("info.footer.legal") }}</a>
       </nav>
     </footer>
   </main>
