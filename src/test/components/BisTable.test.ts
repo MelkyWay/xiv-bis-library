@@ -100,10 +100,11 @@ describe("BisTable", () => {
       })
     ]);
 
-    const anchor = wrapper.get(".notes-main-tooltip");
-    const noteLink = anchor.get(".note-link");
+    const td = wrapper.get("td.col-notes");
+    const anchor = td.get(".notes-main-tooltip");
+    const noteLink = td.get(".note-link");
     expect(noteLink.attributes("href")).toBe("https://xivgear.app/base");
-    expect(anchor.find(".note-link-icon").exists()).toBe(true);
+    expect(td.find(".note-link-icon").exists()).toBe(true);
     expect(anchor.find(".note-preview-text").text()).toBe("2.50 GCD");
     expect(anchor.find(".note-rich-tooltip-title").text()).toBe("2.50 GCD");
     expect(anchor.find(".note-rich-tooltip-body").text()).toBe("Sample tooltip");
@@ -139,6 +140,51 @@ describe("BisTable", () => {
     expect(anchor.classes()).toContain("has-tooltip");
     expect(anchor.find(".note-rich-tooltip-title").text()).toBe(fullNote);
     expect(anchor.find(".note-rich-tooltip-body").exists()).toBe(false);
+  });
+
+  it("uses mobile note dialog flow when touch interaction is detected", async () => {
+    const originalMatchMedia = window.matchMedia;
+    Object.defineProperty(window, "matchMedia", {
+      configurable: true,
+      writable: true,
+      value: vi.fn().mockImplementation((query: string) => ({
+        matches: query.includes("hover: none"),
+        media: query,
+        onchange: null,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        dispatchEvent: vi.fn()
+      }))
+    });
+
+    const showModalSpy = vi.spyOn(HTMLDialogElement.prototype, "showModal");
+    const closeSpy = vi.spyOn(HTMLDialogElement.prototype, "close");
+
+    const wrapper = mountTable([
+      makeEntry({
+        note: {
+          text: "This note should truncate after a complete word boundary in the table cell",
+          tooltip: "Mobile details"
+        }
+      })
+    ]);
+    await wrapper.vm.$nextTick();
+
+    const noteButton = wrapper.get(".note-preview-btn");
+    await noteButton.trigger("click");
+    expect(showModalSpy).toHaveBeenCalledTimes(1);
+
+    const closeButton = wrapper.get(".note-dialog-close");
+    await closeButton.trigger("click");
+    expect(closeSpy).toHaveBeenCalled();
+
+    Object.defineProperty(window, "matchMedia", {
+      configurable: true,
+      writable: true,
+      value: originalMatchMedia
+    });
   });
 
   it("sorts by damage descending on first click", async () => {

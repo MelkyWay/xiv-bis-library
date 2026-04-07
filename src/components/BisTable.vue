@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import type { BisEntry, BisFiltersState, Category, Role } from "../types/bis";
 import { getEntryKey } from "../utils/entryKey";
@@ -35,6 +35,11 @@ const COPY_FEEDBACK_DURATION_MS = 1400;
 const NOTE_SINGLE_LINE_TARGET_CHARS = 39;
 const currentPage = ref(1);
 const copiedEntryKey = ref<string | null>(null);
+const isTouchInteraction = ref(false);
+const noteDialog = ref<HTMLDialogElement | null>(null);
+const activeNoteText = ref("");
+const activeNoteDetails = ref("");
+const activeNoteLinkUrl = ref("");
 let copyFeedbackTimer: ReturnType<typeof setTimeout> | null = null;
 
 const infoHeaderLabel = computed(() => {
@@ -219,7 +224,22 @@ function notePreviewText(row: BisEntry): string {
 }
 
 function hasNoteTooltip(row: BisEntry): boolean {
+  const text = noteText(row);
+  if (!text) {
+    return false;
+  }
   return isNoteTruncated(row) || noteDetails(row).length > 0;
+}
+
+function openNoteDialog(row: BisEntry): void {
+  activeNoteText.value = noteText(row);
+  activeNoteDetails.value = noteDetails(row);
+  activeNoteLinkUrl.value = row.link.url;
+  noteDialog.value?.showModal();
+}
+
+function closeNoteDialog(): void {
+  noteDialog.value?.close();
 }
 
 function compareSortValues(a: SortValue, b: SortValue, nullsLast: boolean): number {
@@ -261,6 +281,7 @@ watch(
   () => props.rows,
   () => {
     currentPage.value = 1;
+    closeNoteDialog();
   }
 );
 
@@ -272,6 +293,7 @@ watch(totalPages, (nextTotalPages) => {
 
 function goToPage(page: number): void {
   currentPage.value = Math.min(Math.max(page, 1), totalPages.value);
+  closeNoteDialog();
 }
 
 function isFavorite(row: BisEntry): boolean {
@@ -303,10 +325,18 @@ async function copyLink(row: BisEntry): Promise<void> {
 }
 
 onBeforeUnmount(() => {
+  closeNoteDialog();
   if (copyFeedbackTimer !== null) {
     clearTimeout(copyFeedbackTimer);
     copyFeedbackTimer = null;
   }
+});
+
+onMounted(() => {
+  const supportsTouchPoints = navigator.maxTouchPoints > 0;
+  const coarsePointer = globalThis.window.matchMedia("(hover: none), (pointer: coarse)").matches;
+  const touchEventAvailable = "ontouchstart" in globalThis.window;
+  isTouchInteraction.value = coarsePointer || supportsTouchPoints || touchEventAvailable;
 });
 </script>
 
@@ -341,25 +371,20 @@ onBeforeUnmount(() => {
             <td v-if="showCategoryColumn">{{ categoryLabel(row.content.category) }}</td>
             <td v-if="showInfoColumn">{{ infoValue(row) }}</td>
             <td class="col-notes">
+              <!-- Desktop: entry text is a link with CSS hover tooltip -->
               <span
+                v-if="!isTouchInteraction"
                 class="notes-tooltip-anchor notes-main-tooltip"
                 :class="{ 'has-tooltip': hasNoteTooltip(row) }"
-                :tabindex="hasNoteTooltip(row) ? 0 : undefined"
               >
                 <a
                   v-if="notePreviewText(row) !== '-'"
-                  class="note-link"
+                  class="note-entry-link"
                   :href="row.link.url"
                   target="_blank"
                   rel="noreferrer noopener"
                 >
                   <span class="note-preview-text">{{ notePreviewText(row) }}</span>
-                  <svg class="note-link-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path
-                      d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3zm5 16v-7h2v9H3V3h9v2H5v14h14z"
-                      fill="currentColor"
-                    />
-                  </svg>
                 </a>
                 <span v-else class="note-preview-text">-</span>
                 <span v-if="hasNoteTooltip(row)" class="note-rich-tooltip" role="tooltip">
@@ -367,6 +392,32 @@ onBeforeUnmount(() => {
                   <span v-if="noteDetails(row)" class="note-rich-tooltip-body">{{ noteDetails(row) }}</span>
                 </span>
               </span>
+              <!-- Mobile: entry text is a button (tap opens dialog) or plain text -->
+              <template v-else>
+                <button
+                  v-if="hasNoteTooltip(row) && notePreviewText(row) !== '-'"
+                  class="note-preview-btn"
+                  type="button"
+                  @click="openNoteDialog(row)"
+                >
+                  <span class="note-preview-text">{{ notePreviewText(row) }}</span>
+                </button>
+                <span v-else class="note-preview-text">{{ notePreviewText(row) }}</span>
+              </template>
+              <!-- Link icon: always navigates to the set -->
+              <a
+                class="note-link"
+                :href="row.link.url"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <svg class="note-link-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3zm5 16v-7h2v9H3V3h9v2H5v14h14z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </a>
             </td>
             <td>
               <span class="damage-cell">
@@ -462,6 +513,34 @@ onBeforeUnmount(() => {
       </div>
     </div>
   </section>
+  <dialog
+    ref="noteDialog"
+    class="note-dialog"
+    :aria-label="t('table.setLink')"
+    @click.self="closeNoteDialog"
+    @cancel.prevent="closeNoteDialog"
+  >
+    <div class="note-dialog-inner">
+      <div class="note-dialog-header">
+        <strong class="note-dialog-title">{{ activeNoteText }}</strong>
+        <button type="button" class="note-dialog-close" :aria-label="t('info.close')" @click="closeNoteDialog">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <span v-if="activeNoteDetails" class="note-dialog-body">{{ activeNoteDetails }}</span>
+      <div v-if="activeNoteLinkUrl" class="note-dialog-link-block">
+        <a
+          class="note-dialog-link"
+          :href="activeNoteLinkUrl"
+          target="_blank"
+          rel="noreferrer noopener"
+          :title="activeNoteLinkUrl"
+        >
+          Set link
+        </a>
+      </div>
+    </div>
+  </dialog>
 </template>
 
 
