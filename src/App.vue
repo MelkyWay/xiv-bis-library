@@ -105,7 +105,7 @@ const activeEncounterFilter = computed(() => {
   return "All";
 });
 const hasHydratedFiltersFromUrl = ref(false);
-const brandLogoSrc = `${import.meta.env.BASE_URL}brand-logo.png`;
+const brandLogoSrc = `${import.meta.env.BASE_URL}brand-logo-256.png`;
 const themeSunIconSrc = `${import.meta.env.BASE_URL}icon-sun.svg`;
 const themeMoonIconSrc = `${import.meta.env.BASE_URL}icon-moon.svg`;
 const deployedAtRaw = String(import.meta.env.VITE_DEPLOYED_AT ?? "").trim();

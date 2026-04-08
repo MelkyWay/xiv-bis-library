@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://melkyway.github.io/xiv-bis-library/sitemap.xml
